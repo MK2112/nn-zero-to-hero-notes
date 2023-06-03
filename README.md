@@ -12,7 +12,7 @@ Follow these steps to read the notes:
 1. Clone the repository to your local machine using the following command:
 
 ```bash
-git clone https://github.com/your-username/neural-networks-zero-to-hero.git
+git clone https://github.com/mk2112/nn-zero-to-hero-notes.git
 ```
 
 2. Make sure that Jupyter Notebook, PyTorch, Matplotlib and Tiktoken are installed.
