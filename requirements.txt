@@ -1,0 +1,11 @@
+jupyter
+torch
+numpy
+matplotlib
+micrograd
+graphviz
+tqdm
+ipywidgets
+scipy
+tiktoken
+sentencepiece

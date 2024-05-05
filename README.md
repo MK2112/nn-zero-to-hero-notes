@@ -7,22 +7,20 @@ This GitHub repository contains my Jupyter Notebooks with detailed notes on Andr
 
 ## Getting Started
 
-Follow these steps to read the notes:
-
-1. Clone the repository to your local machine using the following command:
+1. Clone this repository to your local machine using the following command:
 
 ```bash
 git clone https://github.com/mk2112/nn-zero-to-hero-notes.git
 ```
 
-2. Make sure that `Jupyter Notebook`, `NumPy`, `PyTorch`, `Matplotlib` and `Tiktoken` are installed.
-3. Launch `Jupyter Notebook` by running the command:
+2. Navigate to the repository, make sure to run `pip install -r requirements.txt`.
+3. Launch Jupyter Notebook by running the command:
 
 ```bash
 jupyter notebook
 ```
 
-4. Navigate to the cloned repository directory and open the desired notebook.
+4. Within Jupyter, navigate to the repository and open the desired notebook.
 
 ## Contributions
 
