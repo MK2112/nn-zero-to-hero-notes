@@ -52,7 +52,7 @@ This GitHub repository contains my Jupyter Notebooks with detailed notes on Andr
   </tr>
   <tr>
     <td><a href="https://www.youtube.com/watch?v=zjkBMFhNj_g" target="_blank"><img src="https://img.youtube.com/vi/zjkBMFhNj_g/0.jpg" alt="[1hr Talk] Intro to Large Language Models" height="auto" width="150"></a></td>
-    <td><a href="./B - Talk - Intro to LLMs - Director's Cut/B - Intro to LLMs - Director's Cut Notes.md">B - Talk - State of GPT</a></td>
+    <td><a href="./B - Talk - Intro to LLMs - Director's Cut/B - Intro to LLMs - Director's Cut Notes.md">B - Talk - Intro to LLMs - Director's Cut</a></td>
   </tr>
 </table>
 
