@@ -8,4 +8,6 @@ tqdm
 ipywidgets
 scipy
 tiktoken
+transformers
+datasets
 sentencepiece

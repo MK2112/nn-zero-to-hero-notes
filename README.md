@@ -39,20 +39,20 @@ This GitHub repository contains my Jupyter Notebooks with detailed notes on Andr
     <td><a href="./7 - GPT From Scratch/7 - GPT.ipynb">7 - GPT From Scratch</a></td>
   </tr>
   <tr>
-    <td><a href="https://www.youtube.com/watch?v=zduSFxRajkE" target="_blank"><img src="https://img.youtube.com/vi/zduSFxRajkE/0.jpg" alt="Let's build the GPT Tokenizer" height="auto" width="150"></a></td>
-    <td><a href="./8 - GPT Tokenizer/8 - Tokenization.ipynb">8 - GPT Tokenizer</a></td>
-  </tr>
-  <tr>
-    <td><a href="https://www.youtube.com/watch?v=l8pRSuU81PU" target="_blank"><img src="https://img.youtube.com/vi/l8pRSuU81PU/0.jpg" alt="Let's reproduce GPT-2 (124M)" height="auto" width="150"></a></td>
-    <td>Coming Soon!</td>
-  </tr>
-  <tr>
     <td><a href="https://www.youtube.com/watch?v=bZQun8Y4L2A" target="_blank"><img src="https://img.youtube.com/vi/bZQun8Y4L2A/0.jpg" alt="State of GPT | BRK216HFS" height="auto" width="150"></a></td>
     <td><a href="./A - Talk - State of GPT/A - State of GPT - Notes.md">A - Talk - State of GPT</a></td>
   </tr>
   <tr>
     <td><a href="https://www.youtube.com/watch?v=zjkBMFhNj_g" target="_blank"><img src="https://img.youtube.com/vi/zjkBMFhNj_g/0.jpg" alt="[1hr Talk] Intro to Large Language Models" height="auto" width="150"></a></td>
     <td><a href="./B - Talk - Intro to LLMs - Director's Cut/B - Intro to LLMs - Director's Cut Notes.md">B - Talk - Intro to LLMs - Director's Cut</a></td>
+  </tr>
+  <tr>
+    <td><a href="https://www.youtube.com/watch?v=zduSFxRajkE" target="_blank"><img src="https://img.youtube.com/vi/zduSFxRajkE/0.jpg" alt="Let's build the GPT Tokenizer" height="auto" width="150"></a></td>
+    <td><a href="./8 - GPT Tokenizer/8 - Tokenization.ipynb">8 - GPT Tokenizer</a></td>
+  </tr>
+  <tr>
+    <td><a href="https://www.youtube.com/watch?v=l8pRSuU81PU" target="_blank"><img src="https://img.youtube.com/vi/l8pRSuU81PU/0.jpg" alt="Let's reproduce GPT-2 (124M)" height="auto" width="150"></a></td>
+    <td><a href="./9 - Reproducing GPT-2/9 - Reproducing_GPT-2.ipynb">9 - Reproducing GPT-2</a></td>
   </tr>
 </table>
 
