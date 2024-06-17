@@ -7,16 +7,14 @@ from dataclasses import dataclass
 import torch
 import torch.backends
 import torch.nn as nn
+import torch.nn.parallel.DistributedDataParallel as DDP
 from hellaswag import iterate_examples, render_example
 from torch.nn import functional as F
-import torch.nn.parallel.DistributedDataParallel as DDP
 from torch.distributed import dist, init_process_group, destroy_process_group
 
 # -----------------------------------------------------------------------------
-# Run like so (specify the number of GPUs you have):
-
+# Run like so (specify the number of available GPUs):
 # torchrun --standalone --nproc_per_node=[GPU COUNT] train_gpt2_5.py
-
 # -----------------------------------------------------------------------------
 
 @dataclass
@@ -521,15 +519,16 @@ for step in range(max_steps):
     for micro_step in range(grad_accum_steps):
         x, y = train_loader.next_batch() # (B, T)
         x, y = x.to(device), y.to(device)
+        if ddp:
+            # DDP will take care of averaging the loss across all GPUs
+            # DDP will do so only after the last micro-batch in each accumulation cycle
+            # Moved to here due to being required for both forward and backward pass alike
+            model.require_backward_grad_sync = (micro_step == grad_accum_steps - 1)
         with torch.autocast(device_type=device.split(":")[0], dtype=torch.bfloat16):
             logits, loss = model(x, y)
         # Normalize micro-batch loss by relation of full batch size to micro-batch size
         loss = loss / grad_accum_steps
         loss_accum += loss.detach()
-        if ddp:
-            # DDP will take care of averaging the loss across all GPUs
-            # DDP will do so only after the last micro-batch in each accumulation cycle
-            model.require_backward_grad_sync = (micro_step == grad_accum_steps - 1)
         # This accumulates now, because we don't call zero_grad() in the inner loop
         loss.backward()
     if ddp:
