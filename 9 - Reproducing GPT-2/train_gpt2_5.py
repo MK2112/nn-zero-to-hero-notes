@@ -4,6 +4,9 @@ import math
 import inspect
 import time
 from dataclasses import dataclass
+import tiktoken
+import numpy as np
+from transformers import GPT2LMHeadModel
 import torch
 import torch.backends
 import torch.nn as nn
@@ -24,6 +27,7 @@ class GPTConfig:
     n_layer: int = 12       # number of layers
     n_head: int = 12        # number of heads
     n_embd: int = 768       # embedding dimension
+    eval_iter: int = 250    # how often to evaluate the model
 
 class CausalSelfAttention(nn.Module):
     def __init__(self, config):
@@ -152,7 +156,6 @@ class GPT(nn.Module):
     def from_pretrained(cls, model_type):
         """Loads pretrained GPT-2 model weights from huggingface"""
         assert model_type in {'gpt2', 'gpt2-medium', 'gpt2-large', 'gpt2-xl'}
-        from transformers import GPT2LMHeadModel
         print("loading weights from pretrained gpt: %s" % model_type)
 
         # n_layer, n_head and n_embd are determined from model_type
@@ -190,7 +193,7 @@ class GPT(nn.Module):
                 with torch.no_grad():
                     sd[k].copy_(sd_hf[k].t())
             else:
-                # vanilla copy over the other parameters
+                # vanilla copy the other parameters
                 assert sd_hf[k].shape == sd[k].shape
                 with torch.no_grad():
                     sd[k].copy_(sd_hf[k])
@@ -212,16 +215,13 @@ class GPT(nn.Module):
         num_nodecay_params = sum(p.numel() for p in nodecay_params)
         print(f"num decayed parameter tensors: {len(decay_params)}, with {num_decay_params} parameters")
         print(f"num non-decayed parameter tensors: {len(nodecay_params)}, with {num_nodecay_params} parameters")
-        # Create AdamW optimizer and use the fused version if it is available
+        # create AdamW optimizer and use the fused version if it is available
         fused_available = 'fused' in inspect.signature(torch.optim.AdamW).parameters
         use_fused = fused_available and 'cuda' in device
         optimizer = torch.optim.AdamW(optim_groups, lr=learning_rate, betas=(0.9, 0.95), eps=1e-8, fused=use_fused)
         return optimizer
 
 # -----------------------------------------------------------------------------
-
-import tiktoken
-import numpy as np
 
 def load_tokens(filename):
     npt = np.load(filename)
@@ -287,12 +287,12 @@ def get_most_likely_row(tokens, mask, logits):
     shift_losses = F.cross_entropy(flat_shift_logits, flat_shift_tokens, reduction='none')
     shift_losses = shift_losses.view(tokens.size(0), -1)
     # now get the average loss just for the completion region (where mask == 1), in each row
-    shift_mask = (mask[..., 1:]).contiguous() # we must shift mask, so we start at the last prompt token
+    shift_mask = (mask[..., 1:]).contiguous() # we must shift mask, so we start at last prompt token
     masked_shift_losses = shift_losses * shift_mask
     # sum and divide by the number of 1s in the mask
     sum_loss = masked_shift_losses.sum(dim=1)
     avg_loss = sum_loss / shift_mask.sum(dim=1)
-    # now we have a loss for each of the 4 completions
+    # now we have a loss for each of the B completions
     # the one with the lowest loss should be the most likely
     pred_norm = avg_loss.argmin().item()
     return pred_norm
@@ -358,7 +358,8 @@ torch.set_float32_matmul_precision('high')
 model = GPT(GPTConfig()) # random weight initialization
 model.to(device)
 
-# [!!] This would mess up our prescious sample generation in the training loop *and* the hellaswag eval -> Deactivate it
+# [!!] Compiling would mess up our prescious sample generation in the training loop *and* the hellaswag eval 
+# -> Deactivate it
 use_compile = False
 if use_compile and os.name == 'posix' and sys.platform != 'darwin':
     model = torch.compile(model) # compile model to TorchScript -> speed + memory savings
@@ -384,7 +385,7 @@ def get_lr(it):
     # 3) In between warmup and max_steps, cosine decay down to min_lr
     decay_ratio = (it - warmup_steps) / (max_steps - warmup_steps)
     assert 0 <= decay_ratio <= 1
-    coeff = 0.5 * (1.0 + math.cos(math.pi * decay_ratio)) # coeff starts at 1 and goes to zero
+    coeff = 0.5 * (1.0 + math.cos(math.pi * decay_ratio)) # coeff starts at 1 and decays to zero
     return min_lr + coeff * (max_lr - min_lr)
 
 
@@ -410,7 +411,7 @@ for step in range(max_steps):
     t0 = time.time()
     last_step = (step == max_steps - 1) # check if this is the last step
     # once in a while, check on the validation set
-    if step % 250 == 0 or last_step:
+    if step % model.config.eval_iter == 0 or last_step:
         model.eval()
         val_loader.reset()
         with torch.no_grad():
@@ -444,7 +445,7 @@ for step in range(max_steps):
                 torch.save(checkpoint, checkpoint_path)
 
     # once in a while, evaluate the hellaswag dataset
-    if (step % 250 == 0 or last_step) and (not use_compile):
+    if (step % model.config.eval_iter == 0 or last_step) and (not use_compile):
         model.eval()
         num_correct_norm = 0
         num_total = 0
@@ -478,7 +479,7 @@ for step in range(max_steps):
                 f.write(f"{step} hellaswag {acc_norm:.6f}\n")
 
     # once in a while, generate some text
-    if ((step > 0 and step % 250 == 0) or last_step) and (not use_compile):
+    if ((step > 0 and step % model.config.eval_iter == 0) or last_step) and (not use_compile):
         model.eval()
         num_return_sequences = 4
         max_length = 32
