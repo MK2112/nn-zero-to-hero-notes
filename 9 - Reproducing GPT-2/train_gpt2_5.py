@@ -23,7 +23,7 @@ from torch.distributed import dist, init_process_group, destroy_process_group
 @dataclass
 class GPTConfig:
     block_size: int = 1024  # max sequence length
-    vocab_size: int = 50304 # number of tokens: 50,000 BPE merges + 256 bytes tokens + 1 <|endoftext|> token
+    vocab_size: int = 50304 # number of tokens: 50,000 BPE merges + 256 bytes tokens + 1 <|endoftext|> token + padding for better performance
     n_layer: int = 12       # number of layers
     n_head: int = 12        # number of heads
     n_embd: int = 768       # embedding dimension
@@ -95,9 +95,9 @@ class Block(nn.Module):
         self.mlp = MLP(config)
 
     def forward(self, x):
-        x = x + self.attn(self.ln_1(x))
-        x = x + self.mlp(self.ln_2(x))
-        return x
+        x = x + self.attn(self.ln_1(x)) # (B, T, C); C = n_embd = 768
+        x = x + self.mlp(self.ln_2(x))  # (B, T, C)
+        return x # (B, T, C) still
 
 class GPT(nn.Module):
     def __init__(self, config):
@@ -107,7 +107,7 @@ class GPT(nn.Module):
         self.transformer = nn.ModuleDict(dict(
             wte = nn.Embedding(config.vocab_size, config.n_embd),
             wpe = nn.Embedding(config.block_size, config.n_embd),
-            h = nn.ModuleList([Block(config) for _ in range(config.n_layer)]),
+            h = nn.ModuleList([Block(config) for _ in range(config.n_layer)]), # n_layer decoder blocks
             ln_f = nn.LayerNorm(config.n_embd),
         ))
         self.lm_head = nn.Linear(config.n_embd, config.vocab_size, bias=False)
@@ -133,20 +133,21 @@ class GPT(nn.Module):
             torch.nn.init.normal_(module.weight, mean=0.0, std=0.02)
 
     def forward(self, idx, targets=None):
-        # idx, targets both of shape (B, T)
+        # idx and targets are of shape (B, T)
         B, T = idx.size()
+        # T now effectively holds largest sequence length in batch
         assert T <= self.config.block_size, f"Cannot forward sequence of length {T}, block size is only {self.config.block_size}"
         # forward the token and posisition embeddings
-        pos = torch.arange(0, T, dtype=torch.long, device=idx.device) # shape (T)
-        pos_emb = self.transformer.wpe(pos) # position embeddings of shape (T, n_embd)
-        tok_emb = self.transformer.wte(idx) # token embeddings of shape (B, T, n_embd)
-        x = tok_emb + pos_emb
-        # forward the blocks of the transformer
+        pos = torch.arange(0, T, dtype=torch.long, device=idx.device) # shape (T), i.e. (seq_len)
+        pos_emb = self.transformer.wpe(pos) # in shape: (seq_len); out shape: (seq_len, n_embd)
+        tok_emb = self.transformer.wte(idx) # in shape: (batch_size, seq_len); out shape: (batch_size, seq_len, n_embd)
+        x = tok_emb + pos_emb # add position embeddings to each sequence element of n_embd size
+        # forward through the n_layer blocks of the transformer
         for block in self.transformer.h:
             x = block(x)
         # forward the final layernorm and the classifier
         x = self.transformer.ln_f(x)
-        logits = self.lm_head(x) # (B, T, vocab_size)
+        logits = self.lm_head(x) # output shape: (B, T, vocab_size)
         loss = None
         if targets is not None:
             loss = F.cross_entropy(logits.view(-1, logits.size(-1)), targets.view(-1))
@@ -166,7 +167,7 @@ class GPT(nn.Module):
             'gpt2-xl':      dict(n_layer=48, n_head=25, n_embd=1600), # 1558M params
         }[model_type]
         config_args['vocab_size'] = 50257 # always 50257 for GPT model checkpoints
-        config_args['block_size'] = 1024 # always 1024 for GPT model checkpoints
+        config_args['block_size'] = 1024  # always 1024 for GPT model checkpoints
         # create a from-scratch initialized minGPT model
         config = GPTConfig(**config_args)
         model = GPT(config)
@@ -462,7 +463,7 @@ for step in range(max_steps):
             with torch.no_grad():
                 with torch.autocast(device_type=device.split(":")[0], dtype=torch.bfloat16):
                     logits, _ = model(tokens, mask)
-                pred_norm = get_most_likely_row(tokens, mask, logits)
+                pred_norm = get_most_likely_row(tokens, mask, logits) # get the most likely completion per each sequence in the batch
             num_total += 1
             num_correct_norm += int(pred_norm == label)
         if ddp:
