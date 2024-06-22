@@ -359,11 +359,12 @@ torch.set_float32_matmul_precision('high')
 model = GPT(GPTConfig()) # random weight initialization
 model.to(device)
 
-# [!!] Compiling would mess up our prescious sample generation in the training loop *and* the hellaswag eval 
-# -> Deactivate it
-use_compile = False
+use_compile = False # Turn this on if you have a CUDA-capable GPU and Linux
+
 if use_compile and os.name == 'posix' and sys.platform != 'darwin':
-    model = torch.compile(model) # compile model to TorchScript -> speed + memory savings
+    # pre-compile the model, not in Python but in C++ further down the execution stack
+    # fullgraph=True compiles the entire model, not just aspects like forward()
+    model = torch.compile(model, fullgraph=True)
 if ddp:
     # Once each GPUs backward is over, DDP will average the gradients across all GPUs
     model = DDP(model, device_ids=[ddp_local_rank])
@@ -394,7 +395,7 @@ def get_lr(it):
 # AdamW is a version of Adam that has a better implementation of weight decay. You can just use AdamW instead of Adam in most cases.
 # https://pytorch.org/docs/stable/generated/torch.optim.AdamW.html
 # For the sake of this example, we'll just use it and kind of treat is as a black box.
-optimizer = raw_model.figure_optimizers(weight_decay=0.1, learning_rate=max_lr, device=device)
+optimizer = raw_model.configure_optimizers(weight_decay=0.1, learning_rate=max_lr, device=device)
 
 log_dir = "log"
 os.makedirs(log_dir, exist_ok=True)
