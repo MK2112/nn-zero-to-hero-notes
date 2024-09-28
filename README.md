@@ -1,9 +1,10 @@
 # Notes - Neural Networks: Zero to Hero
 
 [Andrej's GitHub Repository](https://github.com/karpathy/nn-zero-to-hero)<br>
-[YouTube Series](https://www.youtube.com/watch?v=VMj-3S1tku0&list=PLAqhIrjkxbuWI23v9cThsA9GvCAUhRvKZ)
+[YouTube Series](https://www.youtube.com/watch?v=VMj-3S1tku0&list=PLAqhIrjkxbuWI23v9cThsA9GvCAUhRvKZ)<br>
+[Eureka Labs Discord](https://discord.com/invite/3zy8kqD9Cp)
 
-This GitHub repository contains my Jupyter Notebooks with detailed notes on Andrej Karpathy's tutorial series "Neural Networks: Zero to Hero". These notes aim to provide an additional overview of the concepts and techniques as covered in the series.
+This GitHub repository contains Jupyter Notebooks with detailed notes on Andrej Karpathy's tutorial series "Neural Networks: Zero to Hero". These notes aim to provide an additional overview of the concepts and techniques covered in the series.
 
 <table style="width: 100%;">
   <tr>
@@ -63,7 +64,7 @@ This GitHub repository contains my Jupyter Notebooks with detailed notes on Andr
 1. Clone this repository to your local machine using the following command:
 
 ```bash
-git clone https://github.com/mk2112/nn-zero-to-hero-notes.git
+git clone https://github.com/MK2112/nn-zero-to-hero-notes.git
 ```
 
 2. Navigate to the repository, make sure to run `pip install -r requirements.txt`.
