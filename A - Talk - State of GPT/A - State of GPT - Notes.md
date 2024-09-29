@@ -130,7 +130,7 @@ We expose our LLM to it, again producing multiple answers per prompt. Thing is, 
 
 > With the predictions of the Reward Model, we attain a guide by which to enforce the prediction of one certain response over others, making the best-ranked answer's associated token prediction more likely to occur. This concludes the RLHF pipeline as applied e.g. to GPT-3.5
 
-Interestingly, RLHF-ed models gain in perceived quality of response and contextual reference, but tend to play it save on the entropy side. They tend to become less and less likely to choose possible, but not most preferred next token predictions. This partially stems from maximizing positive feedback in the RM/RL stages, turning a model risk-averse, making it favor well-established and commonly accepted responses. This, by the way, is a key indicator for detecting AI-generated text.
+Interestingly, RLHF-ed models gain in perceived quality of response and contextual reference, but tend to play it save on the entropy side. They tend to become less and less likely to choose possible, yet not *most preferred* next token predictions. This partially stems from maximizing positive feedback in the RM/RL stages, turning a model risk-averse, making it favor well-established and commonly accepted responses. This, by the way, is a key indicator for detecting AI-generated text.
 
 ## How To: Use GPT Assistance
 

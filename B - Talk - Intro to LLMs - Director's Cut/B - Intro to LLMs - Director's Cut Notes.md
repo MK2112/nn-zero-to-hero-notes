@@ -27,7 +27,7 @@
 
 ### Inference
 
-A large language model requires just 2 files. If you look at the [Llama-2-70b](https://ai.meta.com/llama/) model by MetaAI, the name tells a lot about its makeup: It's the second iteration of the Llama model series, with 70 billion individual model parameters as part of it. As of now, this exact model is the most powerful one with openly available weights, meaning the specific values to use for all the parameters are known publicly.
+A large language model requires just 2 files. If you look at [Llama-2-70b](https://ai.meta.com/llama/) by MetaAI, the name tells a lot about its makeup: It's the second iteration of the Llama model series, with 70 billion individual model parameters as part of it. As of now, this exact model is the most powerful one with openly available weights, meaning the specific values to use for all the parameters are known publicly.
 
 > This public approach is in contrast to e.g. OpenAI's ChatGPT, where the only thing a user may see and interact with are the inferences and inputs. Weights are not shared here.
 
@@ -130,7 +130,7 @@ The accuracy of the performance in a next word prediction task is a well-predict
 So putting algorithmic progress aside, we can boost performance reasonably with tools we have already.
 Interestingly, we don't really ever care about next word prediction as-is beyond the initial training step, but the performance of finished models on this task serves as good indicator for higher-level evaluations.
 
-> This is driving the gold rush we see today. It's not a race of algorithmic complexity, but pure resources, time and scale. Confidence is generally high in the field that just these very very simple (not easy) adjustments result in SOTA (for now). 
+> This is driving the gold rush we see currently. It's not a race of algorithmic complexity, but pure resources, time and scale. Confidence is generally high in the field that just these very very simple (not easy) adjustments result in SOTA (for now). 
 
 ### Tool-use
 
@@ -148,7 +148,7 @@ A perceived academic notion is that of [two general modi operandi](https://en.wi
 
 <img src="images/Pasted%20image%2020231123135353.png" /><br>Source: [Thinking, fast and slow](https://search.worldcat.org/en/title/706020998)
 
-**System 2** and the complex ability to determine output from a branch in a tree of thought is what academics is on the hunt for right now. Algorithms like [Dreamer](https://arxiv.org/abs/1912.01603) (for Reinforcement Learning) are maybe not directly related to tree of thought, but start to go in that direction in the sense that a latent, off-branching imagination is used.
+**System 2** and the complex ability to determine output from a branch in a tree of thought is what academics is on the hunt for right now. Algorithms like [Dreamer](https://arxiv.org/abs/1912.01603) (for Reinforcement Learning) are maybe not directly related to tree-of-thought, but they start to go in this direction in the sense that a latent imagination is used to self-optimize.
 
 <img src="images/Pasted%20image%2020231123135937.png" width="250" height="auto" /><br>Source: [Tree of Thoughts: Deliberate Problem Solving with Large Language Models](https://arxiv.org/abs/2305.10601)
 
