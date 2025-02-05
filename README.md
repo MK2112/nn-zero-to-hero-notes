@@ -55,6 +55,10 @@ This GitHub repository contains Jupyter Notebooks with detailed notes on Andrej 
     <td><a href="https://www.youtube.com/watch?v=l8pRSuU81PU" target="_blank"><img src="https://img.youtube.com/vi/l8pRSuU81PU/0.jpg" alt="Let's reproduce GPT-2 (124M)" height="auto" width="150"></a></td>
     <td><a href="./9 - Reproducing GPT-2/9 - Reproducing_GPT-2.ipynb">9 - Reproducing GPT-2</a></td>
   </tr>
+  <tr>
+    <td><a href="https://www.youtube.com/watch?v=7xTGNNLPyMI" target="_blank"><img src="https://img.youtube.com/vi/7xTGNNLPyMI/0.jpg" alt="Deep Dive into LLMs like ChatGPT" height="auto" width="150"></a></td>
+    <td>In Progress...</td>
+  </tr>
 </table>
 
 
