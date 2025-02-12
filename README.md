@@ -57,7 +57,7 @@ This GitHub repository contains Jupyter Notebooks with detailed notes on Andrej 
   </tr>
   <tr>
     <td><a href="https://www.youtube.com/watch?v=7xTGNNLPyMI" target="_blank"><img src="https://img.youtube.com/vi/7xTGNNLPyMI/0.jpg" alt="Deep Dive into LLMs like ChatGPT" height="auto" width="150"></a></td>
-    <td>In Progress...</td>
+    <td><a href="./10 - Deep Dive into LLMs/10 - Deep Dive into LLMs.md">10 - Deep Dive into LLMs like ChatGPT</a></td>
   </tr>
 </table>
 
