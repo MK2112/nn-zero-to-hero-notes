@@ -307,7 +307,7 @@ We went through a high-level but comprehensive walkthrough of the steps involved
 
 ### GPT-2: Training and Inference
 
-GPT-2 is an LLM that was released by OpenAI in 2019. Along with this release, the paper accompanying paper [Language Models are Unsupervised Multitask Learners (Radford, et al. 2019)](https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf) was published.
+GPT-2 is an LLM that was released by OpenAI in 2019. Along with this release, the accompanying paper [Language Models are Unsupervised Multitask Learners \[Radford, et al. 2019\]](https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf) was published.
 
 > **GPT stands for General Pretrained Transformer**.<br> GPT-2 is indeed not a single model, but a series of models with different sizes:
 > - GPT-2 Small: $124\text{M}$
@@ -413,7 +413,7 @@ Let's say we prompt Llama 3.1 405B Base with the opening sentence to the Wikiped
 
 The model continues the text with a coherent, contextually appropriate response. But, moreover, **it reproduces a near-exact copy of the Wikipedia article on zebras.** This is because the model has seen this text before during pretraining. Moreover, the texts from Wikipedia are generally considered high-quality, so they are used multiple times in pretraining datasets. This causes a seeming close familiarity of the model with the text.
 
-According to [The Llama 3 Herd of Models (Grattafiori, et al. 2024)](https://arxiv.org/pdf/2407.21783#page=4.70), the data used for pretrained as gathered until the end of 2023. So, what if we'd prompt it with a sentence on the 2024 US presidential elections and see how Llama 3.1 405B Base reacts:
+According to [The Llama 3 Herd of Models \[Grattafiori, et al. 2024\]](https://arxiv.org/pdf/2407.21783#page=4.70), the data used for pretrained as gathered until the end of 2023. So, what if we'd prompt it with a sentence on the 2024 US presidential elections and see how Llama 3.1 405B Base reacts:
 
 ![](./img/llama31_Hallucination.png)
 
@@ -474,7 +474,7 @@ So, a prompt given to a finetuned GPT-4o to respond to a user could for example 
 
 This is just the textual input from the user and the past response from the LLM neatly wrapped into the special tokens. From here it is autoregressive generation as we know it already.
 
-[Training language models to follow instruction with human feedback (Ouyan, et al. 2022)](https://arxiv.org/pdf/2203.02155) layed out for the first time how OpenAI would take an LLM and finetune it on conversations. This paper for example discusses "Human data collection", i.e. the process of gathering the task-specific finetuning dataset from human annotators who write out how conversations with the LLM should look like as part of the finetuning dataset:
+[Training language models to follow instruction with human feedback \[Ouyan, et al. 2022\]](https://arxiv.org/pdf/2203.02155) layed out for the first time how OpenAI would take an LLM and finetune it on conversations. This paper for example discusses "Human data collection", i.e. the process of gathering the task-specific finetuning dataset from human annotators who write out how conversations with the LLM should look like as part of the finetuning dataset:
 
 ![](./img/human_feedback_after_all.png)
 
@@ -506,7 +506,7 @@ Interestingly, halucinations seem to become less and less of an issue with newer
 
 The model is made to handle the fact that it doesn't know who Orson Kovacs is. This was made possible by adding examples into the supervised finetuning dataset that are out of scope for the rest of the examples therein. For these genuinely unique, unobtainable answer examples, the according reactions to appropriately signal unawareness were added.
 
-For example, in section 4.3.6 of [The Llama 3 Herd of Models (Grattafiori, et al. 2024)](https://arxiv.org/pdf/2407.21783#page=27.10), the Meta researchers lay out how they track down such good out of scope examples and how they add them to the finetuning dataset:
+For example, in section 4.3.6 of [The Llama 3 Herd of Models \[Grattafiori, et al. 2024\]](https://arxiv.org/pdf/2407.21783#page=27.10), the Meta researchers lay out how they track down such good out of scope examples and how they add them to the finetuning dataset:
 
 ![](./img/llama_halucination_avoidance.png)
 
@@ -568,7 +568,7 @@ The same issue with the tokenizer's good but obstructive intent arises when we w
 
 <img src="./img/gpt-4o_spelling.png" style="width: auto; height: 440px"/>
 
-Still, even if you understand LLMs on the level we do, there remain problems that make us scratch our heads. Questions like `What is bigger? 9.11 or 9.9?` can still trip models like GPT-4o. There are even papers like [Order Matters in Hallucination: Reasoning Order as Benchmark and Reflexive Prompting for Large-Language-Models (Xie, Zikai. 2024)](https://arxiv.org/abs/2408.05093) discussing this very problem in more detail.
+Still, even if you understand LLMs on the level we do, there remain problems that make us scratch our heads. Questions like `What is bigger? 9.11 or 9.9?` can still trip models like GPT-4o. There are even papers like [Order Matters in Hallucination: Reasoning Order as Benchmark and Reflexive Prompting for Large-Language-Models \[Xie, Zikai. 2024\]](https://arxiv.org/abs/2408.05093) discussing this very problem in more detail.
 
 ---
 
@@ -644,7 +644,7 @@ The LLM is expected to generate multiple responses to the same prompt. This, thr
 
 ><b>Q: How does one exactly decide based on the arbitrarily shaped outputs from the LLM if a response is correct or not?</b>
 >
-><b>A:</b> Determining the correctness of an LLM's response is not trivial. It requires a multi-faceted approach, combining what is commonly referred to as reference-based metrics, reference-free evaluations, and content-related criteria. Frameworks like [G-Eval](https://docs.confident-ai.com/docs/metrics-llm-evals) and tools like [BLEURT (Sellam, et al. 2020)](https://arxiv.org/abs/2004.04696) and [FactCC (Kryściński, et al. 2019)](https://arxiv.org/abs/1910.12840) provide systems for this evaluation task. Some human oversight can additionally help ensure nuanced and context-aware assessments.
+><b>A:</b> Determining the correctness of an LLM's response is not trivial. It requires a multi-faceted approach, combining what is commonly referred to as reference-based metrics, reference-free evaluations, and content-related criteria. Frameworks like [G-Eval](https://docs.confident-ai.com/docs/metrics-llm-evals) and tools like [BLEURT \[Sellam, et al. 2020\]](https://arxiv.org/abs/2004.04696) and [FactCC \[Kryściński, et al. 2019\]](https://arxiv.org/abs/1910.12840) provide systems for this evaluation task. Some human oversight can additionally help ensure nuanced and context-aware assessments.
 
 ><b>Q: For how much should one go on to retain on the selected correct/gold responses?</b>
 >
@@ -656,7 +656,7 @@ Until now.
 
 #### DeepSeek-R1
 
-[DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning (Guo, et al. 2025)](https://arxiv.org/abs/2501.12948) was the first of its kind to really lay out their RL stack for LLM post-training in more detail.
+[DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning \[Guo, et al. 2025\]](https://arxiv.org/abs/2501.12948) was the first of its kind to really lay out their RL stack for LLM post-training in more detail.
 
 It turns out, RL is very important for DeepSeek's state of the art LLMs:
 <img src="./img/deepseek-r1_AIME_over_steps.png" style="width: auto; height: 375px"/>
@@ -717,7 +717,7 @@ Transfering this back to LLMs, we don't yet know what it will look like when an 
 
 #### Reinforcement Learning with Human Feedback
 
-Reinforcement Learning with Human Feedback (RLHF) [(Ziegler, et al. 2019)](https://arxiv.org/pdf/1909.08593) takes the concept of RL and adds a human in the loop.<br>So far, all the problems we looked at are of **verifiable correctness, like math problems**. This means, we can clearly determine if an LLM's response is correct and to be reinforced further, or not.
+Reinforcement Learning with Human Feedback (RLHF) [\[Ziegler, et al. 2019\]](https://arxiv.org/pdf/1909.08593) takes the concept of RL and adds a human in the loop.<br>So far, all the problems we looked at are of **verifiable correctness, like math problems**. This means, we can clearly determine if an LLM's response is correct and to be reinforced further, or not.
 
 **What about writing jokes, or poems?** Those problems are of an **unverifiable correctness.** An LLM can generate a joke, but **how could one determine at a massive scale if jokes are funny or not?** Humans can, in a subjective way, but how could we transfer a good scoring mechanism to Reinforcement Learning of an LLM?
 
