@@ -1,4 +1,4 @@
-# State of GPT - Notes
+# State of GPT
 
 [Microsoft Developer: State of GPT - YouTube](https://www.youtube.com/watch?v=bZQun8Y4L2A)<br>[Slides - Karpathy.ai](https://karpathy.ai/stateofgpt.pdf)<br>Notes by [mk2112](https://github.com/mk2112)
 
@@ -55,17 +55,17 @@ Think of GPT-personalization as an emerging technology to adapt GPTs to your nee
 - 1000s of GPUs, months of training, $ Millions in expenses
 - The *core competency* of this step is arguably to be found in the data attaining process, e.g. like listed below for LlaMA; We have to gather data and turn it into a unified format
 
-<img src="images/Pasted%20image%2020231123162506.png" width="300" height="auto"/><br>Source: [LLaMA: Open and Efficient Foundation Language Models](https://arxiv.org/abs/2302.13971)
+<img src="./img/Pasted%20image%2020231123162506.png" width="300" height="auto"/><br>Source: [LLaMA: Open and Efficient Foundation Language Models](https://arxiv.org/abs/2302.13971)
 
 #### Tokenization
 
 We've got the text, now what?<br>Given that GPTs are mathematical models, requiring numeric inputs, we need to find a way to encode our training data meaningfully into a numeric representation. Tools like the [OpenAI Tokenizer](https://platform.openai.com/tokenizer) help with that. Specifically, algorithms like the state-of-the-art [Byte Pair Encoding](http://www.pennelynn.com/Documents/CUJ/HTML/94HTML/19940045.HTM) are employed.
 
-<img src="images/Pasted%20image%2020231123163046.png" width="400" height="auto"/>
+<img src="./img/Pasted%20image%2020231123163046.png" width="400" height="auto"/>
 
 > The main idea a good tokenizer implements is that a numeric representation is both lossless and unique to the text it represents.
 
-<img src="images/Pasted%20image%2020231123163629.png" width="400" height="auto"/><br>Source: [LLaMA: Open and Efficient Foundation Language Models](https://arxiv.org/abs/2302.13971)
+<img src="./img/Pasted%20image%2020231123163629.png" width="400" height="auto"/><br>Source: [LLaMA: Open and Efficient Foundation Language Models](https://arxiv.org/abs/2302.13971)
 
 Interestingly, LLaMA being smaller in parameter count achieves much higher performance than GPT-3 with its 175B parameters. This is due to longer training runs. LLaMA cost $5 million to train, requiring 2,048 NVIDIA A100 GPUs to be run for 21 days. This results in the base model LLaMA.
 
@@ -78,7 +78,7 @@ Now, given we have such a setup and attained the training dataset, we now need t
 - $T$ as the maximum context length provided by an entry in the batch (e.g. $10$ here)
 - A special character $<|endoftext|>$ to be part of the $T$ tokens within each entry in the batch, denoting contextual ends of documents from the training set
 
-<img src="images/Pasted%20image%2020231123164549.png" />
+<img src="./img/Pasted%20image%2020231123164549.png" />
 
 $<|endoftext|>$ representation marked red
 <br>
@@ -87,11 +87,11 @@ $<|endoftext|>$ representation marked red
 
 Think of this as feeding contexts and not (just) individual tokens into the GPT. Given a token, given its also provided predecessors, what's the next token suggested by the model and what is it actually as stated in the dataset?
 
-<img src="images/Pasted%20image%2020231123170040.png" />
+<img src="./img/Pasted%20image%2020231123170040.png" />
 
 The Transformer-based GPT now gets exposed to contextual, supervised learning. This makes GPT generate a continuous probability distribution over the entire vocabulary for each position in the sequence. The information on what token actually came next, compared to the prediction, causes the improvement. If this is done sensibly and the model actually can take away how to adapt its internal distribution representations, you (hopefully) see something like this:
 
-<img src="images/Pasted%20image%2020231123172258.png" width="300" height="auto"/>
+<img src="./img/Pasted%20image%2020231123172258.png" width="300" height="auto"/>
 
 The (gradually) lower, the (gradually) better.
 
@@ -101,7 +101,7 @@ With all that money and time spent on this large-scale exposure of data to the m
 
 To do so, we derive a Question-Answer-style dataset though human contractors.<br>This is a high quality, low quantity dataset. In essence, we just continue the training from above, but now with question as input, and the answer as expected output.
 
-<img src="images/Pasted%20image%2020231123175113.png" width="400" height="auto"/>
+<img src="./img/Pasted%20image%2020231123175113.png" width="400" height="auto"/>
 
 This results in a "Supervised Fine-Tuning" model (SFT model). This model could be published. In practice, though, this is not viewed as sufficient. SFT may not fully capture the complexity and diversity needed for successful fine-tuning, especially for tasks requiring specialized knowledge or nuanced understanding. However, this challenge can be addressed through additional Reward Modeling.
 
@@ -111,7 +111,7 @@ To continue the pipeline, we can expose the SFT model to Reward Modeling. When c
 
 Reward Modeling is based on improving through user feedback based on ranking. The SFT model produces a set of possible answers for a single prompt. The answers then are compared in quality by a human, ranking them from best to worst. Think of this as making sure the model is aligned well.
 
-<img src="images/Pasted%20image%2020231123181520.png" width="650" height="auto"/>
+<img src="./img/Pasted%20image%2020231123181520.png" width="650" height="auto"/>
 
 Between all possible pairs of these potential answers, we do binary classification.<br>To do so, we lay out the (always identical) prompts concatenated with the different responses, and we add a specific $<|reward|>$ token at the end of each response. 
 
@@ -126,7 +126,7 @@ This additional *Reward Model* in itself is small, and not really useful. But co
 Again, a large prompt set is aquired from human contractors. Low quantity, high quality.
 We expose our LLM to it, again producing multiple answers per prompt. Thing is, now we keep the *Reward Model fixed*. It was trained, now serves as reasonably dependable indicator for response quality.
 
-<img src="images/Pasted%20image%2020231123184003.png" />
+<img src="./img/Pasted%20image%2020231123184003.png" />
 
 > With the predictions of the Reward Model, we attain a guide by which to enforce the prediction of one certain response over others, making the best-ranked answer's associated token prediction more likely to occur. This concludes the RLHF pipeline as applied e.g. to GPT-3.5
 
@@ -139,7 +139,7 @@ Human-written sentences are interesting. They reach deep into both the author's 
 $$California's\ population\ is\ 53\ times\ that\ of\ Alaska.$$
 This sentence is the crescendo of a not so trivial thought process:
 
-<img src="images/Pasted%20image%2020231123185618.png" width="450" height="auto" />
+<img src="./img/Pasted%20image%2020231123185618.png" width="450" height="auto" />
 
 See how the thought process concerns a writing process, but also a process tasked with reassuring factual correctness through tool use and correcting already written text?
 
@@ -149,19 +149,19 @@ That's ... not how GPTs work. No internal dialogue, no reasoning as such (presen
 
 The notion of self-consistency, coming up with several approaches and disregarding some, learning from that, accepting others, learning from that and doing all that independently, is really remarkable.
 
-<img src="images/Pasted%20image%2020231123190203.png" width="450" height="auto" /><br>Source: [Self-Consistency Improves Chain of Thought Reasoning in Language Models](https://arxiv.org/abs/2203.11171)
+<img src="./img/Pasted%20image%2020231123190203.png" width="450" height="auto" /><br>Source: [Self-Consistency Improves Chain of Thought Reasoning in Language Models](https://arxiv.org/abs/2203.11171)
 
 ### Present Notion of Past Mistakes
 
 GPT-4 can actually reflect on past answers, apologizing for prior, unfavorably sampled responses.<br>Ideally, though, we shouldn't need to have the model apologies and instead explore the sampling space, coming up with a best-aligned, best quality-measured answer.
 
-<img src="images/Pasted%20image%2020231123190700.png" /><br>Source: [Tree of Thoughts: Deliberate Problem Solving with Large Language Models](https://arxiv.org/abs/2305.10601)
+<img src="./img/Pasted%20image%2020231123190700.png" /><br>Source: [Tree of Thoughts: Deliberate Problem Solving with Large Language Models](https://arxiv.org/abs/2305.10601)
 
 ### Going Experimental
 
 A certain sense of self-reflection is emerging already, as can be seen on [AutoGPT](https://arxiv.org/abs/2306.02224).<br>AutoGPT is an application of GPT-4 and GPT-3.5, creating an environment of a task creation agent, a task execution agent and a task prioritization agent, working in conjunction to generate, interlink and process self-prioritized tasks. It's a study on the extents to which unsupervised interaction with the environment is possible with current LLMs.
 
-<img src="images/Pasted%20image%2020231123211005.png" width="450" height="auto" /><br>Source: [Auto-GPT for Online Decision Making: Benchmarks and Additional Opinions](https://arxiv.org/abs/2306.02224)
+<img src="./img/Pasted%20image%2020231123211005.png" width="450" height="auto" /><br>Source: [Auto-GPT for Online Decision Making: Benchmarks and Additional Opinions](https://arxiv.org/abs/2306.02224)
 
 ### Prompt Enrichment and Tool-use
 
@@ -171,7 +171,7 @@ Interestingly, recent advancements worked towards addressing this.<br>**The toke
 
 > LLMs that incorporate the use of tools are commonly refered to as Retrieval-augmented language models (RALMs).
 
-<img src="images/Pasted%20image%2020231123212252.png" width="300" height="auto" /><br>Source: [Toolformer: Language Models Can Teach Themselves to Use Tools](https://arxiv.org/abs/2302.04761)
+<img src="./img/Pasted%20image%2020231123212252.png" width="300" height="auto" /><br>Source: [Toolformer: Language Models Can Teach Themselves to Use Tools](https://arxiv.org/abs/2302.04761)
 
 LLM capabilities concern the model memory as well. We have to place relevant information about a task in said memory for the model to perform best. Tool-use can help here, but how can Tools be most suitably established?
 
@@ -196,7 +196,7 @@ Another emerging application is *constrained prompting*, meaning the request of 
 }
 ```
 
-<img src="images/Pasted%20image%2020231123214126.png" width="350" height="auto" /><br>Source: [Guidance-AI, GitHub](https://github.com/guidance-ai/guidance)
+<img src="./img/Pasted%20image%2020231123214126.png" width="350" height="auto" /><br>Source: [Guidance-AI, GitHub](https://github.com/guidance-ai/guidance)
 
 ### Finetuning
 

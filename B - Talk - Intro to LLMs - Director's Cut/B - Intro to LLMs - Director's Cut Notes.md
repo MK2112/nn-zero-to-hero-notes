@@ -1,4 +1,4 @@
-# The busy person's intro to LLMs - Director's Cut
+# The Busy Person's Intro to LLMs - Director's Cut
 
 [YouTube Video - Andrej Karpathy](https://www.youtube.com/watch?v=zjkBMFhNj_g)<br>[Slides, PDF - Google Drive](https://drive.google.com/file/d/1pxx_ZI7O-Nwl7ZLNk5hI3WzAsTLwvNU7/view?pli=1)<br>[Slides, Keynote - Google Drive](https://drive.google.com/file/d/1FPUpFMiCkMRKPFjhi9MAhby68MHVqe8u/view)<br>Notes by [mk2112](https://github.com/mk2112)
 
@@ -39,7 +39,7 @@ Llama-2-70b consists of just two files:
 
 To really drive the point home, one could just cut the internet access, then ask the model to describe a specific company or come up with a recipe or anything like that, and the model would answer. This is because inference is done solely based on parameters. Text is solely generated based on parameters. Nothing else matters to Llama.
 
-<img src="images/Pasted%20image%2020231123104403.png" width="250" height="auto" />
+<img src="./img/Pasted%20image%2020231123104403.png" width="250" height="auto" />
 
 > With LLMs, the complexity lies in attaining the parameters based on which the model can generate text perceived as useful.
 
@@ -55,13 +55,13 @@ Interestingly, MetaAI [published how they trained Llama 2 exactly](https://arxiv
 
 The core task of the LLM is to find the most likely next word, given a context, a set of words.
 
-<img src="images/Pasted%20image%2020231123111305.png" width="500" height="auto" />
+<img src="./img/Pasted%20image%2020231123111305.png" width="500" height="auto" />
 
 There is a close relationship here between the prediction made and the compression/weights used to attain it. A good set of weights can predict the next word from our training set, where we know the next word in each case beforehand, better than a worse set of weights. Thus, the better set of weights more closely represents the data, leading us to be able to use the analogy of compression through weights.
 
 If your objective is next word prediction, your parameters should encode the varying importance of certain words in the input text sequence. If the model can recognize contextually important passages like shown below, they can affect the output likelihood more fittingly.
 
-<img src="images/Pasted%20image%2020231123112449.png" width="350" height="auto" />
+<img src="./img/Pasted%20image%2020231123112449.png" width="350" height="auto" />
 
 > The magic of LLMs is repeating the next word prediction over and over, making the most recent predicted word part of the input sequence to generate a next word again and again. Predictions based on inputs contribute to inputs forming predictions based on inputs contribute to inputs...
 
@@ -75,7 +75,7 @@ If this sounds interesting, I refer you to [Karpathy's Makemore series](https://
 
 Buckle up. Today's LLMs share a common building block, making up large parts of the total model:
 
-<img src="images/Pasted%20image%2020231123114140.png" width="450" height="auto" />
+<img src="./img/Pasted%20image%2020231123114140.png" width="450" height="auto" />
 
 This is the [Transformer](https://arxiv.org/abs/1706.03762). This building block is perfectly well described and understood in its mathematical implications. The transformer iteratively affects the model parameters to better represent likelihoods for correct next words. We can measure that the Transformer does that. We only have some barebone ideas as to how the parameters collaborate to come up with the likelihood.
 
@@ -87,17 +87,17 @@ If you're interested in Transformers beyond this, [Karpathy's video on GPT](http
 
 Ok, imagine we now have setup a Transformer-based model that we already exposed to Terabytes of scraped training texts, optimizing the model for next word prediction. At best, this makes our LLM a proficient document generator.
 
-<img src="images/Pasted%20image%2020231123115954.png" />
+<img src="./img/Pasted%20image%2020231123115954.png" />
 
 The LLMs behind ChatGPT, Llama or Open Assistant however are not limited to this. You can provide them with a question and receive an answer. To enable this behavior, essentially we continue with the training, but swap out the data. Specifically, a human-written dataset of questions as input and answers as output is derived.
 
 > Think of this as the second stage of a [Transfer Learning](https://www.informatica.si/index.php/informatica/article/view/2828) process. The first stage was high quantity, low task-specific quality. The second stage now provides less quantity, but task specification. This is a special case of transfer learning, called **Finetuning**. For OpenAI, the process is outlined in [this paper](https://arxiv.org/abs/2203.02155).
 
-<img src="images/Pasted%20image%2020231123122521.png" width="300" height="auto" />
+<img src="./img/Pasted%20image%2020231123122521.png" width="300" height="auto" />
 
 The fact that Finetuning works so well is remarkable. The reason as to why however is not well understood. Knowledge and task-specificity come together here.
 
-<img src="images/Pasted%20image%2020231123122701.png" width="400" height="auto" />
+<img src="./img/Pasted%20image%2020231123122701.png" width="400" height="auto" />
 
 On collection of misbehaviors: We monitor an assistant model in its Q-A capabilities. If answers are not as we intend them to be, we make the human feedback loop provide a correct A, given Q. This is then added to the weekly finetuning loop.
 
@@ -111,7 +111,7 @@ After this complex, resource-intense training and finetuning process, LLMs can b
 
 The derivation process for said ratings is further outlined in [this paper](https://arxiv.org/abs/2306.05685). Essentially, a human user receives two outputs from unknown chatbots and selects the better one.
 
-<img src="images/Pasted%20image%2020231123125556.png" /><br>Source: [huggingface.co](https://huggingface.co/spaces/lmsys/chatbot-arena-leaderboard)
+<img src="./img/Pasted%20image%2020231123125556.png" /><br>Source: [huggingface.co](https://huggingface.co/spaces/lmsys/chatbot-arena-leaderboard)
 
 > Closed models work a lot better, but you can't work with them freely. 'FOSS vs. Proprietary' is on.
 
@@ -123,7 +123,7 @@ The accuracy of the performance in a next word prediction task is a well-predict
 - $N$, the number of parameters in the model
 - $D$, the amount of text to train on
 
-<img src="images/Pasted%20image%2020231123131541.png" width="320" height="auto" /><br>Source: [Training Compute-Optimal Large Language Models](https://arxiv.org/abs/2203.15556)
+<img src="./img/Pasted%20image%2020231123131541.png" width="320" height="auto" /><br>Source: [Training Compute-Optimal Large Language Models](https://arxiv.org/abs/2203.15556)
 
 > With an increased amount of training FLOPS ($D$), the training loss trends downward when scaling the parameter count $N$ up.
 
@@ -138,7 +138,7 @@ With AI tools like [ChatGPT on GPT-4 Turbo](https://chat.openai.com/) or [Perple
 
 > This 'special word' gramma can of course be extended to incorporate other external applications, like a calculator or Python, minimizing the further above described 'dreaming' of expected factual data, like maths results. Tool-use adds an entire additional dimension of usability to LLMs, be it through increased factual consistency or through integration of other models like DALL-E. **This is perceived as a fundamental step towards AGI.**
 
-<img src="images/Pasted%20image%2020231123134345.png" width="450" height="auto" />
+<img src="./img/Pasted%20image%2020231123134345.png" width="450" height="auto" />
 
 ### An Academic Perspective
 
@@ -146,11 +146,11 @@ A perceived academic notion is that of [two general modi operandi](https://en.wi
 - **System 1** describes a sort of cache, the idea of quick-fire response requiring little to no effort.
 - **System 2** adds the capability of processing complexity at a price of slower, logical, effortful thinking
 
-<img src="images/Pasted%20image%2020231123135353.png" /><br>Source: [Thinking, fast and slow](https://search.worldcat.org/en/title/706020998)
+<img src="./img/Pasted%20image%2020231123135353.png" /><br>Source: [Thinking, fast and slow](https://search.worldcat.org/en/title/706020998)
 
 **System 2** and the complex ability to determine output from a branch in a tree of thought is what academics is on the hunt for right now. Algorithms like [Dreamer](https://arxiv.org/abs/1912.01603) (for Reinforcement Learning) are maybe not directly related to tree-of-thought, but they start to go in this direction in the sense that a latent imagination is used to self-optimize.
 
-<img src="images/Pasted%20image%2020231123135937.png" width="250" height="auto" /><br>Source: [Tree of Thoughts: Deliberate Problem Solving with Large Language Models](https://arxiv.org/abs/2305.10601)
+<img src="./img/Pasted%20image%2020231123135937.png" width="250" height="auto" /><br>Source: [Tree of Thoughts: Deliberate Problem Solving with Large Language Models](https://arxiv.org/abs/2305.10601)
 
 Reinforcement Learning really is the looming force to be added more prominently into the LLM mix.<br>The question for now remains: **What is the System 2 for general LLMs?**
 
@@ -164,7 +164,7 @@ An early circulated jailbreak consisted of pretending to setup a scenario around
 
 *Another one.* Turns out Claude v1.3 not only understands but allows Base64:
 
-<img src="images/Pasted%20image%2020231123142056.png" width="400" height="auto" /><br>Source: [Jailbroken: How Does LLM Safety Training Fail?](https://arxiv.org/abs/2307.02483)
+<img src="./img/Pasted%20image%2020231123142056.png" width="400" height="auto" /><br>Source: [Jailbroken: How Does LLM Safety Training Fail?](https://arxiv.org/abs/2307.02483)
 
 *Another one.* Turns out a single, universal suffix was found that if appended to your query, disables alignment measures:<br>[Universal and Transferable Adversarial Attacks on Aligned Language Models](https://arxiv.org/abs/2307.15043)
 
@@ -172,7 +172,7 @@ An early circulated jailbreak consisted of pretending to setup a scenario around
 
 *Another one.* Prompt injections from images dilute an original query's intention, taking control over what exactly is output. This is funny. Having the response be intentionally malformed, malicous links is not:
 
-<img src="images/F8XM80SXcAAVcVw.jpg" width="250" height="auto" /><br>
+<img src="./img/F8XM80SXcAAVcVw.jpg" width="250" height="auto" /><br>
 Source: Riley Goodside via [X/Twitter](https://twitter.com/goodside/status/1713000581587976372)
 
 *Another one.* There exists something called a 'sleeper agent attack'. The attack vector concern the training data this time. If malintent is embedded there, e.g. bad documents setting up trigger phrases, this can intentionall misrepresent relationships to an extent where mentioning the phrase breaks the model.<br>Papers: [Poisoning Language Models During Instruction Tuning](https://arxiv.org/abs/2305.00944), [Poisoning Web-Scale Training Datasets is Practical](https://arxiv.org/abs/2302.10149)
