@@ -167,7 +167,7 @@ As BPE can be repeated iteratively, it can find the next most frequent pair of t
 
 To tie it back to the actual text we want to tokenize: The [blog post on *FineWeb*](https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1) stated an estimate for the entire dataset to take up $15$ trillion tokens. This of course depends on how we tokenize and how far we BPE'd our approach. But to achieve this, generally, the text is first encoded into bytes, then the byte-level tokenization is applied, and finally the BPE is applied to the byte-level tokens. The result is a sequence of tokens that is shorter than the original text, but still retains the information of the text.
 
-We can see BPE in action when looking at GPT-4's `cl100k_base` tokenizer. The same phrase, "Hello World", written differently, is also tokenized differently, but more importantly, distinctly. Try it out for yourself with [dqbd's TikTokenizer](https://tiktokenizer.vercel.app/):
+We can see BPE in action when looking at GPT-4's `cl100k_base` tokenizer. The same phrase, "Hello World", written differently, is also tokenized differently, but more importantly, distinctly. Try it out for yourself with [dqbd's TikTokenizer App](https://tiktokenizer.vercel.app/):
 
 <img src="./img/cl100k_base_helloworld.png" style="width: auto; height: 375px;" />
 
@@ -754,7 +754,34 @@ Ok. So what do we make of RLHF?<br>Let's look at the upsides and downsides of RL
 
 ---
 
-**And that's a wrap!**<br>We saw the three steps currently employed to create state of the art LLMs: Pretraining, Supervised Finetuning, and Reinforcement Learning.<br>The key thing you should take away from this is that **LLMs are not just 'sophisticated next token predictors'. They are capable of learning and of reasoning.**<br>They should be understood as increasingly sophisticated tools, but even though we have some measures of mitigation, some problems like halucinations or RLHF loopholes may still persist. **LLMs aren't infallible. Use them for drafting, not for blindly producing production code.**
+Closing the circle, we can now answer all of the questions we initially set out to investigate:<br><br>
+**What *exactly* are Large Language Models (LLMs) and tools like ChatGPT about?**<br>LLMs are a specialized kind of *neural network* models that are trained to process and generate text in a human-like fashion. Nowadays, LLMs are based on *transformer networks* that enable them to learn statistical relationships between tokens, i.e. individual text fragments, from large amounts of text. LLMs are pretrained on huge data sets on the scale of *the entire Internet*. In doing so, they iteratively learn patterns, structures and meanings of language. Tools like ChatGPT work based on LLMs that have been specially finetuned for conversational tasks through what's called *supervised finetuning*. OpenAI achieved this by additionally *post-training* models like GPT-4o on *task-specific* datasets that contain conversational patterns.<br>Note that new techniques are still being developed to make LLMs even better, such as self-induced web search and learning with human feedback (RLHF) for not clearly measurable expectations of the LLM (e.g. writing an actually funny joke). In addition, reinforcement learning is now used as a further post-training stage to improve the LLM at scale and solve tasks in the best possible way. This leads to LLMs generating thought processes before formulating an answer.
+
+**How do they provide value?**<br>LLMs add value through their *tunable* ability to generate text and answer questions, while being *applicable across various tasks*, such as chatting, helping writing code or composing poetry. Most importantly, thanks to their *generalization capability*, LLMs can be applied at scale to unknown data.
+
+**What goes on behind that text box that you type your prompts into?**<br>
+A lot. We discussed the six fundamental steps:
+1. **Tokenization** (see [chapter 8](../008%20-%20GPT%20Tokenizer/008%20-%20Tokenization.ipynb) for more details)**:**
+When a user enters text, it is first converted into a sequence of *tokens*. 
+These tokens are numerical representations of words or fragments of words.
+There are different types of tokenization, such as Byte-Level Tokenization and Byte-Pair Encoding (BPE).
+
+2. **Input to the LLM** (see chapters [7](../007%20-%20GPT%20From%20Scratch/007%20-%20GPT.ipynb), [8](../008%20-%20GPT%20Tokenizer/008%20-%20Tokenization.ipynb) and [9](../009%20-%20Reproducing%20GPT-2/009%20-%20Reproducing_GPT-2.ipynb) for more details)**:**
+The token sequence is given as input to the trained LLM. Accordingly, the LLM never comes in contact with text as such, but only a *one-dimensional sequence of numbers* (tokens).
+which are further processed in a large-scale mathematical process, in which the model's parameters are used to calculate the next token in the sequence. A very prominent component of this process is *transformer* with its *attention mechanisms*.
+
+3. **Probability Distribution** (see [chapter 7](../007%20-%20GPT%20From%20Scratch/007%20-%20GPT.ipynb) for more details)**:**
+The LLM produces not a single token, but a probability distribution over all the possible tokens in its vocabulary.
+This distribution is a prediction of what tokens the LLM thinks will likely occur follow on the input sequence.
+
+4. **Token Sampling** (see chapters [7](../007%20-%20GPT%20From%20Scratch/007%20-%20GPT.ipynb), [8](../008%20-%20GPT%20Tokenizer/008%20-%20Tokenization.ipynb) and [9](../009%20-%20Reproducing%20GPT-2/009%20-%20Reproducing_GPT-2.ipynb) for more details)**:**
+A token is picked out from this probability distribution. This is generally done by sampling, in which the probability of the token is taken into account for the chance of picking it. This retains a chance for unique, more diverse answers to be returned when applied iteratively. However, it is also possible to just directly select the most probable token.
+
+5. **Text Generation** (see chapters [7](../007%20-%20GPT%20From%20Scratch/007%20-%20GPT.ipynb), [8](../008%20-%20GPT%20Tokenizer/008%20-%20Tokenization.ipynb) and [9](../009%20-%20Reproducing%20GPT-2/009%20-%20Reproducing_GPT-2.ipynb) for more details)**:** The selected token is appended to the input and the process is repeated until a text is generated (or a specific `<|endoftext|>` gets sampled). This process is called *autoregressive generation*.
+
+6. **Output:** The generated text is returned in response to the prompt.
+
+<br><b>And that's a wrap!</b><br><br>We saw the three steps currently employed to create state of the art LLMs: Pretraining, Supervised Finetuning, and Reinforcement Learning. The key thing you should take away from this is that **LLMs are not just 'sophisticated next token predictors'. They are capable of learning and of reasoning.** They should be understood as increasingly sophisticated tools, but even though we have some measures of mitigation, some problems like halucinations or RLHF loopholes may still persist. **LLMs aren't infallible. Use them for drafting, not for blindly producing production code.**
 
 ---
 
