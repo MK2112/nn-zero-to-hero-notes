@@ -16,10 +16,10 @@
 	- [Recap: The LLM Pretraining Pipeline](#recap-the-llm-pretraining-pipeline)
 	- [GPT-2: Training and Inference](#gpt-2-training-and-inference)
 	- [Base Models and Llamas in the wild](#base-models-and-llamas-in-the-wild)
-	- [Recap: Halucinating LLamas](#recap-halucinating-llamas)
+	- [Recap: Hallucinating LLamas](#recap-hallucinating-llamas)
 - [Post-Training](#post-training)
 	- [Supervised Finetuning](#supervised-finetuning)
-		- [Halucinations](#halucinations)
+		- [Hallucinations](#hallucinations)
 			- [Mitigation #1: Out of Scope Examples](#mitigation-1-out-of-scope-examples)
 			- [Mitigation #2: Self-Induced Search](#mitigation-2-self-induced-search)
 		- [LLMs Need Tokens to Think](#llms-need-tokens-to-think)
@@ -36,7 +36,7 @@
 
 ---
 
-LLMs are advanced AI systems trained to process and, based on that, generate human-like text by identifying linguistic patterns. Let's though the topic of LLMs, back to back, from prompt to output, in an understandable fashion.
+LLMs are advanced AI systems trained to process and, based on that, generate human-like text by identifying linguistic patterns. Let's go though the topic of LLMs, back to back, from prompt to output, in an understandable fashion.
 
 When providing a prompt to an LLM, and reading its output, it quickly becomes clear that there is some notion of experience embedded into the response you receive. The LLM may show with its response that it can process and articulate:
 
@@ -48,7 +48,7 @@ When a user submits a prompt, the LLM's output reflects its ability to generaliz
 
 > **Pretraining** is the process of exposing an LLM to a vast amount of text. This way, the LLM is enabled to learn the statistical patterns from said text.
 
-**Pretraining** constitutes a core objective—not a mere preliminary step—in LLM development. Achieving this requires us to walk a systematic sequence of steps. The following steps will get us there.
+**Pretraining** constitutes a core objective—not a mere preliminary step—in LLM development. Achieving this requires us to walk a systematic sequence of steps. The steps outlined in the following will get us there.
 
 ---
 
@@ -133,7 +133,7 @@ The claim raised by *Step 1* was that if we go and expose an LLM to the gigantic
 
 An LLM expects input to be a one-dimensional sequence of a limited set of symbols. You can argue that text "as-is" is already such a one-dimensional sequence. But we can't really calculate with letters, we need some sort of numeric representation of them.
 
->We have to find a numeric representation that is ideally as unique, as expressive and as short as possible for a given text. Transfering a text to this representation is called **Tokenization**. The shorter a good numeric representation of a text can be, the longer the text sequences can be that we process with the LLM in the end, i.e. the more input we can provide or the more of past prompts and responses the LLM will be able to remember.
+>We have to find a numeric representation that is ideally as unique, as expressive and as short as possible for a given text. Transferring a text to this representation is called **Tokenization**. The shorter a good numeric representation of a text can be, the longer the text sequences can be that we process with the LLM in the end, i.e. the more input we can provide or the more of past prompts and responses the LLM will be able to remember.
 
 For example, like everything else shown and processed by a computer, at its lowest abstraction, text is just binary code. We could translate a text into its binary representation and that would be a one-dimensional, numeric, unique representation. But it would be awfully extensive and inefficient, because we would need a lot of bits to represent a single character. This would limit the amount of text we could process at once with the same amount of resources. This in turn would limit the amount of text we could refer to for generation. We would reduce the LLM's ability to remember and refer to past prompts and responses. Our LLM would suffer with binary as our level of abstraction to apply.
 
@@ -213,7 +213,7 @@ This is where pretraining comes into play. **Pretraining an LLM means shifting t
 
 <img src="./img/next_token_probabilities.png" style="width: auto; height: 300px;" />
 
-This is an ideal state, the LLM correctly assigned a highest probability for the actually next token `3962`:
+This is an ideal state, the LLM correctly assigned the highest probability for the next token `3962` that also occurs next in the dataset:
 
 <img src="./img/cl100k_base_mini_example.png" style="width: auto; height: 250px;" />
 
@@ -328,7 +328,7 @@ The reason we were able to scale from GPT-2 onwards to today's models is manifol
 
 ><b>Q: Why are GPUs used for AI training?</b>
 >
-><b>A:</b> While neural network training, especially at today's scales, is considered expensive, the computations we actually perform are well paralellizable. In other words, a lot of the calculations happening within tokenization and training can be rewritten into matrix operations. GPUs happen to be really good at that.<br /><br /> GPUs are designed to handle many parallel calculations at once, originally for rendering graphics. This makes them ideal for training neural networks, which are essentially just a lot of matrix operations. Getting really good GPUs and train neural networks and do so well is <b>the gold rush</b> of the 2020s.
+><b>A:</b> While neural network training, especially at today's scales, is considered expensive, the computations we actually perform are well parallelizable. In other words, a lot of the calculations happening within tokenization and training can be rewritten into matrix operations. GPUs happen to be really good at that.<br /><br /> GPUs are designed to handle many parallel calculations at once, originally for rendering graphics. This makes them ideal for training neural networks, which are essentially just a lot of matrix operations. Getting really good GPUs to train neural networks and to do so well makes up <b>the gold rush</b> of the 2020s.
 
 We won't go into full detail on the implementation. Again, please refer to [chapter 9](../009%20-%20Reproducing%20GPT-2/009%20-%20Reproducing_GPT-2.ipynb) for that. **But, intuitively, what does it look like to actually train one of these models as a researcher?**
 
@@ -417,12 +417,12 @@ According to [The Llama 3 Herd of Models \[Grattafiori, et al. 2024\]](https://a
 
 ![](./img/llama31_Hallucination.png)
 
-This looks reasonable, but we know better. This is factually false, halucinated by the model based on what sounds good together, as the model just didn't know any better from the older pretraining data.
+This looks reasonable, but we know better. This is factually false, hallucinated by the model based on what sounds good together, as the model just didn't know any better from the older pretraining data.
 This effect is also one of the reasons why one shouldn't use LLMs for fact-checking or knowledge retrieval (this regards LLMs with no connection to the internet. LLM's with such a research capability exist now, and can be used for search, like [Perplexity.ai](https://perplexity.ai)).
 
-### Recap: Halucinating LLamas
+### Recap: Hallucinating LLamas
 
-We've seen that while base models like Llama 3.1 405B show that they are conceptually aware of the input, their knowledge strictly relates to the pretraining data and its format. Moreover, **base LLMs aren't operating in any task-specific fashion.** We've seen that in the LLM halucinating on content beyond its pretraining data's knowledge cut-off, and it trailing off into blabbering at times.
+We've seen that while base models like Llama 3.1 405B show that they are conceptually aware of the input, their knowledge strictly relates to the pretraining data and its format. Moreover, **base LLMs aren't operating in any task-specific fashion.** We've seen that in the LLM hallucinating on content beyond its pretraining data's knowledge cut-off, and it trailing off into blabbering at times.
 
 **We can do better than that.**<br>And indeed, there's a stage following the pretraining stage that will help us address these issues. This stage is called **Post-Training**.
 
@@ -488,17 +488,17 @@ However, it turns out that the paper's InstructGPT finetuning dataset was never 
 
 We can say that with supervised finetuning, **talking to a Conversational LLM like ChatGPT is the statistical mimicing of talking to a human annotator.**
 
-#### Halucinations
+#### Hallucinations
 
-We briefly discussed them earlier on in the context of the pretrained base LLMs, but **halucinations aren't cured by supervised finetuning**. The chatbot LLM may still fabricate good-looking but factually incorrect responses. This is because the LLM is still bound to the pretraining data's and the finetuning data's knowledge cut-off:
+We briefly discussed them earlier on in the context of the pretrained base LLMs, but **hallucinations aren't cured by supervised finetuning**. The chatbot LLM may still fabricate good-looking but factually incorrect responses. This is because the LLM is still bound to the pretraining data's and the finetuning data's knowledge cut-off:
 
-<img src="./img/sf_halucinate.png" style="width: auto; height: 200px"/>
+<img src="./img/sf_hallucinate.png" style="width: auto; height: 200px"/>
 
 Interestingly, although the LLM might in some sense be aware that "Orson Kovacs" is a person that it knows nothing about, it still tries to make up a story about him instead of telling us that it doesn't know who he is. This is because **the dataset does not contain or maybe contain very little patterns for such a response.** Those patterns, if existing, are outshone by the patterns that the model has seen with confident answers. This misleads the model into making things up.
 
-Interestingly, halucinations seem to become less and less of an issue with newer models:
+Interestingly, hallucinations seem to become less and less of an issue with newer models:
 
-<img src="./img/gpt-4o_No_Halucination.png" style="width: auto; height: 175px"/>
+<img src="./img/gpt-4o_No_Hallucination.png" style="width: auto; height: 175px"/>
 
 **How did they do that?**
 
@@ -508,7 +508,7 @@ The model is made to handle the fact that it doesn't know who Orson Kovacs is. T
 
 For example, in section 4.3.6 of [The Llama 3 Herd of Models \[Grattafiori, et al. 2024\]](https://arxiv.org/pdf/2407.21783#page=27.10), the Meta researchers lay out how they track down such good out of scope examples and how they add them to the finetuning dataset:
 
-![](./img/llama_halucination_avoidance.png)
+![](./img/llama_hallucination_avoidance.png)
 
 We essentially take information from the dataset, have another LLM reframe that into questions, ask those to the LLM in question, and if it doesn't respond correctly, we add this particular question to the ones we know it doesn't know. Based on that, we can formulate the answer to take this unawareness into account and add that to the finetuning dataset.
 
@@ -520,7 +520,7 @@ And very similar to Mitigation technique #1, we enable the model to determine wh
 
 This technique is actively employed by the likes of [Perplexity.ai](https://perplexity.ai), [ChatGPT](https://chat.openai.com/), and [DeepSeek](https://deepseek.ai). And we saw this exact behavior earlier with GPT-4o:
 
-<img src="./img/gpt-4o_No_Halucination.png" style="width: auto; height: 175px"/>
+<img src="./img/gpt-4o_No_Hallucination.png" style="width: auto; height: 175px"/>
 
 > Knowledge in the parameters $==$ Vague recollection<br>Knowledge in the tokens of the context window $==$ Working memory (Sharp recollection)
 
@@ -574,7 +574,7 @@ Still, even if you understand LLMs on the level we do, there remain problems tha
 
 With supervised finetuning, we set out to assemble and expose the LLM to high-quality, task-specific, format-specific finetuning examples. Fundamentally, these finetuning datasets are very often human-made. Humans write both the prompts and the ideal responses.
 
-We also saw that supervised finetuning is not the one solve it all: An LLM might still halucinate false responses, just based on the format it saw in the finetuning data. Also, the formulation of the finetuning dataset is a complex and time-consuming task and could make an LLM trip up if done incorrectly.
+We also saw that supervised finetuning is not the one solve it all: An LLM might still hallucinate false responses, just based on the format it saw in the finetuning data. Also, the formulation of the finetuning dataset is a complex and time-consuming task and could make an LLM trip up if it is done incorrectly.
 
 Ultimately, the supervised finetuning results in an SFT model (supervised finetuned model). And while we saw mitigations for the issues we just described, there's still a lot of room for improvement. And indeed, there's another step following the supervised finetuning that will help us address these issues. This next step is about **Reinforcement Learning.**
 
@@ -626,7 +626,7 @@ Our way of understanding things differs from the LLM's way of understanding thin
 
 Say, we take the prompt from above, and put it into an LLM that didn't yet undergo reinforcement learning. We repeat that for many times (hundreds or even thousands or millions per prompt) to get a feeling of the LLM's structural choice for answering. 
 
-While gathering the outputs to the specific prompt, some of the outputs may lead to incorrect final result, while some outputs may instead actually lead to the correct final result.<br>Whetever token sequences were constructed in the false solutions, we want to discourage the model from building them in the future. Inversely, token sequences with correct results should be encouraged.
+While gathering the outputs to the specific prompt, some of the outputs may lead to incorrect final result, while some outputs may instead actually lead to the correct final result.<br>We want to discourage the model from building token sequences leading to the false solutions in the future. Inversely, token sequences with correct results should be more encouraged.
 
 > The answer to our prompt being correct/incorrect helps us filter out those self-produced token sequences forming a solution that in the end mislead the LLM to a false answer. Therefore, **we can say that by virtue of producing the correct answer, the model self-determines what self-generated prompt responses it should be trained on further.**
 
@@ -650,7 +650,7 @@ The LLM is expected to generate multiple responses to the same prompt. This, thr
 >
 ><b>A:</b> There's no clear answer to this, unfortunately. One has to treat this like a hyperparameter. However, exposure to retrainable examples should still regard a sense of diversity, you don't want to accidentally overspecialize/overfit the model on any one kind of task. Retraining amount is furthermore related to task complexity, computational resources available and the actual training objectives.
 
-Interestingly, RL training is realtively new and not at all standard for LLMs yet. The entire RL pipeline is kind of shrouded in mystery, as multiple AI providers use and refine it, but don't really talk in much detail about it.
+Interestingly, RL training is relatively new and not at all standard for LLMs yet. The entire RL pipeline is kind of shrouded in mystery, as multiple AI providers use and refine it, but don't really talk in much detail about it.
 
 Until now.
 
@@ -661,13 +661,13 @@ Until now.
 It turns out, RL is very important for DeepSeek's state of the art LLMs:
 <img src="./img/deepseek-r1_AIME_over_steps.png" style="width: auto; height: 375px"/>
 
-This image shows the capability improvement of DeepSeek's R1 model on the [AIME benchmark](https://artofproblemsolving.com/wiki/index.php/2024_AIME_I_Problems) during the progression of training. **Most interestingly, this graph isn't showing pretraining progression, but RL post-training progression and impact.** This graph indicates that DeepSeek-R1 became very good at discovering solutions to even complex math problems through RL's guided self-optimization.
+This image shows the capability improvement of DeepSeek's R1 model on the [AIME benchmark](https://artofproblemsolving.com/wiki/index.php/2024_AIME_I_Problems) during the progression of training. **Most interestingly, this graph isn't showing pretraining progression, but the RL post-training progression and impact.** This graph indicates that DeepSeek-R1 became very good at discovering solutions to even complex math problems through RL's guided self-optimization.
 
 Moreover, we see that the model does something we theorized above on its own account: The longer the RL post-training progresses, the more DeepSeek-R1 sees itself inclinded to spread out its solution across the token sequence, making the individual token reasoning tasks easier for the model. **This effect emerges by itself:**
 
 <img src="./img/deepseek-r1_avg_response_len.png" style="width: auto; height: 375px"/>
 
-Furthermore, the paper also lays out *why* this effect happens on its own: 
+Furthermore, the paper also lays out *why* this effect happens on its own. 
 
 The model has learnt that it is better for accuracy (you can call it reward, too) to try and apply different perspectives with the solution, i.e. retrace, reframe, backtrack. It is this behavior that emerges as the cause for increased token usage in the response:
 
@@ -691,11 +691,11 @@ With DeepSeek-R1's presentation of the interaction, we can clearly see the simil
 
 At this point, because it seems to be a thing, **please do not put even remotely sensitive information into any LLM that isn't local, on your machine.**
 
-You can in fact download DeepSeek-R1 for free and use it safely, locally, as it is MIT licensed and open source. The website through which the DeepSeek-R1 is provided for chatting for free is not open source. One does not don't know where one's data goes. The same goes for ChatGPT by the way, although they claim strictly adhering to GDPR and other data protection laws.
+You can in fact download DeepSeek-R1 for free and use it safely, locally, as it is MIT licensed and open source. The website through which the DeepSeek-R1 is provided for chatting for free is not open source. One does not know where one's data goes. The same goes for ChatGPT by the way, although they claim strictly adhering to GDPR and other data protection laws.
 
 If you don't want to use DeepSeek-R1 through the official website, you can also give model providers like [together.ai](https://together.ai) a shot. They provide a pay-as-you-go, independent service offering DeepSeek-R1.
 
-If you have a powerful enough machine, you can download an run DeepSeek-R1 safely on your system, for free. Tools like Ollama can be setup to accomodate for a simple point of interaction with your local copy of DeepSeek-R1. Note however that your computer is the limit to the model's capabilities. For example, on an NVIDIA 3060, you can expect DeepSeek-R1 to be alot slower, a lot less fancy because of the lack of text formatting, and you will have to resort to smaller versions of it, e.g. the 8B model, which would look like this:
+If you have a powerful enough machine, you can download an run DeepSeek-R1 safely on your system, for free. Tools like Ollama can be setup to accomodate for a simple point of interaction with your local copy of DeepSeek-R1. Note however that your computer is the limit of the model's capabilities. For example, on an NVIDIA 3060, you can expect DeepSeek-R1 to be a lot slower, a lot less fancy because of the lack of text formatting, and you will have to resort to smaller versions of it, e.g. the 8B model, which would look like this:
 
 <img src="./img/ollama_deepseek.png" style="width: auto; height: 550px"/>
 
@@ -781,7 +781,7 @@ A token is picked out from this probability distribution. This is generally done
 
 6. **Output:** The generated text is returned in response to the prompt.
 
-<br><b>And that's a wrap!</b><br><br>We saw the three steps currently employed to create state of the art LLMs: Pretraining, Supervised Finetuning, and Reinforcement Learning. The key thing you should take away from this is that **LLMs are not just 'sophisticated next token predictors'. They are capable of learning and of reasoning.** They should be understood as increasingly sophisticated tools, but even though we have some measures of mitigation, some problems like halucinations or RLHF loopholes may still persist. **LLMs aren't infallible. Use them for drafting, not for blindly producing production code.**
+<br><b>And that's a wrap!</b><br><br>We saw the three steps currently employed to create state of the art LLMs: Pretraining, Supervised Finetuning, and Reinforcement Learning. The key thing you should take away from this is that **LLMs are not just 'sophisticated next token predictors'. They are capable of learning and of reasoning.** They should be understood as increasingly sophisticated tools, but even though we have some measures of mitigation, some problems like hallucinations or RLHF loopholes may still persist. **LLMs aren't infallible. Use them for drafting, not for blindly producing production code.**
 
 ---
 
@@ -799,11 +799,11 @@ Finally, **the future of LLMs is efficient and requires less and less test-time 
 
 ## How to Keep Up?
 
-A great way to stay on top of the latest developments in LLMs is to follow the research. The [Chatbot Arena](https://lmarena.ai) gives a great overview over current LLMs and thei capabilities in comparison to one another. Take it with a grain of salt, though, as it appears that the ranking has been 'gamed' by some providers. Use it as a starting point, not as the final word.
+A great way to stay on top of the latest developments in LLMs is to follow the research. The [Chatbot Arena](https://lmarena.ai) gives a great overview over current LLMs and their capabilities in comparison to one another. Take it with a grain of salt, though, as it appears that the ranking has been 'gamed' by some providers. Use it as a starting point, not as the final word.
 
 Another source of up-to-date information are newsletters. Yes, newsletters. There are some very high-quality ones like [AI News](https://buttondown.com/ainews) or [DeepLearning.Ai's The Batch](https://www.deeplearning.ai/the-batch/). They provide a great, concise overview over the latest developments in the field.
 
-Finally, X/Twitter is unmatched, as a lot of the top AI talent is gathered on there. Follow the likes of [Andrej Karpathy](https://x.com/karpathy) or [Ilya Sutskever](https://x.com/ilyasut) for a great insight into the field.
+Finally, [X (formerly Twitter)](https://x.com) is unmatched, as a lot of the top AI talent is gathered on there. Follow the likes of [Andrej Karpathy](https://x.com/karpathy) or [Ilya Sutskever](https://x.com/ilyasut) for a great insight into the field.
 
 Finally, in order to access most of the models discussed here, you can use [Hugging Face's Model Hub](https://huggingface.co/models) or the respective website of the LLM provider. For offline use, [LM Studio](https://lmstudio.ai/) or [Ollama](https://ollama.com/) are recommended.
 <br><br><br><br><br><br>
