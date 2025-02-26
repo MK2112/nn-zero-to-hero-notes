@@ -79,7 +79,9 @@ HuggingFace performed a series of what is called **data preprocessing** steps. T
 **HuggingFace applies these data preprocessing steps to CommonCrawl to retrieve and assemble *FineWeb*:**
 
 <center>
-<img src="./img/fineweb_pipeline.png" style="width: auto; height: 210px;" /></center><br>Image: https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1
+  <img src="./img/fineweb_pipeline.png" style="width: auto; height: 210px;" />
+  Image: https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1
+</center><br /><br />
 
 1. **URL Filtering**:  
 	URL Filtering removes sources that are deemed low-quality or irrelevant ahead of the text gathering process itself. Sources such as spam, adult content, or non-informative pages are discarded, ensuring that only reputable and potentially useful content is considered further. HuggingFace uses specifically [this blocklist](https://dsi.ut-capitole.fr/blacklists/).
