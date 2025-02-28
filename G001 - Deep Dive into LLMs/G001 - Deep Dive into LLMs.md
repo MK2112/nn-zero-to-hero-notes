@@ -187,7 +187,7 @@ So, in total, models like GPT-4 see from the arbitrary text they might get promp
 <img src="./img/cl100k_base_viewing_single_post.png" style="width: auto; height: 350px;" />
 </center>
 
-You can learn even more about tokenization in [chapter 8](../008%20-%20GPT%20Tokenizer/008%20-%20Tokenization.ipynb) of this series.
+You can learn even more about tokenization in [chapter 8](../N008%20-%20GPT%20Tokenizer/N008%20-%20Tokenization.ipynb) of this series.
 
 ---
 
@@ -298,7 +298,7 @@ Note that although we use the terms "neural" and "neuron", there's no biochemist
 > [!NOTE]
 > LLMs are big mathematical functions, parameterized by a fixed, large set of parameters, which may be initially set at random. It receives token sequences as input, and produces, through having information flow through different layers, notably the *Transformer Blocks*, a probability distribution over all tokens in the vocabulary. The model is trained to adjust its parameters to minimize the difference between its output and the actual next token in the pretraining dataset.
 
-If you want to go deeper into the precise mathematical structure of LLMs, you can refer to the [GPT From Scratch](../007%20-%20GPT%20From%20Scratch/007%20-%20GPT.ipynb) chapter of this series.
+If you want to go deeper into the precise mathematical structure of LLMs, you can refer to the [GPT From Scratch](../N007%20-%20GPT%20From%20Scratch/N007%20-%20GPT.ipynb) chapter of this series.
 
 ---
 
@@ -350,7 +350,7 @@ GPT-2 is an LLM that was released by OpenAI in 2019. Along with this release, th
 
 Nowadays, models are still largely based on the structures and conceptual ideas that GPT-2 introduced. The models mainly differ in size, training data, and training duration. For example, GPT-2 Extra Large, at $1.5\text{B}$ parameters, is small by today's standards, with current models nearing $1\text{T}$ parameters. The same scaling was applied to the training data and the context window size.
 
-We extensively discuss and walk through implementing GPT-2 in [chapter 9](../009%20-%20Reproducing%20GPT-2/009%20-%20Reproducing_GPT-2.ipynb). You may also refer to [Andrej's llm.c GitHub Repository](https://github.com/karpathy/llm.c/discussions/677) for a C-based implementation of GPT-2.
+We extensively discuss and walk through implementing GPT-2 in [chapter 9](../N009%20-%20Reproducing%20GPT-2/N009%20-%20Reproducing_GPT-2.ipynb). You may also refer to [Andrej's llm.c GitHub Repository](https://github.com/karpathy/llm.c/discussions/677) for a C-based implementation of GPT-2.
 
 The reason we were able to scale from GPT-2 onwards to today's models is manifold. The most important reasons are:
 
@@ -361,7 +361,7 @@ The reason we were able to scale from GPT-2 onwards to today's models is manifol
 >
 >While neural network training, especially at today's scales, is considered expensive, the computations we actually perform are well parallelizable. In other words, a lot of the calculations happening within tokenization and training can be rewritten into matrix operations. GPUs happen to be really good at that.<br><br>GPUs are designed to handle many parallel calculations at once, originally for rendering graphics. This makes them ideal for training neural networks, which are essentially just a lot of matrix operations. Getting really good GPUs to train neural networks and to do so well makes up <b>the gold rush</b> of the 2020s.
 
-We won't go into full detail on the implementation. Again, please refer to [chapter 9](../009%20-%20Reproducing%20GPT-2/009%20-%20Reproducing_GPT-2.ipynb) for that. **But, intuitively, what does it look like to actually train one of these models as a researcher?**
+We won't go into full detail on the implementation. Again, please refer to [chapter 9](../N009%20-%20Reproducing%20GPT-2/N009%20-%20Reproducing_GPT-2.ipynb) for that. **But, intuitively, what does it look like to actually train one of these models as a researcher?**
 
 Andrej at this point showed an active training run:
 <center>
@@ -876,23 +876,23 @@ Closing the circle, we can now answer all of the questions we initially set out 
 
 **What goes on behind that text box that you type your prompts into?**<br>
 A lot. We discussed the six fundamental steps:
-1. **Tokenization** (see [chapter 8](../008%20-%20GPT%20Tokenizer/008%20-%20Tokenization.ipynb) for more details)**:**
+1. **Tokenization** (see [chapter 8](../N008%20-%20GPT%20Tokenizer/N008%20-%20Tokenization.ipynb) for more details)**:**
 When a user enters text, it is first converted into a sequence of *tokens*. 
 These tokens are numerical representations of words or fragments of words.
 There are different types of tokenization, such as Byte-Level Tokenization and Byte-Pair Encoding (BPE).
 
-2. **Input to the LLM** (see chapters [7](../007%20-%20GPT%20From%20Scratch/007%20-%20GPT.ipynb), [8](../008%20-%20GPT%20Tokenizer/008%20-%20Tokenization.ipynb) and [9](../009%20-%20Reproducing%20GPT-2/009%20-%20Reproducing_GPT-2.ipynb) for more details)**:**
+2. **Input to the LLM** (see chapters [7](../N007%20-%20GPT%20From%20Scratch/N007%20-%20GPT.ipynb), [8](../N008%20-%20GPT%20Tokenizer/N008%20-%20Tokenization.ipynb) and [9](../N009%20-%20Reproducing%20GPT-2/N009%20-%20Reproducing_GPT-2.ipynb) for more details)**:**
 The token sequence is given as input to the trained LLM. Accordingly, the LLM never comes in contact with text as such, but only a *one-dimensional sequence of numbers* (tokens).
 which are further processed in a large-scale mathematical process, in which the model's parameters are used to calculate the next token in the sequence. A very prominent component of this process is *transformer* with its *attention mechanisms*.
 
-3. **Probability Distribution** (see [chapter 7](../007%20-%20GPT%20From%20Scratch/007%20-%20GPT.ipynb) for more details)**:**
+3. **Probability Distribution** (see [chapter 7](../N007%20-%20GPT%20From%20Scratch/N007%20-%20GPT.ipynb) for more details)**:**
 The LLM produces not a single token, but a probability distribution over all the possible tokens in its vocabulary.
 This distribution is a prediction of what tokens the LLM thinks will likely occur follow on the input sequence.
 
-4. **Token Sampling** (see chapters [7](../007%20-%20GPT%20From%20Scratch/007%20-%20GPT.ipynb), [8](../008%20-%20GPT%20Tokenizer/008%20-%20Tokenization.ipynb) and [9](../009%20-%20Reproducing%20GPT-2/009%20-%20Reproducing_GPT-2.ipynb) for more details)**:**
+4. **Token Sampling** (see chapters [7](../N007%20-%20GPT%20From%20Scratch/N007%20-%20GPT.ipynb), [8](../N008%20-%20GPT%20Tokenizer/N008%20-%20Tokenization.ipynb) and [9](../N009%20-%20Reproducing%20GPT-2/N009%20-%20Reproducing_GPT-2.ipynb) for more details)**:**
 A token is picked out from this probability distribution. This is generally done by sampling, in which the probability of the token is taken into account for the chance of picking it. This retains a chance for unique, more diverse answers to be returned when applied iteratively. However, it is also possible to just directly select the most probable token.
 
-5. **Text Generation** (see chapters [7](../007%20-%20GPT%20From%20Scratch/007%20-%20GPT.ipynb), [8](../008%20-%20GPT%20Tokenizer/008%20-%20Tokenization.ipynb) and [9](../009%20-%20Reproducing%20GPT-2/009%20-%20Reproducing_GPT-2.ipynb) for more details)**:** The selected token is appended to the input and the process is repeated until a text is generated (or a specific `<|endoftext|>` gets sampled). This process is called *autoregressive generation*.
+5. **Text Generation** (see chapters [7](../N007%20-%20GPT%20From%20Scratch/N007%20-%20GPT.ipynb), [8](../N008%20-%20GPT%20Tokenizer/N008%20-%20Tokenization.ipynb) and [9](../N009%20-%20Reproducing%20GPT-2/N009%20-%20Reproducing_GPT-2.ipynb) for more details)**:** The selected token is appended to the input and the process is repeated until a text is generated (or a specific `<|endoftext|>` gets sampled). This process is called *autoregressive generation*.
 
 6. **Output:** The generated text is returned in response to the prompt.
 
