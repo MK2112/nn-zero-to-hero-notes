@@ -108,7 +108,7 @@ Contributions to this repository are welcome and encouraged. If you find any err
 
 ## Acknowledgments
 
-Thank you Andrej Karpathy for creating and sharing the "Neural Networks: Zero to Hero" tutorial series, your talks and general audience videos. Your dedication and expertise have made this resource possible. Find more of Andrej's work on his [GitHub](https://github.com/karpathy) and [X/Twitter](https://x.com/karpathy).
+Thank you Andrej Karpathy for creating and sharing the "Neural Networks: Zero to Hero" tutorial series, your talks and general audience videos. Your dedication and expertise have made this resource possible. Find more of Andrej's work on his [GitHub](https://github.com/karpathy) and [𝕏/Twitter](https://x.com/karpathy).
 
 ## License
 
