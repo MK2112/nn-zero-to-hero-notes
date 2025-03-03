@@ -33,7 +33,7 @@ The [last chapter](../G001%20-%20Deep%20Dive%20into%20LLMs/G001%20-%20Deep%20Div
 
 ## The LLM Ecosystem
 
-Deployed in late 2022, OpenAI's ChatGPT showed the world the potential of large language models. The release marked the first time that an LLM was deployed in a way that allowed users to interact with it for free, at scale, via a simple chat-based interface. What was meant to be a research demo turned into the back then most popular app ever.
+Deployed in late 2022, OpenAI's ChatGPT showed the world the potential of large language models. The release marked the first time that an LLM was deployed in a way that allowed users to interact with an LLM for free, at scale, via a simple chat-based interface. What was meant to be a research demo turned into the back then most popular app ever.
 
 ChatGPT hasn't remained the sole player in the LLM space. A whole ecosystem of LLMs and LLM providers has emerged, each with its own strengths and weaknesses. Some of the most popular LLMs apart from ChatGPT include:
 
@@ -131,7 +131,7 @@ At the current stage, the LLM would only ever be able to generate text as a *con
 In the second training stage, **post-training** has the LLM fine-tuned on a task-specific dataset to learn how to perform that task. The task-specific dataset is curated and largely custom-made, e.g. by human labelers at OpenAI. The image above points out that *post-training* puts a face on the LLM, giving it a specific *persona* and a set of skills to provide task-specific behavior.
 
 > [!NOTE]
-> The LLM takes on the style of a persona created during **post-training**. This persona can then access the knowledge gained during **pre-training** to generate responses that are ideally coherent, engaging, and accurate. All this is embedded into the LLM's parameters. Responses under no circumstances should be taken as factual, but rather as the model's best guess based on its vague recollection of the training data.
+> The LLM takes on the style of a persona created during **post-training**. This persona can then access the knowledge gained during **pre-training** to generate responses that are ideally coherent, engaging, and accurate. All this is embedded into the LLM's parameters. Responses should under no circumstances be taken as factual, but rather as the model's best guess based on its vague recollection of the training data.
 
 ## Basic Interaction Examples
 
@@ -148,7 +148,7 @@ Think of it like this: If you can safely assume that a piece of knowledge can be
 
 ## Choice of Model and Pricing
 
-Another factor to consider is the actual version of LLM you use inside ChatGPT. You have a choice e.g. between (not limited to) GPT 3.5, GPT 4o, GPT 4omini etc. Typcially, the bigger models are more expensive yet also considerably more capable.
+Another factor to consider is the actual version of LLM you use inside ChatGPT. You have a choice e.g. between (not limited to) GPT 3.5, GPT 4o, GPT 4omini etc. Typically, the bigger models are more expensive yet also considerably more capable.
 
 Different LLM providers have different prices for their models. Anthropic for example offers free tier access to their best Claude 3.7 LLM, but charges for more interactions:
 
@@ -265,7 +265,7 @@ For example, Claude 3.7 supports file upload, but also Google's Notebook LM.
 Note that with current tokenization techniques, it is most likely that images
 from your document are either discarded or only briefly described.
 
-This is what it looks like when you upload a PDF of a [research paper](https://www.biorxiv.org/content/10.1101/2025.02.18.638918v1.full.pdf) to Claude 3.7 and ChatGPT 4o:
+This is what it looks like when you upload a PDF of a [research paper](https://www.biorxiv.org/content/10.1101/2025.02.18.638918v1.full.pdf) to Claude 3.7 and GPT 4o:
 
 <center>
     <img src="./img/Claude_File_Upload.png" style="width: 500px; height: auto;" />
@@ -336,7 +336,7 @@ With a follow-up prompt, this retrieved information can be used to generate a vi
     <img src="./img/ChatGPT_Data_Analysis_Matplotlib.png" style="width: 500px; height: auto;" />
 </center>
 
-This is a help, a junior data analyst would produce this kind of analysis. Notice that ChatGPT still hallucinated. Where the table stated OpenAI's valuation for 2015 to be `N/A`, the code was just set to `0.1M` for 2015. **Always read the code. If you can't verify it, don't use it.**
+This is helpful as in a junior data analyst would produce this kind of analysis. Notice that ChatGPT still hallucinated. Where the table stated OpenAI's valuation for 2015 to be `N/A`, the code was just set to `0.1M` for 2015. **Always read the code. If you can't verify it, don't use it.**
 
 Still, let's continue using the data analysis capabilities further and extrapolate them into a prediction for 2030:
 
@@ -368,6 +368,7 @@ Instead of relying on features of LLMs through a browser, dedicated apps have em
 
 - [Cursor](https://cursor.com/)
 - [Windsurf](https://codeium.com/windsurf)
+- [Trae](https://www.trae.ai/)
 - [Fine](https://www.fine.dev/)
 - [VS Code with Copilot](https://code.visualstudio.com/docs/copilot/overview)
 
@@ -439,7 +440,7 @@ Video processing works with ChatGPT's Advanced Voice Mode on mobile. The app sen
 
 Source: ["ChatGPT Can Now See You!" by K.C. Sabreena Basheer](https://www.analyticsvidhya.com/blog/2024/12/chatgpt-can-now-see-you/)<br><br>
 
-Video output is not that represented, but it's possible via proxy models like OpenAI's Sora. You can see a comparison of recent video models layed out by [this tweet/post](https://x.com/HBCoop_/status/1885002792017838233).
+Video output is not well represented, but it's possible via proxy models like OpenAI's Sora. You can see a comparison of recent video models layed out by [this tweet/post](https://x.com/HBCoop_/status/1885002792017838233).
 
 ## Quality of Life Features
 
@@ -477,7 +478,7 @@ This can then also be expanded to the other ChatGPT tools and features, like ima
 
 ## Conclusion
 
-In summary, we see an ever-evolving, ever-growing ecosystem of increasingly capable LLMs, which still may have their shortcomings, but are very much able to provide valuable assistance in a wide range of tasks, e.g. through tool use, reasoning and multimoality.
+In summary, we see an ever-evolving, ever-growing ecosystem of increasingly capable LLMs, which still may have their shortcomings, but are very much able to provide valuable assistance in a wide range of tasks, e.g. through tool use, reasoning and multimodality.
 
 <center>
     <img src="./img/Excalidraw_Summary.png" style="width: 100%; height: auto;" />
