@@ -34,15 +34,15 @@ Think of GPT-personalization as an emerging technology to adapt GPTs to your nee
 	- *Dataset:* Raw internet scraped text, trillions of words with low task-specificity, in high quantity
 	- *Algorithm:* Next token prediction
 	- *Result:* Base model
-- **Supervised Finetuning:**
+- **Supervised Finetuning (SFT):**
 	- *Dataset:* Q-A-style behavioral demonstrations (10K to 100K), human-written, high specificity, low quantity
 	- *Algorithm:* Next token prediction
 	- *Result:* SFT model *(this could be deployed)*
 - **Reward Modeling:**
-	- *Dataset:* Comparisions, may be written by human contractors
+	- *Dataset:* Comparisons, may be written by human contractors
 	- *Algorithm:* Binary Classification (Answer vs. Good Answer labeling by human)
 	- *Result:* RM model
-- **Reinforcement Learning:**
+- **Reinforcement Learning (RL):**
 	- *Dataset:* Prompts (10K to 100K), may be written by human contractors
 	- *Algorithm:* Reinforcement Learning (Generate tokens that maximize a perceived reward)
 	- *Result:* RL model *(this could be deployed)*
@@ -169,7 +169,7 @@ To get back to the notion of 'How To', we have to be aware that an LLM by itself
 
 Interestingly, recent advancements worked towards addressing this.<br>**The token vocabulary of ChatGPT contains special, additional tokens.** Given such a prompt, an interpreter will read them, and based on them, call external APIs, fetch the results, and concatenate them with the original prompt. **This allows for lifting the restriction of a knowledge cut-off date. Data can just be fetched and added from the web.** This approach also lifts the potential for factual inconsistencies, e.g. through integration of a calculator API.
 
-> LLMs that incorporate the use of tools are commonly refered to as Retrieval-augmented language models (RALMs).
+> LLMs that incorporate the use of tools are commonly referred to as Retrieval-augmented language models (RALMs).
 
 <img src="./img/Pasted%20image%2020231123212252.png" width="300" height="auto" /><br>Source: [Toolformer: Language Models Can Teach Themselves to Use Tools](https://arxiv.org/abs/2302.04761)
 
@@ -214,12 +214,12 @@ But:
 3. Models may have reasoning errors 
 4. Models may struggle in classes of applications, e.g. spelling related tasks 
 5. Models have knowledge cutoffs (e.g. September 2021) 
-6. Models are susceptible to prompt injection, “jailbreak” attacks, data poisoning attacks,…
+6. Models are susceptible to prompt injection, “jailbreak” attacks, data poisoning attacks, etc.
 
 **Goal 1: Achieve your top possible performance**
 - Use GPT-4 (Turbo)
 - Use prompts with detailed task context, relevant information, instructions
-	- "what would you tell a task contactor if they can’t email you back?"
+	- "what would you tell a task contractor if they can’t email you back?"
 - Retrieve and add any relevant context or information to the prompt
 - Experiment with prompt engineering techniques (see above)
 - Experiment with few-shot examples that are 

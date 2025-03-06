@@ -160,7 +160,7 @@ Reinforcement Learning really is the looming force to be added more prominently 
 
 LLMs Jailbreaks have been discussed at varying degrees of seriousness on social media, but the core problem with them is that information generation by sufficiently trained LLMs has to be hard-restricted in certain areas. You don't want malevolent inquiries to receive constructive contribution. This is called ethics.
 
-An early circulated jailbreak consisted of pretending to setup a scenario around the actual inquiry, diluting the model's focus on detecting malintent. You telll a story about somebody asking something, letting the focus drift away from the question to the setting.
+An early circulated jailbreak consisted of pretending to setup a scenario around the actual inquiry, diluting the model's focus on detecting malintent. You tell a story about somebody asking something, letting the focus drift away from the question to the setting.
 
 *Another one.* Turns out Claude v1.3 not only understands but allows Base64:
 
@@ -170,7 +170,7 @@ An early circulated jailbreak consisted of pretending to setup a scenario around
 
 *Another one.* Adding an image of a panda with carefully determined noise to your query acts as a key, disabling alignment measures:<br>[Visual Adversarial Examples Jailbreak Aligned Large Language Models](https://arxiv.org/abs/2306.13213)
 
-*Another one.* Prompt injections from images dilute an original query's intention, taking control over what exactly is output. This is funny. Having the response be intentionally malformed, malicous links is not:
+*Another one.* Prompt injections from images dilute an original query's intention, taking control over what exactly is output. This is funny. Having the response be intentionally malformed, malicious links is not:
 
 <img src="./img/F8XM80SXcAAVcVw.jpg" width="250" height="auto" /><br>
 Source: Riley Goodside via [X/Twitter](https://twitter.com/goodside/status/1713000581587976372)
