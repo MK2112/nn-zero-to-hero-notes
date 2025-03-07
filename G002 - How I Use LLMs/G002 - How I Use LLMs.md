@@ -148,7 +148,7 @@ Think of it like this: If you can safely assume that a piece of knowledge can be
 
 ## Choice of Model and Pricing
 
-Another factor to consider is the actual version of LLM you use inside ChatGPT. You have a choice e.g. between (not limited to) GPT 3.5, GPT 4o, GPT 4omini etc. Typically, the bigger models are more expensive yet also considerably more capable.
+Another factor to consider is the actual version of LLM you use inside ChatGPT. You have a choice e.g. between (not limited to) GPT 3.5, GPT 4o, GPT 4o mini etc. Typically, the bigger models are more expensive yet also considerably more capable universally.
 
 Different LLM providers have different prices for their models. Anthropic for example offers free tier access to their best Claude 3.7 LLM, but charges for more interactions:
 
@@ -156,13 +156,13 @@ Different LLM providers have different prices for their models. Anthropic for ex
     <img src="./img/Anthropic_Claude_Travel_Advice.png" style="width: 520px; height: auto;" />
 </center>
 
-You are very much encouraged to experiment here: Experiment with different LLM providers, different models, different tier levels.
+**You are very much encouraged to experiment here:** Experiment with different LLM providers, different models, different tier levels.
 
 ## Reasoning models and when to use them
 
-Up until now, we already hinted at a lot of the shortcomings of LLMs that only underwent supervised fine-tuning (SFT) as the *post-training* step. In the [last chapter](../G001%20-%20Deep%20Dive%20into%20LLMs/G001%20-%20Deep%20Dive%20into%20LLMs.md), we introduced additional post-training with reinforcement learning (RL) to improve the LLM's performance on specific tasks.
+Until now, we already hinted at a lot of the shortcomings of LLMs that only underwent supervised fine-tuning (SFT) as the *post-training* step. In the [last chapter](../G001%20-%20Deep%20Dive%20into%20LLMs/G001%20-%20Deep%20Dive%20into%20LLMs.md), we introduced additional post-training with reinforcement learning (RL) to improve the LLM's performance on specific tasks.
 
-Reinforcement learning as a post-training step is a way to teach an LLM to perform a task by enforcing it to make the right decisions. A given prompt is responded to multiple times by the LLM. The responses are then evaluated by a reward function, which tells about the response's correctness. The LLM is then trained repeatedly on the prompts and its self-generated subset of correct responses. This encourages the LLM to generate responses that are more accurate and more in line with the task at hand. This approach is also highly automatable. Also, we leave the particularities of how exactly correct responses are found by the LLM up to the model itself.
+Reinforcement learning as a post-training step is a way to teach an LLM to perform a task by enforcing it to make the right decisions. A given prompt is responded to multiple times by the LLM. The responses are then evaluated by a reward function, which tells about the response's correctness. The LLM is then trained repeatedly on the prompts and its self-generated subset of correct responses. This encourages the LLM to generate responses that are more accurate and more in line with the task at hand. This approach is also highly automatable. Notably, **we leave the particularities of how exactly correct responses are found by the LLM up to the model itself.**
 
 > [!NOTE]
 > Interestingly, applying reinforcement learning as additional post-training step has been shown to get the LLM to make use of the context window more effectively by producing step-by-step reasoning chains and backtracking, leading towards a final statement of solution. **An LLM that has undergone RL post-training is called a *reasoning model*, as it produces an inner monologue before answering.**
@@ -238,7 +238,7 @@ A great free-access LLM that uses web search as a tool is [Perplexity.ai](https:
 
 ### Deep Research
 
-Deep Research is something that only came about recently. It is part of OpenAI's $200/month Pro subscription for ChatGPT.
+Deep Research is something that only came about recently. It is part of OpenAI's $200/month Pro subscription for ChatGPT.<br>
 **Think of Deep Research as a combination of Web Search and Reasoning, multiple searches are performed over the course of the thinking process**, and the LLM is encouraged to reason about the information it finds to generate a way more comprehensive, accurate response.
 
 Multiple providers stepped up to offer similar capabilities, like [Grok's DeepSearch](https://grok.com/?referrer=website) or [Perplexity's DeepThink](https://perplexity.ai).
@@ -305,7 +305,7 @@ Some LLMs can generate code to solve complex programming or calculation problems
 
 The LLM literally pauses execution until the program's result is available, then continues to incorporate the result. Note that not all LLMs that support tool use also support program execution. Currently, program execution is supported by ChatGPT and Claude 3.7.
 
-Grok 3 currently (March 2025) does not support program execution, leading to a mess up in calculation:
+Although [xAI states](https://x.ai/blog/grok-3) that Grok 3 indeed supports program execution as a tool, Grok 3 currently (March 2025) seems to not apply any program execution for our example, leading to a mess up in calculation:
 
 <center>
     <img src="./img/Grok_Math_Miscalculation.png" style="width: 500px; height: auto;" />
@@ -356,9 +356,9 @@ A really powerful use case for LLMs is to create flashcards for documents or boo
     <img src="./img/Claude_Artifact_Flashcard_App.png" style="width: 100%; height: auto;" />
 </center>
 
-Again, we don't write flashcards that accomodate your app, we write an app that accomodates your flashcards. See some user-submitted Claude Artifacts [here](https://claudeartifacts.com/).
+Again, we don't write flashcards that accomodate your app, we write an app that accomodates your flashcards. See more, different, user-submitted Claude Artifacts [here](https://claudeartifacts.com/).
 
-Apart from flashcards, a really good use case for Artifacts is diagram or mind map generation. Claude 3.7 can go through text, find key points, concepts etc. and organize them visually to make the text more accessible and understandable.
+Apart from flashcards, a really good use case for Artifacts is content-based diagram or mind map generation. Claude 3.7 can go through text, find key points, concepts etc. and organize them visually to make the text more accessible and understandable.
 
 ### Cursor Composer
 
