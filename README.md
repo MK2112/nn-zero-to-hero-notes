@@ -81,7 +81,7 @@ This GitHub repository contains Jupyter Notebooks and Markdown files with detail
   </tr>
   <tr>
     <td><a href="https://www.youtube.com/watch?v=zjkBMFhNj_g" target="_blank"><img src="https://img.youtube.com/vi/zjkBMFhNj_g/0.jpg" alt="[1hr Talk] Intro to Large Language Models" height="auto" width="150"></a></td>
-    <td><a href="./T002 - Intro to LLMs - Director's Cut/T002 - Intro to LLMs - Director's Cut Notes.md">T001 - Intro to LLMs - Director's Cut</a></td>
+    <td><a href="./T002 - Intro to LLMs - Director's Cut/T002 - Intro to LLMs - Director's Cut Notes.md">T002 - Intro to LLMs - Director's Cut</a></td>
   </tr>
 </table>
 
