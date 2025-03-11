@@ -23,19 +23,19 @@ This GitHub repository contains Jupyter Notebooks and Markdown files with detail
   </tr>
   <tr>
     <td><a href="https://www.youtube.com/watch?v=TCH_1BHY58I" target="_blank"><img src="https://img.youtube.com/vi/TCH_1BHY58I/0.jpg" alt="Building makemore Part 2: MLP" height="auto" width="150"></a></td>
-    <td><a href="./N003 - Makemore 2 - MLP/N003 - Makemore %232.ipynb">N003 - Makemore 2 - MLP</a></td>
+    <td><a href="./N003 - Makemore 2 - MLP/N003 - Makemore_2.ipynb">N003 - Makemore 2 - MLP</a></td>
   </tr>
   <tr>
     <td><a href="https://www.youtube.com/watch?v=P6sfmUTpUmc" target="_blank"><img src="https://img.youtube.com/vi/P6sfmUTpUmc/0.jpg" alt="Building makemore Part 3: Activations & Gradients, BatchNorm" height="auto" width="150"></a></td>
-    <td><a href="./N004 - Makemore 3 - Activations, BatchNorm/N004 - Makemore %233.ipynb">N004 - Makemore 3 - Activations, BatchNorm</a></td>
+    <td><a href="./N004 - Makemore 3 - Activations, BatchNorm/N004 - Makemore_3.ipynb">N004 - Makemore 3 - Activations, BatchNorm</a></td>
   </tr>
   <tr>
     <td><a href="https://www.youtube.com/watch?v=q8SA3rM6ckI" target="_blank"><img src="https://img.youtube.com/vi/q8SA3rM6ckI/0.jpg" alt="Building makemore Part 4: Becoming a Backprop Ninja" height="auto" width="150"></a></td>
-    <td><a href="./N005 - Makemore 4 - Backprop Ninja/N005 - Makemore %234.ipynb">N005 - Makemore 4 - Becoming a Backprop Ninja</a></td>
+    <td><a href="./N005 - Makemore 4 - Backprop Ninja/N005 - Makemore_4.ipynb">N005 - Makemore 4 - Becoming a Backprop Ninja</a></td>
   </tr>
   <tr>
     <td><a href="https://www.youtube.com/watch?v=t3YJ5hKiMQ0" target="_blank"><img src="https://img.youtube.com/vi/t3YJ5hKiMQ0/0.jpg" alt="Building makemore Part 5: Building a WaveNet" height="auto" width="150"></a></td>
-    <td><a href="./N006 - Makemore 5 - WaveNet/N006 - Makemore %235.ipynb">N006 - Makemore 5 - WaveNet</a></td>
+    <td><a href="./N006 - Makemore 5 - WaveNet/N006 - Makemore_5.ipynb">N006 - Makemore 5 - WaveNet</a></td>
   </tr>
   <tr>
     <td><a href="https://www.youtube.com/watch?v=kCc8FmEb1nY" target="_blank"><img src="https://img.youtube.com/vi/kCc8FmEb1nY/0.jpg" alt="Let's build GPT: from scratch, in code, spelled out." height="auto" width="150"></a></td>
@@ -77,11 +77,11 @@ This GitHub repository contains Jupyter Notebooks and Markdown files with detail
   </tr>
   <tr>
     <td><a href="https://www.youtube.com/watch?v=bZQun8Y4L2A" target="_blank"><img src="https://img.youtube.com/vi/bZQun8Y4L2A/0.jpg" alt="State of GPT | BRK216HFS" height="auto" width="150"></a></td>
-    <td><a href="./T001 - State of GPT/T001 - State of GPT - Notes.md">T001 - State of GPT</a></td>
+    <td><a href="./T001 - State of GPT/T001 - State_of_GPT - Notes.md">T001 - State of GPT</a></td>
   </tr>
   <tr>
     <td><a href="https://www.youtube.com/watch?v=zjkBMFhNj_g" target="_blank"><img src="https://img.youtube.com/vi/zjkBMFhNj_g/0.jpg" alt="[1hr Talk] Intro to Large Language Models" height="auto" width="150"></a></td>
-    <td><a href="./T002 - Intro to LLMs - Director's Cut/T002 - Intro to LLMs - Director's Cut Notes.md">T002 - Intro to LLMs - Director's Cut</a></td>
+    <td><a href="./T002 - Intro to LLMs - Director's Cut/T002 - Intro_to_LLMs - Director's_Cut - Notes.md">T002 - Intro to LLMs - Director's Cut</a></td>
   </tr>
 </table>
 
