@@ -32,51 +32,63 @@
 
 ---
 
-**What *exactly* are Large Language Models (LLMs) and tools like ChatGPT about?<br>How do they provide value?<br>What goes on behind that text box that you type your prompts into?**
+**What *exactly* are Large Language Models (LLMs) and tools like ChatGPT about?<br>How do they provide value?<br>What goes on behind that text box that you type your inputs into?**
 
 ---
 
-LLMs are advanced AI systems trained to process and, based on that, generate human-like text by identifying linguistic patterns. Let's go though the topic of LLMs, back to back, from prompt to output, in an understandable fashion.
+LLMs are advanced Artificial Intelligence (AI) systems trained to process and generate human-like text by identifying linguistic patterns.
+Let's go though the topic of LLMs, back to back, from input to output, in an understandable fashion.
 
-When providing a prompt to an LLM, and reading its output, it quickly becomes clear that there is some notion of experience embedded into the response you receive. The LLM may show with its response that it can process and articulate:
+When talking about LLMs, you'll often encounter the term 'prompt'. **A prompt is the input text that you provide to the LLM.** A prompt can be a question, a statement (like an example of text, writing format, etc.), or any other form of text. The LLM processes this prompt and generates an output, a so-called response.
 
-- Syntax (structure), 
-- Semantics (meaning) and 
+When providing a prompt and reading the response of an LLM, it quickly becomes clear that there is some notion of experience embedded into the response you receive. The LLM may show that it can process and articulate:
+
+- Syntax (spelling, sentence structure),
+- Semantics (meaning) and
 - Pragmatics (context and use of language).
 
-When a user submits a prompt, the LLM's output reflects its ability to generalize from what is called **pretraining**.
-
-> [!NOTE]
-> **Pretraining** is the process of exposing an LLM to a vast amount of text. This way, the LLM is enabled to learn the statistical patterns from said text.
-
-**Pretraining** constitutes a core objective—not a mere preliminary step—in LLM development. Achieving this requires us to walk a systematic sequence of steps. The steps outlined in the following will get us there.
+Below we will go through the general steps that LLM development and operation involve.<br>
+We will do this with the example of a chatbot LLM like ChatGPT.
 
 ---
 
 ## Pretraining
 
+When looking at the response of an LLM to a given prompt, the response itself not only reflects the LLM referencing the prompt, but also its ability to generalize from the prompt's contents to a broader context the LLM somehow can reference. An LLM is made to generalize from an input to a broader understanding through what is called **pretraining**.
+
+> [!NOTE]
+> **Pretraining** is the process of exposing an LLM to vast amounts of text. Through particular methods of exposure, the LLM is enabled to learn the statistical patterns from said text. Only these patterns are retained in the LLM's parameters, but they surprisingly sufficiently capture meaning and contextual interdependencies within text.
+
+**I know that this sounds like a lot of jargon. Don't worry about it, we're only just beginning to go through what all this means.**
+
+**Pretraining** is a core objective - not some mere preliminary step - in LLM development. *Pretraining* requires us to walk a systematic sequence of steps. The steps outlined below will get us a pretrained LLM.
+
 ### Step 1: Download and Preprocess the Internet
 
-**If we want to expose an LLM to a vast amount of text, we first need this vast amount of text to expose it to.**
+**If we want to expose an LLM to vast amounts of text, we first have to obtain vast amounts of text.**
 
-Nowadays, data on the scale of *the entire internet* is used as basis for pretraining LLMs. To stick with this idea, *FineWeb*, a curated, filtered copy of textual contents of the internet was made available by and via HuggingFace:
+Nowadays, data on the scale of *the entire internet* is used as basis for pretraining LLMs. Thankfully
+we don't have to scrape the internet ourselves. *FineWeb*, a curated, filtered copy of textual contents
+of the internet was made available by and via HuggingFace:
 
 - The *FineWeb* dataset: https://huggingface.co/datasets/HuggingFaceFW/fineweb
 - The accompanying blog post: https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1
 
-><b>:question: Wait. Why do we need this much text in the first place?</b>
+><b>:question: Wait. Why would we need <i>this much</i> text in the first place? Isn't this really expensive?</b>
 >
->The sheer volume of high quality text is an essential contributor for training LLMs that are knowledgeable, versatile, and capable of understanding and generating text for a wide range of contexts. Just based on source and size, we can assume that <i>FineWeb</i> contains a multitude of facetted, diverse and informative texts. Exposing an LLM to this will help it learn a broad range of language.
+>Pretraining is widely regarded as the most expensive and vast step for building a capable LLM. We don't actually go for volume as such. Text diversity and quality are the essential contributors for training LLMs that are knowledgeable, versatile, and capable of understanding and generating text for a wide range of contexts. We expect out chatbot LLM to do just that. And just based on source and size, we can assume that <i>FineWeb</i> contains a multitude of facetted, diverse and informative texts. Exposing an LLM to this text dataset will have it encounter a broad range of language.
 
-><b>:question: So more is just better?</b>
+><b>:question: So more text to train on is just better?</b>
 >
->Not always. If we have a dataset that contains poorly worded or just bad text overall, an LLM pretrained on that will be poorly skilled. <b>An ideal dataset finds a balance between size, quality, diversity and cost for attaining it.</b> Public, curated datasets like <i>FineWeb</i> are a great help with all four of those aspects.
+>No. If we have a dataset that contains a lot of poorly worded or just bad or meaningless text overall (like product listings, repetitions of the same text over and over, no diversity in topics, etc.), an LLM pretrained on it will be poorly skilled. <b>An ideal dataset finds a balance between size, quality, diversity and cost for attaining it.</b> Public, curated datasets like <i>FineWeb</i> are a great help with all four of those aspects.
 
-HuggingFace did a lot of work ensuring *FineWeb* is a large and high-quality dataset. Truth be told, HuggingFace didn't actually crawl for the text data themselves in the first place. Instead, they use a copy of [CommonCrawl](https://commoncrawl.org/latest-crawl) as basis. Since 2007, the organization behind *CommonCrawl* iterates over the internet and takes snapshots of the webpages. This is raw, untreated data. How did HuggingFace now ensure that the text data selected for *FineWeb* from *CommonCrawl* would be of high quality?
+HuggingFace did a lot of work ensuring *FineWeb* is a large *but also* high-quality dataset. Truth be told, HuggingFace didn't actually crawl for the text data themselves. Instead, they used a copy of [CommonCrawl](https://commoncrawl.org/latest-crawl) as basis. Since 2007, the organization behind *CommonCrawl* iterates over the internet and takes snapshots of the webpages. This is raw, untreated data, and lots of it. 
 
-HuggingFace performed a series of what is called **data preprocessing** steps. These steps are crucial to ensure that the dataset is clean, consistent, and free of noise. More specifically, they went and applied a list of steps to remove low-quality texts from the *CommonCrawl* dataset to create *FineWeb*.
+**How did HuggingFace now ensure that the text data selected from *CommonCrawl* for *FineWeb* would be of high quality?**
 
-**HuggingFace applies these data preprocessing steps to CommonCrawl to retrieve and assemble *FineWeb*:**
+HuggingFace performed a series of what is called **data preprocessing** steps. These steps are crucial to ensure that any retained data is clean, consistent, and free of noise. More specifically, they went and applied the list of steps outlined below to remove low-quality texts from the *CommonCrawl* dataset to create *FineWeb*.
+
+**HuggingFace applies these data preprocessing steps to CommonCrawl to distill the clean data subset that is *FineWeb*:**
 
 <center>
   <img src="./img/fineweb_pipeline.png" style="width: auto; height: 210px;" />
@@ -104,15 +116,13 @@ HuggingFace performed a series of what is called **data preprocessing** steps. T
 >
 >The LLM will be good at processing and responding to English text. It will be able to understand and generate English text well. But it will not be able to do the same for any other languages.<br> But, note that while <i>FineWeb</i> is derived from English text sources, a new and language-wise broader <a target="_blank" href="https://huggingface.co/datasets/HuggingFaceFW/fineweb-2">FineWeb 2</a> is in the making, allowing training models that will then be able to pretrain to be good at multiple languages in the future.
 
-After passing the raw CommonCrawl data through the preprocessing pipeline, HuggingFace attained *FineWeb*. But what does this dataset actually look like now? 
-
-Luckily HuggingFace just shows us with its [Dataset Preview](https://huggingface.co/datasets/HuggingFaceFW/fineweb) feature:
+After passing the raw CommonCrawl data through the preprocessing pipeline, HuggingFace attained *FineWeb*. But what does this dataset actually look like now? Luckily HuggingFace just shows us with its [Dataset Preview](https://huggingface.co/datasets/HuggingFaceFW/fineweb) feature:
 
 <center>
 <img src="./img/hf_fineweb_viewer.png" style="width: auto; height: 375px;" />
 </center>
 
-**What are we seeing here?**<br>This is an excerpt of a table. Fundamentally, each row of this table is an entry in the *FineWeb* dataset. Each row for example contains an entry in the `text` column. This is the text that *CommonCrawl* had retrieved from some corner of the internet and that underwent HuggingFace's thorough *data preprocessing*.
+**How can we make sense of this?**<br>This is an excerpt of a table. Fundamentally, each row of this table is an entry in the *FineWeb* dataset. Each row for example contains an entry in the `text` column. This is the text that *CommonCrawl* had retrieved from some corner of the internet and that underwent HuggingFace's thorough *data preprocessing*.
 
 But there's more than just the `text` column.<br>The *FineWeb* dataset contains the following columns for each crawled website:
 
@@ -128,40 +138,55 @@ But there's more than just the `text` column.<br>The *FineWeb* dataset contains 
 
 The purpose of the additional columns is to provide metadata and context for each entry in the dataset. This way, HuggingFace provides the *FineWeb* dataset is not just as a collection of text snippets, but as a further structured and organized resource.
 
-**Ok. High-quality text data secured. What's next?**
+**Ok, high-quality text data secured. What's next?**
 
 ---
 
 ### Step 2: Tokenization
 
-The claim raised by *Step 1* was that if we go and expose an LLM to the gigantic corpus of text that is *FineWeb*, the LLM may become able to internalize and model the textual patterns, statistical nuances of which phrases follow which and a fundamental, general, conceptual understanding of how language expresses coherent information. **That would be nice, wouldn't it?** But "exposing the LLM to the data" is not that easy. 
+The claim raised by *Step 1* was that if we go and expose an LLM to the gigantic corpus of high-quality text that is *FineWeb*, the LLM may become able to internalize and model the textual patterns and the nuances behind which phrases follow which. From that, we hope, that a fundamental, general, conceptual understanding of how language expresses coherent information is derived. **That would be nice.** 
 
-An LLM expects input to be a one-dimensional sequence of a limited set of symbols. You can argue that text "as-is" is already such a one-dimensional sequence. But we can't really calculate with letters, we need some sort of numeric representation of them.
+However, "exposing the LLM to the data" is not that easy. 
+
+**An LLM expects input to be a one-dimensional sequence of a limited set of symbols.** You can argue that text "as-is" is already a one-dimensional sequence, i.e. a string of characters. But we can't really calculate with characters, we need some sort of numeric representation of them.
 
 > [!NOTE]
->We have to find a numeric representation that is ideally as unique, as expressive and as short as possible for a given text. Transferring a text to this representation is called **Tokenization**. The shorter a good numeric representation of a text can be, the longer the text sequences can be that we process with the LLM in the end, i.e. the more input we can provide or the more of past prompts and responses the LLM will be able to remember.
+>We have to find a numeric representation that is ideally as unique, as expressive and as concise as possible for all fragments that make up a text. Transferring a text to this representation is called **tokenization**. The shorter a good numeric representation of a text, the longer the text sequences can be that we process with the LLM in the end, i.e. the more input we can provide or the more of past prompts and responses the LLM will be able to still consider. 
 
-For example, like everything else shown and processed by a computer, at its lowest abstraction, text is just binary code. We could translate a text into its binary representation and that would be a one-dimensional, numeric, unique representation. But it would be awfully extensive and inefficient, because we would need a lot of bits to represent a single character. This would limit the amount of text we could process at once with the same amount of resources. This in turn would limit the amount of text we could refer to for generation. We would reduce the LLM's ability to remember and refer to past prompts and responses. Our LLM would suffer with binary as our level of abstraction to apply.
+The above holds a key insight. **LLMs do not only process a prompt, but a context window of tokens.** The context window is a sequence of tokens that the LLM can consider at once. The longer the context window, the more tokens the LLM can process at once. LLMs may start out filling the context window with just the user prompt, but then continue to fill that context window with that prompt, their own response and the next prompt a user provides. The LLM can thus, to an extent, remember the chat history.
+
+Going back to *tokenization*, like everything else shown and processed by a computer, at its lowest abstraction, text is just binary code. We could translate a text into its binary representation and that would be a one-dimensional, numeric, unique representation. But it would be awfully extensive and inefficient, because we would need a lot of bits to represent just a single character (with unicode encoding, for example, a single character can take up to $32$ bits). This would limit the amount of text we could process at once with the same amount of memory. And this in turn would limit the amount of text we could refer to for generation. We would reduce the LLM's ability to remember and refer to past prompts and responses. Our LLM would suffer if we were to apply binary representation as our level of abstraction.
+
+We are about to go into a specific technique for *tokenization*. Before going there, I want to mention what a **token** actually is.
+**A token is a representation of a single unit of meaning.** This doesn't say much, but that in itself is crucial. It is important to understand that a *token* can be a single character, a word, syllables or even some subword, i.e. a chunk of text. **The tokenization process is not only about transferring text to its tokenized representation, but also and foremost about finding the right balance between the size of the individual tokens, meaning the amount of information each of them carry, and the number of tokens that are produced in total.** The more narrow the information a token represents, the easier it becomes to process, but the more tokens may become necessary to represent the entire text, limiting the processable context size considerably.
 
 #### Byte-Level Tokenization
 
-We've seen that bit-level binary is not a good choice for tokenization. But what about moving up the abstraction hierarchy? What about not using only zeros and ones to embed a text, but to use groups of zeros and ones to represent fragements of the text?
+If this bit-level binary representation idea we just looked at is not a good choice for tokenization, then what about moving up the abstraction hierarchy? What about not using only zeros and ones to embed a text, but instead use fixed-size groups of zeros and ones to represent certain fragements of the text?
 
 A byte is a sequence of $8$ bits, meaning $8$ values, each either $0$ or $1$. One byte can be one of $2^8 = 256$ different combinations of zeros and ones.
 
-><b>:question: How is this different from bit-level tokenization?</b>
+><b>:question: How is this concept now different from bit-level tokenization?</b>
 >
->The difference becomes clear when we consider that a byte can represent $256$ different values. In other words, our tokenization vocabulary now contains the values $0$ to $255$, instead of just $0$ and $1$. These values are also more distinctly calculable than bit-level values. By having a tokenizer map text to a numerical representation of bytes, the tokenization itself became more expressive and efficient. We can now represent and distinguish more characters, numbers, and symbols with a respective byte.
+>The difference becomes clear when we consider that one byte can represent $2^8 = 256$ distinct values, whereas one bit can represent just $2^1 = 2$ values. In other words, by tokenizing text into bytes, our vocabulary consists of the distinct values $0$ to $255$ rather than merely $0$ and $1$. When we can afford to assign $256$ text chunks their own, unique token, this considerably raises the expressiveness of those tokens already on their own. And this effect in turn makes computations more straightforward, as the tokens themselves, without their neighboring tokens in the sequence, carry more, expressive information. By mapping text to a numeric representation based on bytes, tokenization becomes both more expressive and computationally efficient, even though token representations are now $8\times$ larger than with bit-level tokenizing, but the positives from going byte-level outweigh this intuitively added cost, because it enables the representation and unique distinction of a wider set of individual text chunks.
 
 ><b>:question: I still don't get it. Aren't bytes just concatenations of bits?</b>
 >
->Yes, bytes are concatenated bits. But the critical distinction lies in how their different levels of abstraction are used. Don't think of Bits and Bytes as numbers, but as IDs with a scope for what they can uniquely identify.<br><br><b>Bits</b> represent atomic 0/1 values, allowing for capturing only minimal semantic meaning e.g. "01100010" consists of 8 individual tokens<br><b>Bytes</b> treat entire 8-bit groups as single tokens, "01100010" becomes 1 token: 98. The byte-level tokenizer has to produce that one value instead of the 8 individual bit values.<br><br><b>Think of it like this:</b> The grouping into byte-level tokenization mirrors how humans, instead of deciphering individual pen strokes, read the word that is formed by these strokes.
+>Yes, bytes are collections of $8$ bits each. However, the crucial distinction is the level of abstraction at which we operate now. It's helpful to think of bits and bytes not merely as numbers but as identifiers at different abstraction layers, both with their cost and effects:<br><br><b>Bits</b> are the most basic units, the fastest to be computed, but representing only an atomic value of $0$ or $1$. When you look at a sequence like $01100010$ at the bit level, you're looking at $8$ individual tokens, $8$ individual pieces of information that crucially don't inherently carry meaning together.<br><b>Bytes:</b> When those $8$ bits are logically grouped together to form one byte, they represent a single token with a specific, longer and thus arguably more costly to determine value (for instance, $01100010$ corresponds to the value $98$). But now, this grouping provides a richer, more expressive unit, a representation that can now correspond to either of $255$ distinct text chunks without any dependency on context or anything, just by the value of the byte representation. That byte, just by itself, is therefore way, way more expressive and identifiable than a single bit that may be fast to compute but easy to mess up interpretation-wise.
 
-The key insight is that the byte-level tokenization produces values per byte of text. $1$ byte token = $8$ bits, so it produces $8\times$ shorter sequences than bit-level tokenization.
+By using bytes as tokens, we consolidate multiple low-level bits into a meaningful identifier that captures more semantic information, making the overall system far more efficient and expressive. $1$ byte token = $8$ bits representation depth, so it produces $8\times$ shorter sequences than bit-level tokenization.
+
+><b>:question: Wait what? Why is byte-level tokenization now shortening the token sequences? I thought tokens were now bytes and thus $8\times$ larger?</b>
+>
+>Individual tokens at the byte level are larger in size than individual bit tokens. The twist is that you need far fewer of the byte-level tokens to represent the same. When you tokenize at the bit level, you need $8$ tokens to represent what $1$ byte-level token can uniquely represent. So, while each byte-token is $8\times$ larger, you need $8\times$ fewer tokens overall to represent the same text.
+
+To visualize this, let's go for an example. Say we wrote some text and look at the bare binary representation the computer made out of it. Say our binary sequence is $01100010$. Bit-level tokenization would now, very creatively, create the token sequence `0`-`1`-`1`-`0`-`0`-`0`-`1`-`0`. The token count is $8$. Those same $8$ bits, when represented with byte-level tokenization, is this: `01100010`. The token count is $1$, meaning $8\times$ less.
+
+**Token sequences get shorter as each individual token can afford to carry more meaning on its own.**
 
 #### Byte-Pair Encoding
 
-Depending on the dataset, the model and the needs for tokenization efficiency, byte-level tokenization might still be too extensive, i.e. each tokens covers too little information. As we discussed earlier for the binary tokenization, having a token represent too little information has the effect of reducing the model's ability to remember and refer to past prompts and responses by bloating the token sequence with too many tokens, because of, as we said, each token representing too little information.
+Depending on the dataset, the model and the needs for tokenization efficiency, byte-level tokenization might still be too extensive, i.e. each token may still cover too little information. As we discussed earlier for the binary tokenization, having a token represent too little information has the effect of reducing the model's ability to remember and refer to past prompts and responses by bloating the token sequence with too many tokens, because of, as we said, each token representing too little information.
 
 **We can go up the abstraction hierarchy once more:** Instead of treating each byte as a token, we can treat each pair of bytes as a new token of (the previously unused) value $256$ and so on. This is called **Byte-Pair Encoding (BPE)**.
 
