@@ -176,7 +176,7 @@ A byte is a sequence of $8$ bits, meaning $8$ values, each either $0$ or $1$. On
 
 By using bytes as tokens, we consolidate multiple low-level bits into a meaningful identifier that captures more semantic information, making the overall system far more efficient and expressive. $1$ byte token = $8$ bits representation depth, so it produces $8\times$ shorter sequences than bit-level tokenization.
 
-><b>:question: Wait what? Why is byte-level tokenization now shortening the token sequences? I thought tokens were now bytes and thus $8\times$ larger?</b>
+><b>:question: Wait what? Why is byte-level tokenization now shortening the token sequences? I thought tokens were now bytes and thus 8 times larger?</b>
 >
 >Individual tokens at the byte level are larger in size than individual bit tokens. The twist is that you need far fewer of the byte-level tokens to represent the same. When you tokenize at the bit level, you need $8$ tokens to represent what $1$ byte-level token can uniquely represent. So, while each byte-token is $8\times$ larger, you need $8\times$ fewer tokens overall to represent the same text.
 
@@ -186,17 +186,17 @@ To visualize this, let's go for an example. Say we wrote some text and look at t
 
 #### Byte-Pair Encoding
 
-Depending on the dataset, the model and the needs for tokenization efficiency, byte-level tokenization might still be too extensive, i.e. each token may still cover too little information. As we discussed earlier for the binary tokenization, having a token represent too little information has the effect of reducing the model's ability to remember and refer to past prompts and responses by bloating the token sequence with too many tokens, because of, as we said, each token representing too little information.
+Depending on the dataset, the model we want to train and the compute we have available we may have different needs for tokenization efficiency. Byte-level tokenization might still be too extensive, i.e. each token may still cover too little information. As we discussed earlier for binary tokenization, having a token represent too little information has the effect of requiring more tokens to remember the same amount of content, which in turn reduces the model's ability to remember and refer to past prompts and responses.
 
-**We can go up the abstraction hierarchy once more:** Instead of treating each byte as a token, we can treat each pair of bytes as a new token of (the previously unused) value $256$ and so on. This is called **Byte-Pair Encoding (BPE)**.
+**We can take another step up the abstraction ladder:** Instead of treating each byte as a token, we can have additional tokens be represented by pairs of bytes. The first new token identified this way would then be assigned the (previously unused) value $256$ and so on. This is called **Byte-Pair Encoding (BPE)**, a flexible extension to the byte-level tokenization we just looked at.
 
 > [!NOTE]
-> Iteratively, **BPE finds the most frequent pair of consecutive bytes in the byte-level encoded text and then replaces this most frequent pair of bytes with a new, single, distinct byte.** This way, what required two tokens to express now uses up only a single one. The tokenization vocabulary is reduced, and the token sequences become shorter.
+> In an iterative way, **BPE finds the most frequent pair of consecutive bytes in the byte-level encoded text and then replaces this most frequent pair of bytes with a new, single token fused together from the two.** This way, what required two tokens to express now uses up only a single one. The tokenization vocabulary is reduced, and the token sequences become shorter.
 
 As BPE can be repeated iteratively, it can find the next most frequent pair of tokens time and time again and replace it with a new token. We can do that for as long as we wish, in fact. This way, the tokenization vocabulary expands, but this allows for the token sequences of the tokenized text to in turn become shorter and shorter. And that is what we want to enable the LLM to remember and refer to more past prompts and responses.
 
 > [!NOTE]
->As a rule of thumb, one should aim to use BPE to produce around $100000$ distinct tokens for tokenization based on a large dataset like *FineWeb*. For example, GPT-4 uses a vocabulary of $100277$ distinct tokens through the `cl100k_base` tokenizer.
+> As a rule of thumb, one should aim to use BPE to produce around $100000$ distinct tokens for tokenization based on a large dataset like *FineWeb*. For example, GPT-4 uses a vocabulary of $100277$ distinct tokens through the `cl100k_base` tokenizer.
 
 To tie it back to the actual text we want to tokenize: The [blog post on *FineWeb*](https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1) stated an estimate for the entire dataset to take up $15$ trillion tokens. This of course depends on how we tokenize and how far we BPE'd our approach. But to achieve this, generally, the text is first encoded into bytes, then the byte-level tokenization is applied, and finally the BPE is applied to the byte-level tokens. The result is a sequence of tokens that is shorter than the original text, but still retains the information of the text.
 
@@ -265,11 +265,11 @@ This is an ideal state, the LLM correctly assigned the highest probability for t
 </center>
 
 > [!NOTE]
-> **Pretraining is a mathematically rigid process to compare the LLM's output probability distribution to the actual next token in the pretraining dataset.** The difference between the LLM's output and the actual next token is calculated as a loss value. The LLM is then traversed, nudging its parameters in a way that minimizes this loss value in a next iteration, i.e. to get better at predicting the next token. **This happens over and over again, iteratively, for each context window retrievable from the pretraining dataset.**
+> **Pretraining is a mathematically rigid process to compare the LLM's output probability distribution and thus the tendency toward specific tokens to the actual next token in the pretraining dataset.** The difference between the LLM's output and the actual next token is calculated as a loss value. The LLM is then traversed, nudging its parameters in a way that minimizes this loss value in a next iteration, i.e. to get better at predicting the next token. **This happens iteratively, for each context window retrievable from the pretraining dataset.**
 
-><b>:question: Why would we afford to produce so much output for every single token, requiring a lot of resources to do so?</b>
+><b>:question: Why would we afford to produce so much output by the LLM for selecting every single token? Isn't this binding a lot of resources?</b>
 >
->Producing a probability distribution over all tokens for each prediction is indeed computationally intensive, mainly due to the large vocabulary size (e.g., 100k+ tokens) across which we operate for each token. However, producing a probability distribution over all tokens is essential because it allows the model to capture the statistical relationships between different tokens more explicitly, more accurately. By predicting likelihoods for every possible token, the model is enabled to learn more nuanced patterns in the data, enabling it to generate coherent and contextually appropriate text. This is foundational for autoregressive training.<b>While computationally costly, this method enables LLMs to achieve high performance and flexibility.</b> Because of this, it is considered a justified trade-off for the quality of results.
+>Producing a probability distribution over all tokens for each prediction is computationally intensive, mainly due to the large vocabulary size (e.g., 100k+ tokens) across which we establish a probability for each next token. However, producing a probability distribution over all tokens is essential because it allows the model to capture the statistical relationships between different tokens more explicitly, more accurately. By predicting likelihoods for every possible token, the model is enabled to learn more nuanced patterns in the data, enabling it to generate coherent and contextually appropriate text. This is foundational for autoregressive training.<b>While computationally costly, this method enables LLMs to achieve high performance and flexibility.</b> Because of this, it is considered a justified trade-off for the quality of results.
 
 #### Neural Network Internals
 
