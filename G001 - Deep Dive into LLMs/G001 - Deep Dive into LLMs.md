@@ -37,7 +37,7 @@
 ---
 
 LLMs are advanced Artificial Intelligence (AI) systems trained to process and generate human-like text by identifying linguistic patterns.
-Let's go though the topic of LLMs, back to back, from input to output, in an understandable fashion.
+Let's introduce the topic of LLMs, from input to output, in an understandable fashion.
 
 When talking about LLMs, you'll often encounter the term 'prompt'. **A prompt is the input text that you provide to the LLM.** A prompt can be a question, a statement (like an example of text, writing format, etc.), or any other form of text. The LLM processes this prompt and generates an output, a so-called response.
 
@@ -267,50 +267,51 @@ This is an ideal state, the LLM correctly assigned the highest probability for t
 > [!NOTE]
 > **Pretraining is a mathematically rigid process to compare the LLM's output probability distribution and thus the tendency toward specific tokens to the actual next token in the pretraining dataset.** The difference between the LLM's output and the actual next token is calculated as a loss value. The LLM is then traversed, nudging its parameters in a way that minimizes this loss value in a next iteration, i.e. to get better at predicting the next token. **This happens iteratively, for each context window retrievable from the pretraining dataset.**
 
-><b>:question: Why would we afford to produce so much output by the LLM for selecting every single token? Isn't this binding a lot of resources?</b>
+><b>:question: Why would we afford to produce so much output by the LLM for selecting every single token? Isn't this really resource-intense?</b>
 >
->Producing a probability distribution over all tokens for each prediction is computationally intensive, mainly due to the large vocabulary size (e.g., 100k+ tokens) across which we establish a probability for each next token. However, producing a probability distribution over all tokens is essential because it allows the model to capture the statistical relationships between different tokens more explicitly, more accurately. By predicting likelihoods for every possible token, the model is enabled to learn more nuanced patterns in the data, enabling it to generate coherent and contextually appropriate text. This is foundational for autoregressive training.<b>While computationally costly, this method enables LLMs to achieve high performance and flexibility.</b> Because of this, it is considered a justified trade-off for the quality of results.
+>Producing a probability distribution over all tokens for each prediction to sample the next token from is computationally intensive. This is mainly due to the large vocabulary size (e.g., 100k+ tokens) across which we establish a probability for each next token. However, producing a probability distribution over all tokens is essential because it allows the model to capture the statistical relationships between different tokens more explicitly, more accurately. By predicting likelihoods for every possible token, the model is enabled to learn more nuanced patterns in the data, enabling it to generate coherent and contextually appropriate text. This is foundational for autoregressive training.<b>While computationally costly, this method enables LLMs to achieve high performance and flexibility.</b> Because of this, it is considered a justified trade-off for the quality of results.
 
 #### Neural Network Internals
 
-So far, we've looked at the outer conditions for training an LLM. But what goes on inside the neural network that is the LLM? How does it in fact learn to predict the token probabilities?
+So far, we looked at the outer conditions for training an LLM. But what goes on inside the neural network that is the LLM? How does it in fact learn to predict the token probabilities?
 
 **At this point, we can already say that:**
 - We have **inputs** $x \in X$, with each $x$ being a token sequence of up to $\text{context size}$ length.
 - We expect $\text{vocab size} = 100277$ **distinct probabilities** as output, one for each token in the vocabulary.
-- We have **expected outputs** $y \in Y$, with each $y$ being a distinct choice of token as next token to the input sequence.
+- We have **expected outputs** $y \in Y$, with each $y$ being a distinct next token to the input sequence.
 - A neural network is a giant mathematical function $f: X \rightarrow Y$ that maps inputs to outputs, consisting itself of millions, billions or trillions of **parameters**, also called **weights**.
 
 <center>
 <img src="./img/model_mathematic_expression.png" style="width: auto; height: 375px;" />
 </center>
 
-Remember that different $x$ may be of different lengths. For our model, we accept input lengths from $0$ to $\text{context size}=8000$ tokens as an example.
+Note that different $x$ may be of different lengths *up to* $\text{context size}$.<br>
+For our example model, we will accept input sequence lengths from $0$ to $\text{context size}=8000$ tokens.
 
-Assume a very initial setting where our LLM hasn't ever seen any text yet. The LLM's parameters are initialized randomly. The LLM is then iteratively fed context windows from $X$. For each context window $x$, the LLM produces a probability distribution over all tokens in the vocabulary. This is the LLM's output $\hat{y} = f(x)$. 
+Now, assume a very initial setting where our LLM exists already, but hasn't ever seen any text yet. The LLM's *weights* are initialized randomly. The LLM is then iteratively fed context sequences from $X$. For each context sequence $x$, the LLM produces a probability distribution over all tokens in the vocabulary. This is the LLM's output. Training an LLM uses a tool called cross‑entropy to compare the predicted probability for each next token candidate $\hat{y}$ against the 100% one‑hot truth of the true next token $y$. 
 
-We can now compare $\hat{y}$ against the true $y$ from the dataset. The difference between $\hat{y}$ and $y$ is calculated as a loss value. Based on this loss, the LLM's parameters are adjusted in a way that the outputs $\hat{y}$ become more consistent with the patterns $y$ we see in the dataset. The model parameters are updated for the loss to shrink. This is called **backpropagation**.
+Do not worry about cross-entropy at this point. The key intuition you should take away is that using cross-entropy, we can compare the predicted probability distribution across all possible tokens against the single true next token $y$ from our dataset. Ideally, the predicted probability distribution should assign a highest possible probability to the true next token $y$ and lowest possible probabilities to all other tokens. The cross-entropy loss ultimately expresses how well the predicted distribution matches this ideal, true "one-hot" distribution. Based on the difference, the LLM's parameters are adjusted in a way that the output probabilities $\hat{y}$ become more consistent with the patterns imposed by $y$ which we see in the dataset. The model parameters are updated for the cross-entropy loss to shrink. This happens through what is called **backpropagation**.
 
 > [!NOTE]
-> Training a neural network, like an LLM, means to discover a setting of the network's parameters that seems to be consistent with the statistics of the training data in term of the output probabilities.
+> Training a neural network, like an LLM, means to discover a setting of the network's parameters that seems to be consistent with the statistics of the training data in terms of the output probabilities.
 
-To do that, i.e. to have the neural network learn, it has to produce that probability distribution we talked about in the first place. Somehow, this has to involve the training-adaptable weights.
+To do that and to have the neural network learn, the LLM has to produce that probability distribution we talked about in the first place. Somehow, this has to involve the training-adaptable weights.
 
 In the image above, you see the model itself expressed as a 'giant' mathematical expression:
 <center>
 <img src="./img/mathematic_expression.png" />
 </center>
 
-Truth be told, this is a long expression, but it's not too complicated to look at. For example, we can see that the individual tokens $x_n$ of the input are multiplied with respective weights $w_n$. These products are then the basis for further interconnecting calculations, resulting in the model's output $\hat{y}$, i.e. the $100277$ probabilities.
+This is a long expression, but it's not too complicated. We can see that the individual tokens $x_n$ of the input are multiplied with respective weights $w_n$. These products are then the basis for further interconnecting calculations, resulting in the model's output $\hat{y}$, i.e. the $100277$ probabilities.
 
-To see the actual, fully layed out structure of such a 'giant mathematical expression' for several different types of LLMs, refer to https://bbycroft.net/llm. 
+To see the fully layed out structure of such a 'giant mathematical expression' for several different types of LLMs, refer to [bbycroft.net/llm](https://bbycroft.net/llm). 
 
-Here's an example of the structure of [NanoGPT](https://github.com/karpathy/nanogpt):
+Here's an example of the structure of the miniaturized LLM [NanoGPT](https://github.com/karpathy/nanogpt):
 <center>
 <img src="./img/nanoGPT-Layout.png" />
 </center>
 
-You can see that even this tiny model consists of a considerable amount of intermediate steps and parameters. Interestingly, we can see that a very particular type of neural network finds application in LLMs like NanoGPT: **Transformer Networks**.
+It's clear that even this tiny model consists of a vast amount of intermediate steps and parameters. Interestingly, we can see that a very particular type of neural network component finds application in LLMs like NanoGPT: [**Transformers**](https://arxiv.org/abs/1706.03762).
 
 **Very generally speaking:**
 - First, we embed the tokens. Each token is mapped to a higher-dimensional vector space, where the model itself can learn how to express distinguishing features of the tokens with these vectors.
@@ -318,7 +319,7 @@ You can see that even this tiny model consists of a considerable amount of inter
 - The first branch-off leads to the 3-Headed **Attention Layer**, and so on. We will go into detail on this in due time.
 - The whole structure is logically traversed from top to bottom, with the model's output being the probability distribution over the tokens.
 
-Note that although we use the terms "neural" and "neuron", there's no biochemistry anywhere. The "neurons" are just mathematical functions that are applied to the input data, or in our case, the token embeddings and further intermediate results.
+We use the terms "neural" and "neuron" here, but there is no biochemistry involved anywhere. The "neurons" are really just mathematical functions that are applied to the input data, or in our case, the token embeddings and intermediate results.
 
 > [!NOTE]
 > LLMs are big mathematical functions, parameterized by a fixed, large set of parameters, which may be initially set at random. It receives token sequences as input, and produces, through having information flow through different layers, notably the *Transformer Blocks*, a probability distribution over all tokens in the vocabulary. The model is trained to adjust its parameters to minimize the difference between its output and the actual next token in the pretraining dataset.
@@ -329,13 +330,11 @@ If you want to go deeper into the precise mathematical structure of LLMs, you ca
 
 ### Step 4: Inference
 
-So far we looked at how to get text into an LLM and (on a high level) how to have learn from that text. But we were very clear about the LLM only producing probabilities over tokens, producing one most favored token at a time. **How do we get the LLM to actually generate text?**
+So far we looked at how to get text into an LLM and (on a high level) how to learn from that text. But we were very clear about the LLM only producing probabilities over tokens. **How do we get the LLM to actually generate text?**
 
-To generate text, just repeatedly predict one token at a time, appending that to the input for generating the next token. This is called **autoregressive generation**.
+To generate text, just repeatedly predict a token distribution and sample a token from it. **The higher the assigned probability for a token, the more likely it is to be sampled.** This is how we can get the LLM to produce text, one token at a time, appending that next token to the input for generating a new next token for this new sequence. This is called **autoregressive generation**.
 
-Assume we have a trained LLM that we want to get some output text from. Say we start with the token $91$. The LLM will produce, based on this input, a probability distribution over all tokens and we can sample from this distribution to get the next token. **The higher the probability assigned to a token by the model, the more likely that token is to be sampled.** 
-
-><b>:question: Why dont we just pick specifically and only the token deemed most likely by the LLM?</b>
+><b>:question: Why don't we just pick specifically and only the token deemed most likely by the LLM?</b>
 >
 >The decision to use sampling approaches (like temperature-based sampling) instead of always selecting the single most likely token (which would be called a "greedy" strategy) is rooted in the <b>added possibility of balancing accuracy, diversity, and creativity in the LLM outputs.</b><br> You may want to avoid single 'best guesses' and with that, avoid repetitive and uncreative responses, especially in tasks like dialogue generation or text completion. Also, <b>there might be multiple valid continuations of a prompt. Sampling allows the LLM to not have to disregard these options.</b>
 
