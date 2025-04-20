@@ -355,13 +355,13 @@ Compare the last generated token $13659$ to what we previously said was the corr
 
 ### Recap: The LLM Pretraining Pipeline
 
-We went through a high-level but comprehensive walkthrough of the steps involved in training and using an LLM. We saw how data is retrieved and tokenized for the LLM to get exposed to it, how it learns from this data, and how it generates text based on this data. We also looked briefly at the general neural network structure behind the LLM and how the LLM generates text using autoregressive generation.
+We went through a comprehensive high-level walkthrough of the steps needed for training and using an LLM. We saw how data is retrieved and tokenized for the LLM to get exposed to it, how the LLM learns from this data, and how it generates text based on the training using autoregressive generation. We also briefly looked at the general neural network structure making up the LLM.
 
 ---
 
 ### GPT-2: Training and Inference
 
-GPT-2 is an LLM that was released by OpenAI in 2019. Along with this release, the accompanying paper [Language Models are Unsupervised Multitask Learners \[Radford, et al. 2019\]](https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf) was published.
+Let's look at a specific example of an LLM series, namely **GPT-2**. It is a good example to illustrate the concepts we just discussed. GPT-2 is an LLM that was released by OpenAI in 2019. Along with this release, the accompanying paper [Language Models are Unsupervised Multitask Learners \[Radford, et al. 2019\]](https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf) was published.
 
 > [!NOTE]
 > **GPT stands for General Pretrained Transformer**.<br> GPT-2 is indeed not a single model, but a series of models with different sizes:
@@ -369,48 +369,34 @@ GPT-2 is an LLM that was released by OpenAI in 2019. Along with this release, th
 > - GPT-2 Medium: $355\text{M}$
 > - GPT-2 Large: $774\text{M}$
 > - GPT-2 Extra Large: $1.5\text{B}$
+> - GPT-2 uses a so-called *decoder-only* Transformer architecture, meaning it only uses the decoder part of the Transformer architecture. This is in contrast to models like BERT, which use the encoder part of the Transformer architecture.
 >
 > All GPT-2s have a maximum context length of $1024$ tokens and were trained on $\sim 100\text{B}$ tokens. At the time of writing this, the most recent iteration of this type of LLM is GPT-4.<br> All of the elements of GPT-2 became known, recognized and applied in Natural Language Processing (NLP) over time, just in a scaled-up fashion. **GPT-2 set the standard for modern LLM architectures, and it was a big deal.**
 
-Nowadays, models are still largely based on the structures and conceptual ideas that GPT-2 introduced. The models mainly differ in size, training data, and training duration. For example, GPT-2 Extra Large, at $1.5\text{B}$ parameters, is small by today's standards, with current models nearing $1\text{T}$ parameters. The same scaling was applied to the training data and the context window size.
+Today's LLMs are still largely based on the structures and conceptual ideas that GPT-2 introduced. Newer models differ mainly in size, training data and training duration. For example, GPT-2 Extra Large, at $1.5\text{B}$ parameters, is very small by today's standards, with current models nearing $1\text{T}$ parameters. The same scaling was applied to the training data and the context window size.
 
-We extensively discuss and walk through implementing GPT-2 in [chapter 9](../N009%20-%20Reproducing%20GPT-2/N009%20-%20Reproducing_GPT-2.ipynb). You may also refer to [Andrej's llm.c GitHub Repository](https://github.com/karpathy/llm.c/discussions/677) for a C-based implementation of GPT-2.
+We extensively discuss and walk through implementing GPT-2 in [chapter 9](../N009%20-%20Reproducing%20GPT-2/N009%20-%20Reproducing_GPT-2.ipynb). You may also refer to [Andrej's llm.c GitHub Repository](https://github.com/karpathy/llm.c/discussions/677) for a C-based, optimized implementation of GPT-2.
 
-The reason we were able to scale from GPT-2 onwards to today's models is manifold. The most important reasons are:
+The reason we were able to scale from GPT-2 onwards to today's models is manifold.<br>The most important reasons are:
 
 - Data availability and quality increased substantially, e.g. through platforms like HuggingFace, allowing for more extensive pretraining.
-- Computational resources became more available and more powerful both hardware- and software-wise, allowing for larger models to be trained. Refer to the [stock price of NVIDIA](https://www.perplexity.ai/finance/NVDA) for reference on this and the effect that better GPUs have on the field of AI.
+- Computational resources became more available and more powerful both hardware- and software-wise, allowing for larger models to be trained.
 
-><b>:question: Why are GPUs used for AI training?</b>
+><b>:question: Why are GPUs, particularly those made by NVIDIA, used for AI training?</b>
 >
->While neural network training, especially at today's scales, is considered expensive, the computations we actually perform are well parallelizable. In other words, a lot of the calculations happening within tokenization and training can be rewritten into matrix operations. GPUs happen to be really good at that.<br><br>GPUs are designed to handle many parallel calculations at once, originally for rendering graphics. This makes them ideal for training neural networks, which are essentially just a lot of matrix operations. Getting really good GPUs to train neural networks and to do so well makes up <b>the gold rush</b> of the 2020s.
+>While neural network training, especially at today's scales, is considered expensive, the computations we actually perform are well parallelizable. In other words, a lot of the calculations happening within tokenization and training processes can be rewritten into large matrix operations. GPUs happen to be really good at those.<br><br> GPUs are designed to handle many parallel calculations at once, originally for rendering graphics quickly. This makes them ideal for training neural networks. Getting really good GPUs to train neural networks and to do so well makes up <b>the AI gold rush</b> of the 2020s. NVIDIA is leading this field, because their GPUs have a lot of memory, are fast and are compatible with NVIDIA's own CUDA programming model. CUDA allows developers to write code that can run on NVIDIA GPUs, making it easier to take advantage of their power. Both NVIDIA's hardware and software stack make NVIDIA GPUs so popular in the AI community.
 
-We won't go into full detail on the implementation. Again, please refer to [chapter 9](../N009%20-%20Reproducing%20GPT-2/N009%20-%20Reproducing_GPT-2.ipynb) for that. **But, intuitively, what does it look like to actually train one of these models as a researcher?**
+We won't go into full detail on GPT-2's implementation. At least not yet. Please refer to [chapter 9](../N009%20-%20Reproducing%20GPT-2/N009%20-%20Reproducing_GPT-2.ipynb) for the more technical deep dive. **We will have an intuitive look at what it looks like to actually train one of these models.**
 
-Andrej at this point showed an active training run:
+Andrej at this point showed an active training run. We want to understand what is happening here:
 <center>
 <img src="./img/vscode.png" style="width: auto; height: 350px;" />
 </center>
 
-This is the free code editor [VS Code](https://code.visualstudio.com/).<br>I added four red arrows to the image to highlight the following:
+This shows the free code editor [VS Code](https://code.visualstudio.com/).<br>I added four red arrows to the image to highlight the following:
 
-Using VS Code, Andrej connected to a remote machine with GPUs via a protocol called SSH. Absolutely not relevant to us, don't worry about it, we only need this to understand that VS Code allows to show what is currently going on a different, remote, more powerful machine.
-
-On this powerful machine, a GPT-2 training run is conducted. The training run is shown in the terminal window that we see here. First, we see some text. During training, from time to time, Andrej switches the model between getting trained and generating text. This way, one can follow on how the model improves. The second red arrow points to such a demo text generation run.
-
-The third red arrow points to the training steps themselves. After we looked at how the model generated text, more training is applied. Each step consists of one million context windows being retrieved from the dataset, getting tokenized, and then fed into the model one after another. For each context window, the model then produces a probability distribution over the tokens, and the loss, i.e. the difference between sampled $\hat{y}$ and expected $y$ is calculated. The loss then, and this is new, is averaged across the one million examples. Only based on that, for this one step, the model is updated. This is then repeated, for a total of $32000$ times (so a total of $32\text{K}*1\text{M}=32\text{B}$ context-based next token predictions), with interludes of text generation to check on progress.
-
-><b>:question: Are these interludes with the inferences really necessary?</b>
->
->There's no strict answer to this and one could certainly argue about that. It's a good practice to check in on the model's progress in capability though, especially when training such large models. It's a way to ensure that the model is learning the right things, the researcher might get a feel on how the model starts to grasp correlations from the text, concepts from those correlations etc. This also helps identify issues early on and therefore cheaply. <b>It's a good practice to ensure that the model is learning the right things, and to catch any potential issues early on. Showing inference results every few steps helps significantly in achieveing this.</b><br><br>For example, look at the very first inference run:
-><img src="./img/20_Inference_GPT-2.png" />
-Compare that to the result after 400 steps:
-><img src="./img/400_Inference_GPT-2.png" />
-While still nowhere near perfect, we as the researcher get a feeling that training so far is going in the right direction. So far, so good.
-
-Ok, so this is what we can expect training to look like. But I mentioned that this wasn't done on an arbitrary machine, but instead a machine we remotely connected to. **Why is that?**
-
-The remote machine may be a dedicated system for neural network training, housing potentially multiple GPUs to train more models more quickly. Those systems can cost several millions, even billions of dollars. The remote connection allows us to use the power of these systems without having to own them ourselves. This is called **cloud computing**. You can rent these systems for a certain amount of time or capacity, and only pay for what you actually use.
+Using VS Code, Andrej connected to a remote computer. He connects to that computer via a protocol called SSH, which is integrated neatly into VS Code. Absolutely not relevant to us, don't worry about it, we only need this to understand that VS Code as we see it here can show us what is currently running on a different, remote computer.<br>
+The remote computer we connect to may be a dedicated system for neural network training, housing potentially multiple GPUs to train models more quickly. Those systems can cost several millions, even billions of dollars. The remote connection allows us to use the power of these systems without having to own them ourselves. This is called **cloud computing**. You can rent these systems for a certain amount of time or capacity, and only pay for what you actually use.
 
 Cloud computing providers for neural network training include:
 - [Lambda Labs](https://lambdalabs.com/)
@@ -421,33 +407,49 @@ Cloud computing providers for neural network training include:
 - [Google Cloud Platform](https://cloud.google.com/)
 - [Microsoft Azure](https://azure.microsoft.com/)
 
+Going back to VS Code, we can see that a GPT-2 training job is running. The training job is shown in the terminal window. First, we see some text. That is because during training, from time to time, Andrej switches the model between getting trained and generating text at the respective training state. This way, one can get a sense of how the model improves its output through training. The second red arrow points to such a generated demo text.
+
+The third red arrow points to the training steps themselves. After we saw the model generate text, more training is applied. Each step consists of one million context windows being retrieved from the dataset, getting tokenized, and then fed into the model one after another. For each context window, the model then produces a probability distribution over all tokens, and the loss, i.e. the difference between that distribution and the "one-hot" distribution given by the true, expected $y$ is calculated.<br>
+**This loss is then averaged across the 1 million examples as to not overfit changes to the LLM to any individual examples. This improves training stability.** The model actually gets updated only once per 1 million examples, on their attained average loss. This is then repeated for $32,000$ times (so a total of $32\text{K}*1\text{M}=32\text{B}$ individual context-based next token predictions) with intermediate runs of text generation to check on progress. There are more sophisticiated tools, like intermediate benchmarking, that can be used to check on the model's progress, but this is a good start.
+
+><b>:question: Are these intermediate runs with the inferences really necessary?</b>
+>
+>It's a good practice to check in on the model's progress in capability, especially while training, to adapt to problems quickly. It's a way to ensure that the model is learning the right things, the researcher might get a feel on how the model starts to grasp correlations from the text, concepts from those correlations etc. This also helps identify issues early on and therefore cheaply. <b>It's a good practice to ensure that the model is learning the right things, and to catch any potential issues early on. Showing inference results every few steps helps significantly in achieveing this.</b><br><br>For example, look at the very first inference run:
+><img src="./img/20_Inference_GPT-2.png" />
+Compare that to the result after $400$ steps:
+><img src="./img/400_Inference_GPT-2.png" />
+While still nowhere near perfect, we get to see intuitively that training is going in the right direction. So far, so good.
+
 ---
 
 ### Base Models and Llamas in the wild
 
-We can't expect everybody to pull out their credit cards and afford training runs for new models on state-of-the-art infrastructure like that. 
-Fortunately, we can download what are called **base models** and run inference on them on our local machines with much less resource demands.
+We can't expect everybody to pull out their credit cards and afford from-scratch training runs for new LLMs on state-of-the-art infrastructure. 
+Fortunately, we can download so-called **base models** and run inference on them using our local machines with much less resource demands.
+**Base models** are models that have been pretrained on large datasets, but nothing more.
 
-There are a couple of companies who offer pretrained models for download, like:
+There are several institutions offering free *base models* for download:
 - [HuggingFace](https://huggingface.co/)
 - [EleutherAI](https://eleuther.ai/)
 - [DeepSeek](https://deepseek.ai/)
-- [Falcon Foundation](https://falconfoundation.ai/)
 - [FAIR](https://ai.facebook.com/)
+- [Falcon Foundation](https://falconfoundation.ai/)
 
-These models most often can be found on the [HuggingFace Model Hub](https://huggingface.co/models).
+These *base models* most often can be found on the [HuggingFace Model Hub](https://huggingface.co/models), too.
 
-**A base model release consists of two parts, at minimum:**
-- An implemented architecture of the model, i.e. the structure of the neural network, the layers and their interconnections, and
-- The model's parameters, i.e. the weights that the model has learned during pretraining.
+**A base model release consists of at least two parts:**
+- An **implemented model architecture**, i.e. the structure of the neural network, the layers and their interconnections,
+- The **model parameters**, meaning the weights that the model has learned during pretraining.
 
 **Just for comparison on how far the scaling has come for base models:**
 - OpenAI GPT-2 XL (2019): $1.5\text{B}$ parameters, trained on $100\text{B}$ tokens
 - FAIR Llama 3.1 (2024): $405\text{B}$ parameters, trained on $15\text{T}$ tokens
+- DeepSeek-V3-0324 (2025): $671\text{B}$ parameters, trained on $14.8\text{T}$ tokens
 
-Base models have been exposed to the pretraining step we discussed early on. This is arguably the most expensive step for producing an LLM, but it is not the only step. Think of it like this: Now that we exposed a model to the pretraining data, the model may have learnt concepts and insights from correlations in the token sequences.
 
-**What do we get from those Base models?**<br>We can find out what base models like Llama 3.1 405B behave like when accessing them through e.g. [Hyperbolic](https://app.hyperbolic.xyz/models/llama31-405b-base).<br>This costs money though.
+**What do we get from those Base models?**<br>Base models have been exposed to the pretraining step we discussed earlier. This is arguably the most expensive step for producing a capable LLM, but it is by far not the last. Think of it like this: Now that a model was exposed to the pretraining data, and we can attain it, the model may have projected concepts and insights from correlations in the token sequences into its weights, but nothing more. The model has no strategy for how to use insights in context or what style to respond in. It is still a blank slate in terms of how to apply the information it got exposed to.
+
+We can find out what base models like Llama 3.1 405B behave like when accessing them through e.g. [Hyperbolic](https://app.hyperbolic.xyz/models/llama31-405b-base).<br>This costs money, though.
 
 Here's what it looks like when asking the Llama 3.1 405B base model to solve a simple math problem:<br>
 <center>
@@ -464,14 +466,14 @@ And once more:<br>
 <img src="./img/llama31_2+2_3.png" />
 </center>
 
-We very clearly see the stochasticity in the next token selection at work here. The responses vary, but the model shows conceptual understanding of what we presented to it either way.
+We very clearly see the stochasticity in the next token selection at work here. The responses vary, but the model shows conceptual understanding of what we presented to it either way. But the style of answering is nonsensical. We can see the model blabbering, trying to continue the text, rather than providing a clean-cut response.
 
 > [!NOTE]
 >**Intuitively, the pretrained base model has no idea what to do with the information it received during said pretraining yet.** It may show that it is indeed conceptually aware of the input, but it will show that its knowledge may indeed be vague and it will trail off into blabbering akin to a child that has no idea what to do with the information it received.
 
-**Think of ChatGPT for example:** At its release, ChatGPT was powered by the GPT-3.5 model. But when prompted, the model wouldn't just continue to write based on our text, but it would answer questions, generate code, or even write poetry on our demand. **The GPT-3.5 model was fine-tuned to this specific task of being an assistant to the prompting person.** Those models are referred to commonly as **Instruct models.**
+**Think of ChatGPT for example:** At its release, ChatGPT was powered by the GPT-3.5 model. But when prompted, the model wouldn't just continue to write based on your text. It would answer questions, generate code, or even write poetry on your demand. **The GPT-3.5 model was fine-tuned beyond pretraining to this specific task of being an assistant to the prompting person, thus having patterns of dialogue emerge between the user and the model.** Those models are referred to commonly as **instruct models.**
 
-Let's actually stay with the base model Llama 3.1 405B for a moment.<br>How does a pretrained model react to data it knows vs. data it has never seen before?
+Let's actually take a step back again and look at the base model Llama 3.1 405B for another moment.<br>How does a pretrained model react to data it knows vs. data it has never seen before?
 
 Let's say we prompt Llama 3.1 405B Base with the opening sentence to the Wikipedia article on [zebras](https://en.wikipedia.org/wiki/Zebra):
 
@@ -479,20 +481,20 @@ Let's say we prompt Llama 3.1 405B Base with the opening sentence to the Wikiped
 <img src="./img/llamas_zebras.png" />
 </center>
 
-The model continues the text with a coherent, contextually appropriate response. But, moreover, **it reproduces a near-exact copy of the Wikipedia article on zebras.** This is because the model has seen this text before during pretraining. Moreover, the texts from Wikipedia are generally considered high-quality, so they are used multiple times in pretraining datasets. This causes a seeming close familiarity of the model with the text.
+The model continues the text with a coherent, contextually appropriate response. Moreover, **it reproduces a near-exact copy of the Wikipedia article on zebras.** This is because the model has seen this text during pretraining. Moreover, the texts from Wikipedia are generally considered high-quality, so they are used multiple times in pretraining datasets to instill conceptual quality. This causes a seemingly close familiarity of the model with the text.
 
-According to [The Llama 3 Herd of Models \[Grattafiori, et al. 2024\]](https://arxiv.org/pdf/2407.21783#page=4.70), the data used for pretrained as gathered until the end of 2023. So, what if we'd prompt it with a sentence on the 2024 US presidential elections and see how Llama 3.1 405B Base reacts:
+According to [The Llama 3 Herd of Models \[Grattafiori, et al. 2024\]](https://arxiv.org/pdf/2407.21783#page=4.70), the data used for pretrained was gathered until the end of 2023. So, what if we'd prompt it with a sentence about the 2024 US presidential elections and see how Llama 3.1 405B Base reacts:
 
 <center>
 <img src="./img/llama31_Hallucination.png" />
 </center>
 
-This looks reasonable, but we know better. This is factually false, hallucinated by the model based on what sounds good together, as the model just didn't know any better from the older pretraining data.
-This effect is also one of the reasons why one shouldn't use LLMs for fact-checking or knowledge retrieval (this regards LLMs with no connection to the internet. LLM's with such a research capability exist now, and can be used for search, like [Perplexity.ai](https://perplexity.ai)).
+This looks reasonably constructed, but we know better. It is factually false, hallucinated by the model based on what sounds good, as the model just doesn't know any better from the older pretraining data.
+This effect is also one of the reasons why one shouldn't use LLMs for fact-checking or knowledge retrieval. Note that this concerns LLMs with no connection to the internet. LLMs with such a research capability exist now, like [Perplexity.ai](https://perplexity.ai), and can indeed be used for search.
 
 ### Recap: Hallucinating LLamas
 
-We've seen that while base models like Llama 3.1 405B show that they are conceptually aware of the input, their knowledge strictly relates to the pretraining data and its format. Moreover, **base LLMs aren't operating in any task-specific fashion.** We've seen that in the LLM hallucinating on content beyond its pretraining data's knowledge cut-off, and it trailing off into blabbering at times.
+We've seen that while base models like Llama 3.1 405B demonstrate an understanding of the input, their knowledge is very strictly limited to text encountered during pretraining and the format of that particular text. Moreover, **base LLMs aren't operating in any task-specific fashion.** We've seen that in the LLM hallucinating on content beyond its pretraining data's knowledge cut-off, and it trailing off into blabbering at times.
 
 **We can do better than that.**<br>And indeed, there's a stage following the pretraining stage that will help us address these issues. This stage is called **Post-Training**.
 
@@ -509,7 +511,7 @@ We've seen that while base models like Llama 3.1 405B show that they are concept
 > [!NOTE]
 >**Post-Training** is the process of taking a pretrained model and additionally mending it to our task-specific needs. This could e.g. be developing answers not as continuations of text, but as responses to them.
 
-Before, we thought of LLMs pretty much as 'sophisticated next token predictors'. But now we want to bring in the aspect of conversation, the back and forth between human and AI-assistant:
+Before this, we thought of LLMs pretty much as 'sophisticated next token predictors'. But now we want to bring in the aspect of conversation, the back and forth between human and AI-assistant, the 'sense of purpose' that we want the LLM to have.
 
 <center>
 <img src="./img/post-train_conversation.png" style="width: auto; height: 250px"/>
