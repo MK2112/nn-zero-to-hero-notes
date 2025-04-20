@@ -292,6 +292,10 @@ Now, assume a very initial setting where our LLM exists already, but hasn't ever
 
 Do not worry about cross-entropy at this point. The key intuition you should take away is that using cross-entropy, we can compare the predicted probability distribution across all possible tokens against the single true next token $y$ from our dataset. Ideally, the predicted probability distribution should assign a highest possible probability to the true next token $y$ and lowest possible probabilities to all other tokens. The cross-entropy loss ultimately expresses how well the predicted distribution matches this ideal, true "one-hot" distribution. Based on the difference, the LLM's parameters are adjusted in a way that the output probabilities $\hat{y}$ become more consistent with the patterns imposed by $y$ which we see in the dataset. The model parameters are updated for the cross-entropy loss to shrink. This happens through what is called **backpropagation**.
 
+<center>
+<img src="./img/LLM_Cross-Entropy.png" />
+</center>
+
 > [!NOTE]
 > Training a neural network, like an LLM, means to discover a setting of the network's parameters that seems to be consistent with the statistics of the training data in terms of the output probabilities.
 
@@ -330,7 +334,7 @@ If you want to go deeper into the precise mathematical structure of LLMs, you ca
 
 ### Step 4: Inference
 
-So far we looked at how to get text into an LLM and (on a high level) how to learn from that text. But we were very clear about the LLM only producing probabilities over tokens. **How do we get the LLM to actually generate text?**
+So far we looked at how to expose text to an LLM and (on a high level) how to learn from that text. But we were very clear about the LLM only producing probabilities over tokens. **How do we get the LLM to actually generate text?**
 
 To generate text, just repeatedly predict a token distribution and sample a token from it. **The higher the assigned probability for a token, the more likely it is to be sampled.** This is how we can get the LLM to produce text, one token at a time, appending that next token to the input for generating a new next token for this new sequence. This is called **autoregressive generation**.
 
@@ -491,6 +495,8 @@ According to [The Llama 3 Herd of Models \[Grattafiori, et al. 2024\]](https://a
 
 This looks reasonably constructed, but we know better. It is factually false, hallucinated by the model based on what sounds good, as the model just doesn't know any better from the older pretraining data.
 This effect is also one of the reasons why one shouldn't use LLMs for fact-checking or knowledge retrieval. Note that this concerns LLMs with no connection to the internet. LLMs with such a research capability exist now, like [Perplexity.ai](https://perplexity.ai), and can indeed be used for search.
+
+---
 
 ### Recap: Hallucinating LLamas
 
@@ -664,13 +670,13 @@ Again, all of the computational complexity is crunched into the single digit tok
 > [!NOTE]
 >In its good intent of efficiently grouping together common text fragements for the context window, the tokenizer may obstruct the model's reasoning capabilities for counting individual elements.
 
-The solution to this is not as trivial. On state of the art models like GPT-4o, we can fallback to tool use: GPT-4o can generate and run code itself and learn from that. Copy-Pasting the above token sequence of the dots into the code is well possible and less complex than counting. **GPT-4o generates the code, plucks the dots into the code, runs the code and retrieves the now deterministically derived answer:**
+The solution to this is not as trivial. With state-of-the-art models like GPT-4o, we can fallback to tool use: GPT-4o can generate and run code itself and learn from that. Copy-Pasting the above token sequence of the dots into the code is well possible and less complex than counting. **GPT-4o generates the code, plucks the dots into the code, runs the code and retrieves the now deterministically derived answer:**
 
 <center>
 <img src="./img/gpt-4o_code_tool_use.png" style="width: auto; height: 410px"/>
 </center>
 
-The same issue with the tokenizer's good but obstructive intent arises when we want the LLM to solve spelling-related tasks. For example, with `cl100k_base`, the word `Ubiquitous` is tokenized into `Ub`, `iqu`, and `itous`. Again, tool use to the rescue, at least for state of the art models:
+The same issue with the tokenizer's good but obstructive intent arises when we want the LLM to solve spelling-related tasks. For example, with `cl100k_base`, the word `Ubiquitous` is tokenized into `Ub`, `iqu`, and `itous`. Again, tool use to the rescue, at least for state-of-the-art models:
 
 <center>
 <img src="./img/gpt-4o_spelling.png" style="width: auto; height: 440px"/>
@@ -778,7 +784,7 @@ Interestingly, RL training is relatively new and not at all standard for LLMs ye
 
 [DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning \[Guo, et al. 2025\]](https://arxiv.org/abs/2501.12948) was the first of its kind to really lay out their RL stack for LLM post-training in more detail.
 
-It turns out, RL is very important for DeepSeek's state of the art LLMs:
+It turns out, RL is very important for DeepSeek's state-of-the-art LLMs:
 <center>
 <img src="./img/deepseek-r1_AIME_over_steps.png" style="width: auto; height: 375px"/>
 </center>
@@ -878,7 +884,7 @@ Now, **seperately from what the human just did**, for each of these $n$ generate
 **The objective now is to minimize the difference in ordering between the human and the *reward model*.** In the image above, for example, you can see that the *reward model* and the human disagree on the ranking of the joke at human-decided rank 2. Based on differences like these, the *reward model* is optimized. As soon as this is deemed to be sufficiently achieved, the *reward model* is used to score the vast amounts of LLM-generated jokes.
 
 > [!NOTE]
-> **RLHF $\neq$ RL.** Consider RLHF to be more of a sophisticated finetuning approach, rather than a completely new training paradigm.
+> **RLHF $\neq$ RL as such.** Consider RLHF to be more of a sophisticated finetuning approach, rather than a completely new training paradigm.
 
 Ok. So what do we make of RLHF?<br>Let's look at the upsides and downsides of RLHF:
 
@@ -922,13 +928,13 @@ A token is picked out from this probability distribution. This is generally done
 
 6. **Output:** The generated text is returned in response to the prompt.
 
-<br><b>And that's a wrap!</b><br><br>We saw the three steps currently employed to create state of the art LLMs: Pretraining, Supervised Finetuning, and Reinforcement Learning. The key thing you should take away from this is that **LLMs are not just 'sophisticated next token predictors'. They are capable of learning and of reasoning.** They should be understood as increasingly sophisticated tools, but even though we have some measures of mitigation, some problems like hallucinations or RLHF loopholes may still persist. **LLMs aren't infallible. Use them for drafting, not for blindly producing production code.**
+<br><b>And that's a wrap!</b><br><br>We saw the three steps currently employed to create state-of-the-art LLMs: Pretraining, Supervised Finetuning, and Reinforcement Learning. The key thing you should take away from this is that **LLMs are not just 'sophisticated next token predictors'. They are capable of learning and of reasoning.** They should be understood as increasingly sophisticated tools, but even though we have some measures of mitigation, some problems like hallucinations or RLHF loopholes may still persist. **LLMs aren't infallible. Use them for drafting, not for blindly producing production code.**
 
 ---
 
 ## The Future of LLMs is Bright
 
-Models are getting bigger and more importantly, more flexible in what they consume. Multimodality is a big thing right now: An LLM may be fed text, but also images, audio, video, and more. **The future of LLMs is multimodal.** Note that we still call the models LLMs, because at the end of the day, multimodality means to find ways of translating media into token sequences that the model can understand.
+Models are getting bigger and more flexible in what they can consume and produce. Multimodality is a big thing right now: An LLM may be fed text, but also images, audio, video, and more. **The future of LLMs is multimodal.** Note that we still call the models LLMs, because at the end of the day, multimodality means to find ways of translating media into token sequences that the model can understand.
 
 There's a lot of buzz around the concept of LLM agents: LLMs that can interact with the world, that can be given tasks and that can solve them within long, coherent, contexts in which such agents may even backtrack and self-corret. **The future of LLMs is interactive.** And you will become more of a supervisor to agents.
 
@@ -947,5 +953,5 @@ Another source of up-to-date information are newsletters. Yes, newsletters. Ther
 Finally, [X (formerly Twitter)](https://x.com) is unmatched, as a lot of the top AI talent is gathered on there. Follow the likes of [Andrej Karpathy](https://x.com/karpathy) or [Ilya Sutskever](https://x.com/ilyasut) for a great insight into the field.
 
 Finally, in order to access most of the models discussed here, you can use [Hugging Face's Model Hub](https://huggingface.co/models) or the respective website of the LLM provider. For offline use, [LM Studio](https://lmstudio.ai/) or [Ollama](https://ollama.com/) are recommended.
-<br><br><br><br><br><br>
+<br><br><br><br><br><br><br>
 $\tiny{\text{Seriously though, what did Ilya see?}}$
