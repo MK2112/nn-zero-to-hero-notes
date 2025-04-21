@@ -29,28 +29,29 @@
 
 ---
 
-The [last chapter](../G001%20-%20Deep%20Dive%20into%20LLMs/G001%20-%20Deep%20Dive%20into%20LLMs.md) provided a deep dive into large language models (LLMs) and their inner workings, the training and fine-tuning process, and the various applications of LLMs. In this chapter, we will explore how LLMs can be used in practice and how they can be best applied for specific tasks.
+The [last chapter](../G001%20-%20Deep%20Dive%20into%20LLMs/G001%20-%20Deep%20Dive%20into%20LLMs.md) provided a deep dive into large language models (LLMs) and their inner workings, the training and fine-tuning process, and their various applications. Now, we take a step further and explore how LLMs can be used in practice and how they can best be applied to specific tasks.
 
 ## The LLM Ecosystem
 
-Deployed in late 2022, OpenAI's ChatGPT showed the world the potential of large language models. The release marked the first time that an LLM was deployed in a way that allowed users to interact with an LLM for free, at scale, via a simple chat-based interface. What was meant to be a research demo turned into the back then most popular app ever.
+Deployed in late 2022, OpenAI's ChatGPT showed the world the potential of LLMs. The release was one of the first times an LLM got deployed in a way that allowed users to interact with it for free, at a massive scale, via a simple chat-based interface. What was meant to be a research preview turned into the most popular app ever (back then).
 
-ChatGPT hasn't remained the sole player in the LLM space. A whole ecosystem of LLMs and LLM providers has emerged, each with its own strengths and weaknesses. Some of the most popular LLMs apart from ChatGPT include:
+ChatGPT hasn't remained the sole player in the chat-based LLM space. A whole ecosystem of LLMs and providers has emerged, each with their own strengths and weaknesses. Some of the most popular LLMs apart from ChatGPT are:
 
 - [DeepSeek](https://chat.deepseek.ai/)
 - [Anthropic Claude](https://claude.ai/)
 - [Perplexity](https://perplexity.ai/)
-- [Grok](https://grok.com/)
+- [xAI Grok](https://grok.com/)
+- [Meta LLaMA](https://www.llama.com/)
 - [Microsoft Copilot](https://copilot.microsoft.com/)
 - [Google Gemini](https://gemini.google.com/)
 - [Mistral Le Chat](https://chat.mistral.ai/)
 
-The LLM providers like OpenAI, Anthropic, xAI or Mistral, try to distinguish their LLMs by integrating unique features and capabilities. For example, Anthropic Claude is particularly good at generating code and Grok is especially capable of problem-solving and real-time data analysis (data from X that is). The interaction with these LLMs is made to be very much similar to ChatGPT, with a chat-based interface that allows users to chronologically ask questions and receive answers in natural language.
+LLM providers like OpenAI, Anthropic, xAI or Mistral try to distinguish their services by integrating unique features and capabilities. For example, Anthropic Claude 3.5 Sonnet is particularly good at generating code and Grok 3 is especially capable of problem-solving and real-time data analysis (data from X that is). The interaction with these LLMs is made to be very similar to ChatGPT, with a chat-based interface that allows users to chronologically ask questions and receive answers in natural language.
 
 > [!NOTE]
-> You can get a very good picture of the current LLM landscape by visiting the [Chatbot Arena](https://lmarena.ai/) or [Scale AI's SEAL Leaderboards](https://scale.com/leaderboard). They list the up-to-date rankings of LLMs based on their performance on various benchmarks.
+> You can get a very good picture of the current LLM landscape by visiting the [Chatbot Arena](https://lmarena.ai/) or [Scale AI's SEAL Leaderboards](https://scale.com/leaderboard). They list the up-to-date rankings of LLMs based on their performance on various different benchmarks.
 
-ChatGPT has found the largest adoption by customers and developers, and it presents itself as the most feature-rich LLM offering. It's a good idea to start going into detail on how to use ChatGPT and how to get the most out of it.
+ChatGPT found the largest adoption by customers and developers, and it presents itself as the most feature-rich LLM ecospace. It's a good idea to start going into detail on how to use ChatGPT and how to get the most out of it.
 
 ## Interacting with ChatGPT
 
