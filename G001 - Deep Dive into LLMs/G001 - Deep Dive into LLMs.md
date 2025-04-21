@@ -450,8 +450,7 @@ These *base models* most often can be found on the [HuggingFace Model Hub](https
 - FAIR Llama 3.1 (2024): $405\text{B}$ parameters, trained on $15\text{T}$ tokens
 - DeepSeek-V3-0324 (2025): $671\text{B}$ parameters, trained on $14.8\text{T}$ tokens
 
-
-**What do we get from those Base models?**<br>Base models have been exposed to the pretraining step we discussed earlier. This is arguably the most expensive step for producing a capable LLM, but it is by far not the last. Think of it like this: Now that a model was exposed to the pretraining data, and we can attain it, the model may have projected concepts and insights from correlations in the token sequences into its weights, but nothing more. The model has no strategy for how to use insights in context or what style to respond in. It is still a blank slate in terms of how to apply the information it got exposed to.
+**What do we get from those Base models?**<br>Base models have been built architectually and they have been exposed to the pretraining step we discussed earlier. The latter of these two is arguably the most expensive step for producing a capable LLM, but it is by far not the last. Think of it like this: Now that a model was exposed to the pretraining data, and we can attain it, the model may have projected concepts and insights from correlations in the token sequences into its weights, but nothing more. The model has no strategy for how to use insights in context or what style to respond in. It is still a blank slate in terms of how to apply the information it got exposed to.
 
 We can find out what base models like Llama 3.1 405B behave like when accessing them through e.g. [Hyperbolic](https://app.hyperbolic.xyz/models/llama31-405b-base).<br>This costs money, though.
 
@@ -620,11 +619,11 @@ This technique is actively employed by the likes of [Perplexity.ai](https://perp
 </center>
 
 > [!NOTE]
-> Knowledge in the parameters $==$ Vague recollection<br>Knowledge in the tokens of the context window $==$ Working memory (Sharp recollection)
+> Knowledge in the LLM's parameters $==$ vague recollection.<br>Knowledge in the context window tokens $==$ Working memory (Sharp recollection)
 
 #### LLMs Need Tokens to Think
 
-Let's say we have this human prompt for an LLM with two possible and correct answers:
+Let's say we have this human prompt for an LLM with two possible and technically correct answers:
 
 <center>
 <div style="display: inline-block; width: auto; border: 1px solid gray;">
@@ -634,16 +633,16 @@ Let's say we have this human prompt for an LLM with two possible and correct ans
 
 Even though both assistant responses are factually correct, one of them is significantly better. Moreover, having the model produce the worse response could indicate serious issues in model capability. **Which one is the better response?**
 
-To solve this question, remember that LLMs work in a strictly sequential fashion, reading and producing only one token at a time, one after another.
+To solve this question, remember that LLMs work in a strictly sequential fashion, reading and producing one token at a time, autoregressively.
 
 <center>
 <img src="./img/nanogpt_autoregressive_generation.png" style="width: auto; height: 450px"/>
 </center>
 
-Intuitively, the sequential nature with which the LLM generates output should find consideration in the logical build-up of the it should provide. Therefore, **not only should the response be a correct answer, but a chronological, step by step build-up to it should be present.** This distributes the required computation efforts, i.e. its complexity, across the tokens, making the individual token reasoning tasks easier for the model.
+Intuitively, the sequential nature with which the LLM generates output should find consideration in the logical build-up of the response it should provide. Therefore, **not only should the response be a correct answer, but a chronological, step by step build-up to it should be present.** This distributes the required computation efforts, i.e. its complexity, across the tokens, making the individual token reasoning tasks easier for the model.
 
 > [!NOTE]
->Given that each next token is derived with a fixed budget of computation from the model, **spreading out complex tasks across the tokens allows the model to reason more effectively.** And therefore, we can say that **the second response is the better one, as it builds up to the answer** in a step-by-step fashion.
+>Given that each next sampled token is derived with a fixed budget of computation, **spreading out complex tasks across the tokens of the context window allows the model to reason more effectively.** And therefore, we can say that **the second response is the better one, as it logically builds up to the answer** in a step-by-step, more consistent fashion.
 
 <center>
 <div style="display: inline-block; width: auto; border: 1px solid gray;">
@@ -651,7 +650,7 @@ Intuitively, the sequential nature with which the LLM generates output should fi
 </div>
 </center>
 
-The first response candidate would require the model to churn out the entire calculation in one go at the beginning of the response. Only afterwards would it be explaining its 'reasoning', retroactively justifying so to say. One could even say that this retroaction is a waste of computation, as the model already provided the answer. **For a finetuning dataset, we should therefore prefer examples of the format of the second response candidate.**
+The first response candidate would require the model to churn out the entire calculation in one go at the beginning of the response. Only afterwards would it be explaining its 'reasoning', retroactively justifying so to say. One could even say that this reaction to a stated result is a waste of computation, the answer was provided already. **For a finetuning dataset, we should therefore prefer examples of the format of the second response candidate.**
 
 Actually, a very similar issue arises when tasking an LLM to count.
 
@@ -661,42 +660,42 @@ Actually, a very similar issue arises when tasking an LLM to count.
 <img src="./img/gpt-4o_counting.png" style="width: auto; height: 160px"/>
 </center>
 
-Again, all of the computational complexity is crunched into the single digit token for the response. But worse, we now have the tokenizer potentially interfering with the model's reasoning:
+Again, all of the computational complexity is crunched down into the single digit token for the response. But worse, we now have the tokenizer, more specifically the token granularity, potentially interfering with the model's reasoning:
 
 <center>
 <img src="./img/clk100base_dots_tokenized.png" style="width: auto; height: 240px"/>
 </center>
 
 > [!NOTE]
->In its good intent of efficiently grouping together common text fragements for the context window, the tokenizer may obstruct the model's reasoning capabilities for counting individual elements.
+>In its good intent of efficiently grouping together common text fragements for filling the context window more efficiently, the tokenizer may obstruct the model's reasoning capabilities for counting what we as users see as individual elements.
 
-The solution to this is not as trivial. With state-of-the-art models like GPT-4o, we can fallback to tool use: GPT-4o can generate and run code itself and learn from that. Copy-Pasting the above token sequence of the dots into the code is well possible and less complex than counting. **GPT-4o generates the code, plucks the dots into the code, runs the code and retrieves the now deterministically derived answer:**
+Resolving this seems easy, but it's not simple. With state-of-the-art models like GPT-4o, we can fall back to tool-use: GPT-4o can generate and run code itself and inform itself from the results. Copy-Pasting the above token sequence of the dots into the code is well possible and less complex than counting. **GPT-4o generates the code, transfers the dot sequence into the code, runs the code and retrieves the deterministically derived answer:**
 
 <center>
 <img src="./img/gpt-4o_code_tool_use.png" style="width: auto; height: 410px"/>
 </center>
 
-The same issue with the tokenizer's good but obstructive intent arises when we want the LLM to solve spelling-related tasks. For example, with `cl100k_base`, the word `Ubiquitous` is tokenized into `Ub`, `iqu`, and `itous`. Again, tool use to the rescue, at least for state-of-the-art models:
+The same issue with the tokenizer's overall good but sometimes obstructive intent arises when we want the LLM to solve spelling-related tasks. For example, with `cl100k_base`, the word `Ubiquitous` is tokenized into `Ub`, `iqu`, and `itous`. Again, tool-use to the rescue, at least in state-of-the-art LLMs:
 
 <center>
 <img src="./img/gpt-4o_spelling.png" style="width: auto; height: 440px"/>
 </center>
 
-Still, even if you understand LLMs on the level we do, there remain problems that make us scratch our heads. Questions like `What is bigger? 9.11 or 9.9?` can still trip models like GPT-4o. There are even papers like [Order Matters in Hallucination: Reasoning Order as Benchmark and Reflexive Prompting for Large-Language-Models \[Xie, Zikai. 2024\]](https://arxiv.org/abs/2408.05093) discussing this very problem in more detail.
+Still, even if you understand LLMs on the level that we do now, there remain problems that make us scratch our heads. Questions like `What is bigger? 9.11 or 9.9?` can still trip models like GPT-4o. There are even papers like [Order Matters in Hallucination: Reasoning Order as Benchmark and Reflexive Prompting for Large-Language-Models \[Xie, Zikai. 2024\]](https://arxiv.org/abs/2408.05093) discussing this very problem in detail.
 
 ---
 
-With supervised finetuning, we set out to assemble and expose the LLM to high-quality, task-specific, format-specific finetuning examples. Fundamentally, these finetuning datasets are very often human-made. Humans write both the prompts and the ideal responses.
+With supervised finetuning, we set out to assemble and expose our LLM to high-quality, task-specific, format-specific finetuning examples. Fundamentally, these finetuning datasets are very often human-derived, meaning humans are writing both the prompts and the ideal responses.
 
-We also saw that supervised finetuning is not the one solve it all: An LLM might still hallucinate false responses, just based on the format it saw in the finetuning data. Also, the formulation of the finetuning dataset is a complex and time-consuming task and could make an LLM trip up if it is done incorrectly.
+We also saw that supervised finetuning is not the one **post-training** step to solve it all: An LLM might still hallucinate false responses, just based on the format it saw in the pretraining or the finetuning data. Also, the formulation of the finetuning dataset is a complex and time-consuming task and could make an LLM trip up if done incorrectly or inconsistently.
 
-Ultimately, the supervised finetuning results in an SFT model (supervised finetuned model). And while we saw mitigations for the issues we just described, there's still a lot of room for improvement. And indeed, there's another step following the supervised finetuning that will help us address these issues. This next step is about **Reinforcement Learning.**
+Ultimately, the supervised finetuning results in an **SFT model (supervised finetuned model)**. And while we saw mitigations for the issues we had described, there's still a lot of room for improvement. And indeed, there's another step following supervised finetuning that will help us address these issues. This next step is all about **Reinforcement Learning.**
 
 ---
 
 ### Reinforcement Learning
 
-Reinforcement Learning (RL) takes LLMs to school, so to say. Think of a school textbook: There are different chapters, increasingly building on top of one another as the student progresses through the book. Each chapter may contain three fundamental blocks to transfer the knowledge to the student: 
+Reinforcement Learning (RL) takes LLMs to school, so to say. Think of a school textbook: There are different chapters, conceptually increasingly building on top of one another as the student progresses through the chapters. Each chapter may contain three fundamental blocks to transfer the knowledge to the student: 
 
 - Descriptive information (text, visuals), 
 - Examples with their solutions, and 
@@ -706,18 +705,18 @@ Reinforcement Learning (RL) takes LLMs to school, so to say. Think of a school t
 <img src="./img/textbook.png" style="width: auto; height: 400px"/>
 </center>
 
-Roughly, a school textbook is optimized for the student to mentally grow and learn from it. Superimposing this into the LLM training pipeline, we could say that:
+Roughly, a school textbook is optimized for the student to mentally grow, contextualize and learn from it. Superimposing this over our LLM training pipeline, we could say that:
 
-- Descriptive information is provided by the pretraining step
-- Examples with their solutions are provided by the supervised finetuning step
-- **Exercises for the LLM to solve are provided by the reinforcement learning step**
+- **Descriptive information is provided by the pretraining step**
+- **Examples with their solutions are provided by the supervised finetuning step**
+- **Exercises for the LLM to solve and further internalize are provided by the reinforcement learning step**
 
 > [!NOTE]
 >Importantly, for the exercises that a student tries to solve, the student may be given the answer by the book, e.g. via its solutions section. **The key insight is that the solution is not the point of self-improvement, but the process of solving the exercise is.**
 
 **How can we transfer this notion to LLMs?**
 
-Let's say we want out LLM to work on this new task:
+Let's say we want our LLM to work on this new task:
 
 ```
 Emily buys 3 apples and 2 oranges. Each orange costs $2. The
@@ -725,35 +724,35 @@ total cost of all the fruit is $13. What is the cost of each
 apple?
 ```
 
-Let's say we have three answer candidates, all reaching the correct answer, $3$:
+Let's say we have three answer candidates, all reaching the correct answer $3$:
 
 <center>
 <img src="./img/cl100k_base_rl.png" style="width: auto; height: 600px"/>
 </center>
 
-Some of these answers are more concise, some others more chronological and verbose, skipping quickly to the answer. 
+Some of these answers are more concise, others more chronological and verbose, skipping quickly to the core result. 
 
 <center>
 <img src="./img/prompt_response_structure.png" style="width: auto; height: 250px"/>
 </center>
 
-We see that while the primary purpose of all possible candidates is to result in the correct answer, the secondary purpose is to provide a clear, "nice", and easy-to-follow reasoning path to this answer. **But how is the human labeler supposed to know which correct answer is the 'best' correct one?**
+We see that while the primary purpose of all possible candidates is to result in the correct answer, the secondary purpose is to provide a clear, "nice", and easy-to-follow reasoning path to this answer. **But how is the human labeler supposed to know which correct answer is the 'best correct' one?**
 
 > [!NOTE]
-> What is easy or hard for a human is different from what's easy or hard for an LLM. Its cognition is different. Therefore, different token sequences exude different levels of hardness to the LLM. This is very closely related to what we discussed in the [LLMs Need Tokens to Think](#llms-need-tokens-to-think) section.
+> **What is easy or hard for a human differs from what is easy or hard for an LLM.** Its cognition is different. Therefore, different token sequences exude different levels of hardness to the LLM. This is very closely related to what we discussed in the [LLMs Need Tokens to Think](#llms-need-tokens-to-think) section.
 
-Our way of understanding things differs from the LLM's way of understanding things, very fundamentally. This sounds trivial, but this is a very pervasive issue to realize for both researchers and users alike. Therefore, we should be cautious and say that **a human labeler can't be expected to know which correct answer is the 'best' correct one from an LLM perspective.**
+Our way of understanding differs from the LLM's way of understanding, very fundamentally. It sounds trivial, but this is a very pervasive issue to realize for both researchers and users alike. Therefore, we should be cautious and say that **a human labeler can't be expected to know which correct answer is the 'best correct' one from an LLM's perspective.**
 
-**How do we go about this?**<br>We need to try many different kinds of solutions and we want to see which kinds of solutions work well or not.
+**How do we go about this then?**<br>We need to try many different kinds of solutions and we want to see which kinds of solutions work well or not.
 
-Say, we take the prompt from above, and put it into an LLM that didn't yet undergo reinforcement learning. We repeat that for many times (hundreds or even thousands or millions per prompt) to get a feeling of the LLM's structural choice for answering. 
+Say, we take the prompt from above, and put it into an LLM that didn't yet undergo reinforcement learning. We repeat that for many times (hundreds or even thousands or millions of times per prompt) to get a feeling of the LLM's structural choice for answering. 
 
-While gathering the outputs to the specific prompt, some of the outputs may lead to incorrect final result, while some outputs may instead actually lead to the correct final result.<br>We want to discourage the model from building token sequences leading to the false solutions in the future. Inversely, token sequences with correct results should be more encouraged.
+While gathering the outputs to the specific prompt, some of the outputs may lead to incorrect final results, while some outputs may instead actually lead to the correct final result.<br>We want to discourage the model from building token sequences leading to the false solutions in the future. Inversely, token sequences with correct results should be encouraged to be generated more often.
 
 > [!NOTE]
-> The answer to our prompt being correct/incorrect helps us filter out those self-produced token sequences forming a solution that in the end mislead the LLM to a false answer. Therefore, **we can say that by virtue of producing the correct answer, the model self-determines what self-generated prompt responses it should be trained on further.**
+> The answer to our prompt being correct/incorrect helps us filter out those generated token sequences forming a solution that in the end mislead the LLM to a false answer. Therefore, **we can say that by virtue of producing the correct answer, the model itself determines what self-generated prompt responses it should be finetuned on further.**
 
-We retain, i.e. finetune our LLM with only those responses that lead to the correct answer(s). Now we could continue to finetune the model with this set of responses, or we could pick out a **'gold standard / top'** solution response from the set and use that to train the model further and to a most desirable token sequence generation behavior.
+**We finetune our LLM with only those responses that lead to the correct answer(s).** Now, we could continue to finetune the model with this *set of correct responses*, or we could pick out a single **'gold standard / top'** solution response from the set and use that to finetune the model further and towards a most desirable token sequence generation style and behavior.
 
 <center>
 <img src="./img/response_reinforcement.png" style="width: auto; height: 400px"/>
@@ -776,49 +775,48 @@ The LLM is expected to generate multiple responses to the same prompt. This, thr
 >
 >There's no clear answer to this, unfortunately. One has to treat this like a hyperparameter. However, exposure to retrainable examples should still regard a sense of diversity, you don't want to accidentally overspecialize/overfit the model on any one kind of task. Retraining amount is furthermore related to task complexity, computational resources available and the actual training objectives.
 
-Interestingly, RL training is relatively new and not at all standard for LLMs yet. The entire RL pipeline is kind of shrouded in mystery, as multiple AI providers use and refine it, but don't really talk in much detail about it.
+Interestingly, *RL training is relatively new and not at all standard for LLMs* yet (02/2025). The entire RL pipeline is kind of shrouded in mystery to outsiders, as multiple LLM providers use and refine it, but don't really talk about it in much detail.
 
 *Until now.*
 
 #### DeepSeek-R1
 
-[DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning \[Guo, et al. 2025\]](https://arxiv.org/abs/2501.12948) was the first of its kind to really lay out their RL stack for LLM post-training in more detail.
+[DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning \[Guo, et al. 2025\]](https://arxiv.org/abs/2501.12948) was the first of its kind to really lay out their RL stack for LLM's post-training stage in more detail.
 
-It turns out, RL is very important for DeepSeek's state-of-the-art LLMs:
+RL is *very* important for DeepSeek's state-of-the-art LLMs:
 <center>
 <img src="./img/deepseek-r1_AIME_over_steps.png" style="width: auto; height: 375px"/>
 </center>
 
-This image shows the capability improvement of DeepSeek's R1 model on the [AIME benchmark](https://artofproblemsolving.com/wiki/index.php/2024_AIME_I_Problems) during the progression of training. **Most interestingly, this graph isn't showing pretraining progression, but the RL post-training progression and impact.** This graph indicates that DeepSeek-R1 became very good at discovering solutions to even complex math problems through RL's guided self-optimization.
+This image shows the capability improvement of DeepSeek's R1 model on the [AIME benchmark](https://artofproblemsolving.com/wiki/index.php/2024_AIME_I_Problems) during the progression of training. **Most interestingly, this graph isn't showing pretraining progression, but the RL post-training progression and impact.** This graph indicates that DeepSeek-R1 became very good at discovering solutions to even complex math problems through RL's guided self-optimization effects.
 
-Moreover, we see that the model does something we theorized above on its own account: The longer the RL post-training progresses, the more DeepSeek-R1 sees itself inclinded to spread out its solution across the token sequence, making the individual token reasoning tasks easier for the model. **This effect emerges by itself:**
+Moreover, we see that the model does something we theorized above on its own account: The longer the RL post-training progresses, the more DeepSeek-R1 sees itself inclinded to spread out its solution across the context window, making the individual contributing token-level reasoning tasks easier for the model. **Critically, this effect emerges by itself:**
 
 <center>
 <img src="./img/deepseek-r1_avg_response_len.png" style="width: auto; height: 375px"/>
 </center>
 
-Furthermore, the paper also lays out *why* this effect happens on its own. 
-
-The model has learnt that it is better for accuracy (you can call it reward, too) to try and apply different perspectives with the solution, i.e. retrace, reframe, backtrack. It is this behavior that emerges as the cause for increased token usage in the response:
+Furthermore, the paper also lays out *why* this effect emerges on its own.<br>
+The model has learnt that it is better for accuracy (i.e. reward) to try and apply different perspectives with the response, i.e. retrace, reframe, backtrack, compare. It is this behavior that emerges as the main cause for increased token usage in RL-finetuned DeepSeek-R1's responses:
 
 <center>
 <img src="./img/deepseek-r1_emergent_reflection.png" style="width: auto; height: 300px"/>
 </center>
 
 > [!NOTE]
-> DeepSeek-R1 provides evidence that RL enables the LLM, on its own accord and without hard-coding it, to discover token sequences that work for it to maximize its response accuracy. The sequences that then contribute to a more sophisticated response are commonly referred to as **emergent reasoning patterns, also referred to as 'cognitive strategies'.**
+> DeepSeek-R1 provides evidence that **RL enables the LLM, on its own accord and without hard-coding this objective, to discover token sequences that maximize its response accuracy.** These sequences then contribute to a more sophisticated response and are commonly referred to as **emergent reasoning patterns or 'cognitive strategies'.**
 
 You can actually see for yourself how DeepSeek-R1 performs and how it differs from e.g. GPT-4o. You can access DeepSeek-R1 through [DeepSeek's Website](https://chat.deepseek.ai/) (enable the 'Deep Think (R1)' mode by clicking the according button).
 
-Think of GPT-4o as being a supervised finetuned model, and DeepSeek-R1 as being a model that underwent supervised finetuning and extensive reinforcement learning. The difference in problem approach is quite staggering:
+Think of GPT-4o as being an LLM at the supervised finetuning stage and think of DeepSeek-R1 as being a model that underwent not only supervised finetuning, but also extensive reinforcement learning. The difference in problem approach and response quality is quite staggering:
 
 <center>
 <img src="./img/super_rl_emily.png"/>
 </center>
 
-One can't help but wonder at how much closer DeepSeek-R1 seems to be to a human's reasoning, especially when reading phrases like "Wait a second, let me check my math again to be sure." or "Let me just think if there's another way to approach this problem. Maybe setting up an equation?".
+One can't help but wonder how much closer DeepSeek-R1 seems to be to human-like reasoning, especially when reading phrases like `"Wait a second, let me check my math again to be sure."` or `"Let me just think if there's another way to approach this problem. Maybe setting up an equation?"`.
 
-With DeepSeek-R1's presentation of the interaction, we can clearly see the similarity with what we discussed earlier for the prompt-response structure for RL:
+With DeepSeek-R1's showcase of such an 'inner monologue', we can clearly see the similarity with what we discussed earlier for the prompt-response structure for RL:
 
 <center>
 <img src="./img/prompt_response_structure.png" style="width: auto; height: 250px"/>
@@ -826,7 +824,7 @@ With DeepSeek-R1's presentation of the interaction, we can clearly see the simil
 
 ---
 
-At this point, because it seems to be a thing, **please do not put even remotely sensitive information into any LLM that isn't local, on your machine.**
+For a brief interlude, because it seems to be a thing, **please do not put even remotely sensitive information into any LLM that isn't running on your own machine.**
 
 You can in fact download DeepSeek-R1 for free and use it safely, locally, as it is MIT licensed and open source. The website through which the DeepSeek-R1 is provided for chatting for free is not open source. One does not know where one's data goes. The same goes for ChatGPT by the way, although they claim strictly adhering to GDPR and other data protection laws.
 
@@ -850,7 +848,7 @@ Looking at this performance comparison of Lee Sedol vs. AlphaGo trained with Rei
 <img src="./img/alphago_rl_vs_sft.png" style="width: auto; height: 300px;" />
 </center>
 
-This 'new and unique strategies' part made AlphaGo stand out, and specifically it caused what is now known as *Move 37*. During a game against Lee Sedol, AlphaGo made a move that was so unexpected and so out of the ordinary that it was considered a mistake by Lee Sedol. But it turned out to be a brilliant, never before seen move, and it was this move helped decide the game in AlphaGo's favor.
+This 'new and unique strategies' part made AlphaGo stand out, and it caused what is now known as *Move 37*. During a game against Lee Sedol, AlphaGo made a move that was so unexpected and so out of the ordinary that it was considered a mistake by Lee Sedol. But it turned out to be a brilliant, never before seen move, and it was this move helped decide the game in AlphaGo's favor.
 
 You can actually see the reactions to *Move 37* for yourself in this excerpt from the documentary "AlphaGo - The Movie": [Lee Sedol vs AlphaGo Move 37 reactions and analysis](https://www.youtube.com/watch?v=HT-UZkiOLv8).
 
@@ -950,8 +948,8 @@ A great way to stay on top of the latest developments in LLMs is to follow the r
 
 Another source of up-to-date information are newsletters. Yes, newsletters. There are some very high-quality ones like [AI News](https://buttondown.com/ainews) or [DeepLearning.Ai's The Batch](https://www.deeplearning.ai/the-batch/). They provide a great, concise overview over the latest developments in the field.
 
-Finally, [X (formerly Twitter)](https://x.com) is unmatched, as a lot of the top AI talent is gathered on there. Follow the likes of [Andrej Karpathy](https://x.com/karpathy) or [Ilya Sutskever](https://x.com/ilyasut) for a great insight into the field.
+Finally, [X (formerly Twitter)](https://x.com) is unmatched, as a lot of the top AI talent is gathered on there. Follow the likes of [Andrej Karpathy](https://x.com/karpathy) or [Ilya Sutskever](https://x.com/ilyasut) for great insights into the field.
 
 Finally, in order to access most of the models discussed here, you can use [Hugging Face's Model Hub](https://huggingface.co/models) or the respective website of the LLM provider. For offline use, [LM Studio](https://lmstudio.ai/) or [Ollama](https://ollama.com/) are recommended.
 <br><br><br><br><br><br><br>
-$\tiny{\text{Seriously though, what did Ilya see?}}$
+$\tiny{\text{What did Ilya see?}}$
