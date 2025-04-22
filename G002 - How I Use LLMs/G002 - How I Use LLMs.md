@@ -46,52 +46,53 @@ ChatGPT hasn't remained the sole player in the chat-based LLM space. A whole eco
 - [Google Gemini](https://gemini.google.com/)
 - [Mistral Le Chat](https://chat.mistral.ai/)
 
-LLM providers like OpenAI, Anthropic, xAI or Mistral try to distinguish their services by integrating unique features and capabilities. For example, Anthropic Claude 3.5 Sonnet is particularly good at generating code and Grok 3 is especially capable of problem-solving and real-time data analysis (data from X that is). The interaction with these LLMs is made to be very similar to ChatGPT, with a chat-based interface that allows users to chronologically ask questions and receive answers in natural language.
+LLM providers like OpenAI, Anthropic, xAI or Mistral try to distinguish their services by integrating unique features and capabilities. For example, Anthropic Claude 3.5 Sonnet is particularly good at generating code and Grok 3 is especially capable of problem-solving and real-time data analysis (data from 𝕏/Twitter that is). The interaction with these LLMs is made to be very similar to ChatGPT, with a chat-based interface that allows users to chronologically ask questions and receive answers in natural language.
 
 > [!NOTE]
 > You can get a very good picture of the current LLM landscape by visiting the [Chatbot Arena](https://lmarena.ai/) or [Scale AI's SEAL Leaderboards](https://scale.com/leaderboard). They list the up-to-date rankings of LLMs based on their performance on various different benchmarks.
 
-ChatGPT found the largest adoption by customers and developers, and it presents itself as the most feature-rich LLM ecospace. It's a good idea to start going into detail on how to use ChatGPT and how to get the most out of it.
+ChatGPT found the largest adoption by customers and developers, and it presents itself as the most feature-rich LLM ecosystem. It is a good idea to start going into detail on how to use ChatGPT and how to get the most out of it.
 
 ## Interacting with ChatGPT
 
-Generally speaking, interacting with an LLM like ChatGPT consists of providing some text input to the model and receiving a text output in return. The input can be a question, a prompt, or a command, and the output is the model's response to the input.
+Very generally speaking, interacting with an LLM like ChatGPT consists of providing some input and receiving an output in return. The input can be a question, or an instructive prompt, and the output is the model's response to that, with the instilled knowledge and the task-specific behavior it learned during the *pretraining* and the *posttraining* phases.
 
 <center>
     <img src="./img/ChatGPT_Haiku_Prompt.png" style="width: 550px; height: auto;" />
 </center>
 
-ChatGPT is very much tuned to write good text. You will get a good first feel for the capabilities by trying out different prompts for e.g. haikus, stories, or emails. The model will respond with a proposal text that is coherent, grammatically correct, and on many occasions even interesting.
+ChatGPT is tuned to write good text. You will get a good first feel for the capabilities by trying out different prompts for e.g. haikus, stories, or emails. The model will respond with a proposal text that is coherent, grammatically correct, and on many occasions even interesting.
 
 <center>
     <img src="./img/ChatGPT_Haiku_Response.png" style="width: 550px; height: auto;" />
 </center>
 
-You can see that OpenAI really leaned into the chat-based interface with ChatGPT. The model is designed to be conversational and to provide responses that are engaging and helpful, like a response from a human. This is a big part of the reason why ChatGPT became so successful.
+You can see that OpenAI really leaned into the chat-based interface with ChatGPT. The model is designed to be conversational and to provide responses that are engaging and helpful, like a responses from a human. This is a big part of why ChatGPT became so successful.
 
-As you can imagine, there's quite *a lot* going on under the hood when you interact with ChatGPT. The model has to process your input, generate a response, and then provide that response to you in a way that is fast, referencing your input, accurate and engaging. This is a very complex process that involves a lot of different components, including the model itself, the inference engine, the response generation, and the response delivery. We talked about this in more detail in the [last chapter](../G001%20-%20Deep%20Dive%20into%20LLMs/G001%20-%20Deep%20Dive%20into%20LLMs.md), where we also covered what's called "tokenization".
+As you can imagine, there's quite *a lot* going on under the hood when you interact with ChatGPT. The model has to process your input, generate a response, and then provide that response to you in a way that is fast, referencing your input correctly, while being accurate and engaging. This is a very complex process that involves a lot of different components, including the model itself, the inference engine, the response generation, and the response delivery. We talked about this in a little more detail already in the [last chapter](../G001%20-%20Deep%20Dive%20into%20LLMs/G001%20-%20Deep%20Dive%20into%20LLMs.md), where we also covered what's called the initial step that treats text to be input into such a model: "tokenization".
 
-When you provide a prompt for ChatGPT to respond to, a so-called tokenizer first chops the text prompt into a sequence of numeric tokens, each uniquely representing a particular chunk of your text.
+When you provide a prompt for ChatGPT to respond to, a *tokenizer* first chops the text prompt into a sequence of numeric tokens, each uniquely representing a particular chunk of your text. Your text, i.e. your provided sequence of words/letters/sentences, is transformed into a sequence of tokens, which each by their contents have been assigned unique integer ID.
 
 <center>
     <img src="./img/Haiku_Prompt_Tokenization.png" style="width: 600px; height: auto;" />
 </center>
 
-Only this sequence of tokens is fed into the LLM, which in turn proceeds to use that token sequence as basis for mathematical operations, based on which it generates a response autoregressively, one token at a time. The response is then transformed and returned as text:
+Only this string of tokens, this token sequence, is fed into the LLM, which in turn proceeds to use that sequence as basis for mathematical operations, based on which it generates a response autoregressively, one token (probability distribution) at a time. This extension to the token input made by the model, i.e. its response, is then transformed back from the token space to the textual space and returned as readable text:
 
 <center>
     <img src="./img/Haiku_Response_Tokenization.png" style="width: 600px; height: auto;" />
 </center>
 
-But this is not all that is going on here. ChatGPT is known to be able to refer back to previous parts of the conversation, to provide context-aware responses. This is where role-distinguishing tokens come into play.<br>
-Above, we gave ChatGPT the initial task of writing a haiku, to which it responded accordingly. We didn't actually send just the bare prompt. Our prompt automatically got wrapped in special, additional tokens, denoting the beginning and the end of our user input, and the expected beginning of the model's response. We actually sent this to get tokenized:
+**Truth be told, this explanation is not fully capturing that is actually going on.** ChatGPT is known to be able to refer back to previous parts of the conversation, to provide context-aware responses with that context not only being some few immediate sentences. This is where **role-distinguishing special tokens** come into play.<br>
+Above, we gave ChatGPT the initial task of writing a haiku, to which it responded accordingly. From the system's view though, we didn't just send the bare prompt. Our prompt automatically got wrapped in special, additional tokens, denoting the beginning and the end of our user input, and the expected beginning of the model's response. We actually sent this textual structure off for tokenization:
 
 ```
 <|im_start|>user<|im_sep|>Write a haiku about what it's like to be a Large Language Model.<|im_end|>
 <|im_start|>assistant<|im_sep|>
 ```
 
-When we now provide a second prompt, the prior interaction will be prepended to the new prompt. Therefore, for a second, follow-up prompt to write a haiku about the future of AI, we would actually send this to ChatGPT:
+When we now go on to provide a follow-up prompt, the prior interaction will *not be disregarded*, but it will be prepended to this new prompt.<br>
+Therefore, for a second prompt to write a haiku about the future of AI, we would actually send this to ChatGPT:
 
 ```
 <|im_start|>user<|im_sep|>Write a haiku about what it's like to be a Large Language Model.<|im_end|>
@@ -103,70 +104,81 @@ ghost of thought, unseen.<|im_end|>
 ```
 
 > [!NOTE]
-> With Chatbot-like LLM interactions, both the user and the LLM contribute alternately to one common token sequence. With ChatGPT, currently, each participant's contribution is wrapped in the `<|im_start|>` and `<|im_end|>` tokens special phrases, which are mapped to particular, special tokens by the tokenizer, servivng as guiding markers for the model.
+> With Chatbot-like LLM interactions, both the user and the LLM contribute alternately to one common token sequence. With ChatGPT, currently, each participant's contribution is wrapped in the `<|im_start|>` and `<|im_end|>` tokens special phrases, which are mapped to particular, special tokens by the tokenizer, servivng as guiding markers for the model for how to reference which aspects of the nuances of earlier conversation.
 
 <center>
     <img src="./img/Special_Tokens_Haiku.png" style="width: 600px; height: auto;" />
 </center>
 
-Under the hood, back and forth interacting with ChatGPT builds a one-dimensional sequence of tokens, which is then fed into the model. This sequence grows with each interaction. This enables the model to refer back to previous parts of the conversation by recognizing the special tokens that denote the beginning and end of each user and assistant (i.e. LLM) input.
-
-In that sense, when you elect to start a new chat with ChatGPT, you wipe the slate clean and start anew, clearing the token sequence.
+Let's get further into what that note I put above really tells us. Under the hood, interacting with ChatGPT builds a one-dimensional sequence of tokens, which is then fed into the model. This sequence grows with each back and forth interaction. This enables the model to refer to earlier parts of the conversation by recognizing the special tokens that denote the beginning and end of each user and assistant (i.e. LLM) input.<br>
+**In that sense, when you elect to start a new chat with ChatGPT, you wipe the slate clean and start anew, clearing the preceding, thus prepended token sequence.**
 
 <center>
     <img src="./img/Excalidraw_Tokenization_Stacking.png" style="width: 600px; height: auto;" />
 </center>
 
 > [!NOTE]
-> The token sequence, which is built up by us and ChatGPT through conversation, is called the *context*. This physically can't grow infinitely. The *context* is therefore limited to a *context window*, a fixed-size token count beyond which ChatGPT will not be able to refer back to previous parts of the conversation.
+> **The token sequence, which is built up by us and ChatGPT through conversation, is called the context**. Physically and computationally, this can't grow infinitely. The *context* is therefore limited to a **context window, a fixed-size token count beyond which ChatGPT will not be able to refer back to previous parts of the conversation.**
 
-Anytime you are switching the topic, you should start a blank slate to avoid confusion or potential distraction by left-over irrelevant context. This could degrade the quality of the response, slow down the model's response time and even lead to the model costing more to run.
+Anytime you are switching the topic, you should start a new chat to avoid confusion or potential distraction by left-over irrelevant context. This could degrade the quality of the response, slow down the model's response time and even lead to the model costing more to run.
 
-It's essential to keep the *context window* limitation in mind when interacting with ChatGPT. Think of the *context window* as the working memory of the LLM, which can ever only hold so much information at once.
+It's essential to keep the *context window* limitation in mind when interacting with LLMs like those behind ChatGPT. Think of the *context window* as the working memory of the LLM, which can ever only hold so much information at once.
 
-Another dimension to consider is the model itself. In the [last chapter](../G001%20-%20Deep%20Dive%20into%20LLMs/G001%20-%20Deep%20Dive%20into%20LLMs.md), we talked about the *pre-training* and the *post-training* stages in the LLM development cycle. The LLM first is exposed to a vast amount of text data during **pre-training**. This is where the model learns the structure of language and the relationships between words. To an extent, we distill the dataset info and characteristics into the LLM's parameters, turning the LLM into a sort of *lossy compression* of the dataset.
+Another dimension to consider is the model itself. In the [last chapter](../G001%20-%20Deep%20Dive%20into%20LLMs/G001%20-%20Deep%20Dive%20into%20LLMs.md), we talked about the *pretraining* and the *posttraining* stages in the LLM development cycle. The LLM first is exposed to a vast amount of text data during **pretraining**. This is where the model learns the structure of language and the relationships between words. To an extent, we distill the dataset info and characteristics into the LLM's parameters, turning the LLM into a sort of *lossy compression* of the dataset.
 
-Once *pre-training* concludes, the LLM doesn't yet know anything about the specific task it is supposed to perform.
+Once *pretraining* concludes, the LLM doesn't yet know anything about the specific task it is supposed to perform.
 At the current stage, the LLM would only ever be able to generate text as a *contiuation of the input*, similar to the text it was trained on. Note also that the data governs the time horizon of the LLM. *The LLM can't know about events that happened after the training data was collected.*
 
-In the second training stage, **post-training** has the LLM fine-tuned on a task-specific dataset to learn how to perform that task. The task-specific dataset is curated and largely custom-made, e.g. by human labelers at OpenAI. The image above points out that *post-training* puts a face on the LLM, giving it a specific *persona* and a set of skills to provide task-specific behavior.
+In the second training stage, **posttraining** has the LLM fine-tuned on a task-specific dataset to learn how to perform that task. The task-specific dataset is curated and largely custom-made, e.g. by human labelers at OpenAI. The image above points out that *posttraining* puts a face on the LLM, giving it a specific *persona* and a set of skills to provide task-specific behavior.
 
 > [!NOTE]
-> The LLM takes on the style of a persona created during **post-training**. This persona can then access the knowledge gained during **pre-training** to generate responses that are ideally coherent, engaging, and accurate. All this is embedded into the LLM's parameters. Responses should under no circumstances be taken as factual, but rather as the model's best guess based on its vague recollection of the training data.
+> The LLM takes on the style of a persona created during **posttraining**. This persona can then access the knowledge gained during **pretraining** to generate responses that are ideally coherent, engaging, and accurate. All this is embedded into the LLM's parameters. Responses should under no circumstances be taken as factual, but rather as the model's best guess based on its vague recollection of the training data.
 
 ## Basic Interaction Examples
 
-Once again, an LLM with pre- and post-training is like a person with a vast amount of general, vaguely factual knowledge, and a specific skill set. But just how much factual knowledge can one expect from a basic LLM like ChatGPT?
+Once again, an LLM with pre- and posttraining is like a person with a vast amount of general, vaguely factual knowledge, and a specific skill set. But just how much factual knowledge can one expect from a basic LLM like ChatGPT?
 
-Think of it like this: If you can safely assume that a piece of knowledge can be found across the web and that it hasn't changed too much over time or too recently, then ChatGPT should be able to provide you with a rather factual answer.
+*Think of it like this:* If you can safely assume that a piece of knowledge can be found across the web and that it hasn't changed too much over time or too recently, ChatGPT should be able to provide you with a rather factual answer on that piece of knowledge.
 
 <center>
     <img src="./img/ChatGPT_Americano_Response_Factual.png" style="width: 520px; height: auto;" />
 </center>
 
 > [!NOTE]
-> Again, LLMs by design will not produce a guaranteed correct answer. But the more universal and timeless the knowledge, the more likely it is that ChatGPT will provide you with a correct answer.
+> Again, vanilla LLMs by design cannot produce a guaranteed correct answer. But the more universal and timeless the knowledge, the more likely it is that they will provide you with a correct answer still.
 
 ## Choice of Model and Pricing
 
-Another factor to consider is the actual version of LLM you use inside ChatGPT. You have a choice e.g. between (not limited to) GPT 3.5, GPT 4o, GPT 4o mini etc. Typically, the bigger models are more expensive yet also considerably more capable universally.
+In the last note section above, I used the term "vanilla LLM". ChatGPT started out with a single LLM for choice as its backbone: GPT-3.5. Today, you have a choice of models available and thus a factor to consider is the actual version of the LLM you use as backbone inside ChatGPT. You have a choice e.g. between (not limited to):
 
-Different LLM providers have different prices for their models. Anthropic for example offers free tier access to their best Claude 3.7 LLM, but charges for more interactions:
+- GPT-3.5 (3.5 deprecated, 3.5 Turbo runs still)
+- GPT-4o and GPT-4o mini
+- GPT-o1 and GPT-o1 mini
+- GPT-o3 and GPT-o3 mini
+- GPT-4.5 (deprecated)
+- GPT-4.1 and GPT-4.1 nano
+
+(This is the order in which the models were actually released. Horrendous naming scheme, I know.)
+
+Typically, the bigger models are more expensive to build yet also considerably more capable.
+
+Different LLM providers price their models differently.<br>
+Anthropic for example offers free tier access to their best and newest Claude LLM, but charges for more interactions:
 
 <center>
     <img src="./img/Anthropic_Claude_Travel_Advice.png" style="width: 520px; height: auto;" />
 </center>
 
-**You are very much encouraged to experiment here:** Experiment with different LLM providers, different models, different tier levels.
+**You are encouraged to experiment here:** Try different LLM providers, different models for different tasks.
 
 ## Reasoning models and when to use them
 
-Until now, we already hinted at a lot of the shortcomings of LLMs that only underwent supervised fine-tuning (SFT) as the *post-training* step. In the [last chapter](../G001%20-%20Deep%20Dive%20into%20LLMs/G001%20-%20Deep%20Dive%20into%20LLMs.md), we introduced additional post-training with reinforcement learning (RL) to improve the LLM's performance on specific tasks.
+Until now, we already hinted at a lot of the shortcomings of LLMs that only underwent supervised fine-tuning (SFT) as the *posttraining* step. In the [last chapter](../G001%20-%20Deep%20Dive%20into%20LLMs/G001%20-%20Deep%20Dive%20into%20LLMs.md), we introduced additional posttraining with reinforcement learning (RL) to improve the LLM's performance on specific tasks.
 
-Reinforcement learning as a post-training step is a way to teach an LLM to perform a task by enforcing it to make the right decisions. A given prompt is responded to multiple times by the LLM. The responses are then evaluated by a reward function, which tells about the response's correctness. The LLM is then trained repeatedly on the prompts and its self-generated subset of correct responses. This encourages the LLM to generate responses that are more accurate and more in line with the task at hand. This approach is also highly automatable. Notably, **we leave the particularities of how exactly correct responses are found by the LLM up to the model itself.**
+**Reinforcement learning as a posttraining step is a way to teach an LLM to perform a task by enforcing it to make the decisions leading to right outcomes.** A given prompt is responded to multiple times by the LLM. The responses are then evaluated by a reward function, which tells about the response's correctness. The LLM is then trained repeatedly on the prompts and its self-generated subset of correct responses. This encourages the LLM to generate responses that are more accurate and more in line with the task at hand. This approach is also highly automatable. Notably, **we leave the particularities of how exactly correct responses are found by the LLM up to the model itself.**
 
 > [!NOTE]
-> Interestingly, applying reinforcement learning as additional post-training step has been shown to get the LLM to make use of the context window more effectively by producing step-by-step reasoning chains and backtracking, leading towards a final statement of solution. **An LLM that has undergone RL post-training is called a *reasoning model*, as it produces an inner monologue before answering.**
+> Interestingly, applying reinforcement learning as additional posttraining step has been shown to get the LLM to make use of the context window more effectively by producing step-by-step reasoning chains and backtracking, leading towards a final statement of solution. **An LLM that has undergone RL posttraining is called a *reasoning model*, as it produces an inner monologue before answering.**
 
 This is what a reasoning model's thinking process might look like (from [\[Guo, et al. 2025\]](https://arxiv.org/abs/2501.12948)):
 
@@ -174,7 +186,7 @@ This is what a reasoning model's thinking process might look like (from [\[Guo, 
     <img src="../G001 - Deep Dive into LLMs/img/deepseek-r1_emergent_reflection.png" style="width: 500px; height: auto;" />
 </center>
 
-Reasoning is valuable because it can't be easily faked or pre-programmed—it emerges naturally through reinforcement learning based on the LLM's understanding of tasks and training data. This noticably increases the LLM's performance especially on complex tasks:
+Reasoning is valuable because it can't be easily faked or pre-programmed. It emerges naturally through reinforcement learning based on the LLM's understanding of tasks and training data. This noticably increases the LLM's performance especially on complex tasks:
 
 <center>
     <img src="./img/Reasoning_models_and_4.5_ARC.jpeg" style="width: 600px; height: auto;" />
@@ -184,22 +196,12 @@ Source: [ARC-AGI via 𝕏.com](https://x.com/arcprize/status/1895206472004591637
 
 Regarding this graph, note that GPT-4.5 is a larger-scale *non-reasoning* model, while *DeepSeek R1 and the OpenAI oX model series are reasoning models*.
 
-The downside of reasoning is that the behavior it enforces in the LLM is computationally more expensive and time-consuming.
+The downside of reasoning is that the behavior it enforces in the LLM is more extensive and time-consuming.
 
 > [!NOTE]
 > Reasoning models excel at complex problem-solving tasks, while simpler requests like travel advice or haikus don't require this advanced capability.
 
-Based on the information provided, here's an assessment of your description, along with suggestions for improvement:
-
-**Overall Assessment:**
-
-The list provides a good overview of various reasoning models. However, it could be enhanced with more specific details and improved descriptions, especially for CoRAG. It's difficult to verify the release dates and specific capabilities of each model without more context.
-
-**Suggestions for Improvement:**
-
-Here's a revised version incorporating more detail and clarity:
-
-**Examples of chain-of-thought reasoning models (FW 2024/2025) include:**
+**Examples of chain-of-thought reasoning models (Q4 2024 / Q1 2025) include:**
 - **OpenAI o3:** Released in December 2024, accessible via OpenAI's [ChatGPT](https://chat.openai.com/) subscription
 - **OpenAI o1:** Known for excelling in STEM fields and mathematical reasoning
 - **OpenAI o3-mini:** A smaller, more cost-effective, and lower-latency version of o3, suitable for applications with resource constraints
@@ -214,15 +216,12 @@ Here's a revised version incorporating more detail and clarity:
 
 ## Tool Use
 
-Reasoning LLMs still have limitations. They can't access information about events after their knowledge cutoff or verify the factual accuracy of their responses.
-
-This is what tools are for. Tools enable LLMs for example to search the web for information to verify response accuracy, and generate more current and relevant answers to user queries.
-
-Tools are integrated at the token level through special marker tokens, indicating tool query boundaries. During fine-tuning, the LLM is exposed to tool usage examples to actually learn to use the tools to generate more accurate responses, a capability that is further optimized during RL post-training.
+Reasoning LLMs still have limitations. They can't access information about events after their knowledge cutoff or verify the factual accuracy of their responses. This is what tools are for. Tools enable LLMs for example to search the web for information to verify response accuracy, and generate more current and relevant answers to user queries.<br>
+Tools are integrated at the token level through special marker tokens, indicating tool query boundaries. During fine-tuning, the LLM is exposed to tool usage examples to actually learn to use the tools to generate more accurate responses, a capability that is further optimized during RL posttraining.
 
 ### Web Search
 
-A great free-access LLM that uses web search as a tool is [Perplexity.ai](https://perplexity.ai/), which allows users to ask questions and receive answers that are backed by web searches. More recently, [DeepSeek](https://chat.deepseek.ai/) has also integrated web search capabilities into their LLM.
+An LLM service that uses web search as a tool is [Perplexity.ai](https://perplexity.ai/), which allows users to ask questions and receive answers that are backed by web searches. More recently, [DeepSeek](https://chat.deepseek.ai/) has also integrated web search capabilities into their LLM.
 
 <center>
     <img src="./img/ChatGPT_4o_Search.png" style="width: 600px; height: auto;" />
@@ -239,15 +238,15 @@ A great free-access LLM that uses web search as a tool is [Perplexity.ai](https:
 
 ### Deep Research
 
-Deep Research is something that only came about recently. It is part of OpenAI's $200/month Pro subscription for ChatGPT.<br>
-**Think of Deep Research as a combination of Web Search and Reasoning, multiple searches are performed over the course of the thinking process**, and the LLM is encouraged to reason about the information it finds to generate a way more comprehensive, accurate response.
+Deep Research is an LLM capability extension that only came about recently. It is part of OpenAI's $200/month Pro subscription for ChatGPT.<br>
+**Think of Deep Research as a combination of Web Search and Reasoning, multiple searches are performed over the course of the thinking process for boosting factual accuracy, nuance, and spread of information**. The LLM is encouraged to reason about this information it searches to then generate a way more comprehensive, accurate response.
 
-Multiple providers stepped up to offer similar capabilities, like [Grok's DeepSearch](https://grok.com/?referrer=website) or [Perplexity's DeepThink](https://perplexity.ai).
+Multiple providers began offering similar capabilities, like [Grok's DeepSearch](https://grok.com/?referrer=website), [Perplexity's DeepThink](https://perplexity.ai) or [Gemini Deep Research](https://gemini.google.com/).
 
 > [!NOTE]
 > Actually, [DeepSeek R1](https://chat.deepseek.com/) allows you to activate both "Deep Think" and "Search" at once, but this is not the same as Deep Research. DeepSeek curates the search results before reasoning about them, while Deep Research is more of a continuous process.
 
-Even though we use WebSearch and Reasoning, after all, we still may encounter some hallucinations or errors in the LLM's responses or source interpretations. **It is imperative to treat even the Deep Research responses as suggestions or first drafts only.**
+Even though we use WebSearch and Reasoning, after all, we still may encounter some hallucinations or errors in the LLM's responses or source interpretations. **It is imperative to treat even Deep Research responses as suggestions or first drafts only. They are ice breakers into a field of interest.**
 
 An example for Deep Research messing up would be this:
 <center>
@@ -375,7 +374,7 @@ Instead of relying on features of LLMs through a browser, dedicated apps have em
 
 These apps work directly with and across multiple files on your computer to build or maintain code projects.
 
-IDE-integrated AI tools use the same LLMs as browser interfaces like Claude 3.7, but their IDE integration enables more seamless workflows. For instance, Cursor's composer feature allows Claude to write code directly into files, building functional codebases in real-time—an impressive but potentially existentially challenging experience for developers.
+IDE-integrated AI tools use the same LLMs as browser interfaces like Claude 3.7, but their IDE integration enables more seamless workflows. For instance, Cursor's composer feature allows Claude to write code directly into files, building functional codebases in real-time, an impressive but potentially existentially challenging experience for developers.
 
 You can, of course, also query Claude from inside Cursor on specific parts of the codebase to get explanations, suggestions, or improvements.
 
