@@ -484,4 +484,4 @@ In summary, we see an ever-evolving, ever-growing ecosystem of increasingly capa
     <img src="./img/Excalidraw_Summary.png" style="width: 100%; height: auto;" />
 </center>
 
-At any point, you're basically talking to a lossy .zip file. Beware of the model tier and its capabilities. Reasoning is the way to go for complex tasks, but it's computationally more expensive. Use tools where you can, especially for niche, recent but findable information. And **always** verify the information you get from an LLM.
+At any point, you're basically talking to a lossy '`.zip` file' of knowledge this 'file' was exposed to through several stages, intended for several different objectives. Beware of the model tier and model capabilities. Reasoning is the way to go for complex tasks, but it's computationally more expensive. Use tools where you can, especially for niche, recent but findable information. And **always verify the information you retrieve from an LLM**.
