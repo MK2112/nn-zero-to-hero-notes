@@ -91,8 +91,8 @@ HuggingFace performed a series of what is called **data preprocessing** steps. T
 **HuggingFace applies these data preprocessing steps to CommonCrawl to distill the clean data subset that is *FineWeb*:**
 
 <center>
-  <img src="./img/fineweb_pipeline.png" style="width: auto; height: 210px;" />
-  Image: https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1
+	<img src="./img/fineweb_pipeline.png" style="width: auto; height: 210px;" />
+	Image: https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1
 </center><br /><br />
 
 1. **URL Filtering**:  
@@ -119,7 +119,7 @@ HuggingFace performed a series of what is called **data preprocessing** steps. T
 After passing the raw CommonCrawl data through the preprocessing pipeline, HuggingFace attained *FineWeb*. But what does this dataset actually look like now? Luckily HuggingFace just shows us with its [Dataset Preview](https://huggingface.co/datasets/HuggingFaceFW/fineweb) feature:
 
 <center>
-<img src="./img/hf_fineweb_viewer.png" style="width: auto; height: 375px;" />
+	<img src="./img/hf_fineweb_viewer.png" style="width: auto; height: 375px;" />
 </center>
 
 **How can we make sense of this?**<br>This is an excerpt of a table. Fundamentally, each row of this table is an entry in the *FineWeb* dataset. Each row for example contains an entry in the `text` column. This is the text that *CommonCrawl* had retrieved from some corner of the internet and that underwent HuggingFace's thorough *data preprocessing*.
@@ -203,13 +203,13 @@ To tie it back to the actual text we want to tokenize: The [blog post on *FineWe
 We can see BPE in action when looking at GPT-4's `cl100k_base` tokenizer. The same phrase, "Hello World", written differently, is also tokenized differently, but more importantly, distinctly. Try it out for yourself with [dqbd's TikTokenizer App](https://tiktokenizer.vercel.app/):
 
 <center>
-<img src="./img/cl100k_base_helloworld.png" style="width: auto; height: 375px;" />
+	<img src="./img/cl100k_base_helloworld.png" style="width: auto; height: 375px;" />
 </center>
 
 So, in total, models like GPT-4 see from the arbitrary text they might get prompted with is series of numbers like this here, shown in the lower right corner:
 
 <center>
-<img src="./img/cl100k_base_viewing_single_post.png" style="width: auto; height: 350px;" />
+	<img src="./img/cl100k_base_viewing_single_post.png" style="width: auto; height: 350px;" />
 </center>
 
 You can learn even more about tokenization in [chapter 8](../N008%20-%20GPT%20Tokenizer/N008%20-%20Tokenization.ipynb) of this series.
@@ -235,7 +235,7 @@ Given our pretraining dataset, we take some random window of sequential tokens. 
 Given a context window that we feed into our LLM, our objective is to get the LLM to predict the single next token that follows the window's tokens as per the pretraining dataset. This is called **autoregressive training:**
 
 <center>
-<img src="./img/next_token_prediction.png" style="width: auto; height: 115px;" />
+	<img src="./img/next_token_prediction.png" style="width: auto; height: 115px;" />
 </center>
 
 To reiterate, **the input is a sequence of tokens, variable in length up to the maximum we set as the context window size.** Then, **the output is a single token, which is expected to be the one that follows the input sequence in our pretraining dataset.** The LLM is trained to predict this next token.
@@ -247,7 +247,7 @@ This is because the LLM is not trained to predict the next token with certainty,
 For example, we said that GPT-4 uses a vocabulary of $100,277$ distinct tokens. GPT-4 would then output a probability distribution over these $100,277$ tokens, assigning a percentage likelihood to each token according to the LLMs view on how likely that token is to occur next in the pretraining dataset. So, what actually happens is this:
 
 <center>
-<img src="./img/next_token_sampling.png" style="width: auto; height: 300px;" />
+	<img src="./img/next_token_sampling.png" style="width: auto; height: 300px;" />
 </center>
 
 We can see that the LLM does not yet produce the correct token certainty. We know the next token to be `3962` from our tokenized dataset. But, the LLM assigned a higher probability to the token `19438` ('Direction') than to the correct token `3962` ('Post').
@@ -255,13 +255,13 @@ We can see that the LLM does not yet produce the correct token certainty. We kno
 This is where pretraining comes into play. **Pretraining an LLM means shifting the LLM's parameters for it to produce probability distributions that better capture what actually follows as next token in the dataset.** In our case, the result of pretraining would assign higher probabilities to the actual follow-up token, which could look like so:
 
 <center>
-<img src="./img/next_token_probabilities.png" style="width: auto; height: 300px;" />
+	<img src="./img/next_token_probabilities.png" style="width: auto; height: 300px;" />
 </center>
 
 This is an ideal state, the LLM correctly assigned the highest probability for the next token `3962` that also occurs next in the dataset:
 
 <center>
-<img src="./img/cl100k_base_mini_example.png" style="width: auto; height: 250px;" />
+	<img src="./img/cl100k_base_mini_example.png" style="width: auto; height: 250px;" />
 </center>
 
 > [!NOTE]
@@ -282,7 +282,7 @@ So far, we looked at the outer conditions for training an LLM. But what goes on 
 - A neural network is a giant mathematical function $f: X \rightarrow Y$ that maps inputs to outputs, consisting itself of millions, billions or trillions of **parameters**, also called **weights**.
 
 <center>
-<img src="./img/model_mathematic_expression.png" style="width: auto; height: 375px;" />
+	<img src="./img/model_mathematic_expression.png" style="width: auto; height: 375px;" />
 </center>
 
 Note that different $x$ may be of different lengths *up to* $\text{context size}$.<br>
@@ -293,7 +293,7 @@ Now, assume a very initial setting where our LLM exists already, but hasn't ever
 Do not worry about cross-entropy at this point. The key intuition you should take away is that using cross-entropy, we can compare the predicted probability distribution across all possible tokens against the single true next token $y$ from our dataset. Ideally, the predicted probability distribution should assign a highest possible probability to the true next token $y$ and lowest possible probabilities to all other tokens. The cross-entropy loss ultimately expresses how well the predicted distribution matches this ideal, true "one-hot" distribution. Based on the difference, the LLM's parameters are adjusted in a way that the output probabilities $\hat{y}$ become more consistent with the patterns imposed by $y$ which we see in the dataset. The model parameters are updated for the cross-entropy loss to shrink. This happens through what is called **backpropagation**.
 
 <center>
-<img src="./img/LLM_Cross-Entropy.png" />
+	<img src="./img/LLM_Cross-Entropy.png" />
 </center>
 
 > [!NOTE]
@@ -303,7 +303,7 @@ To do that and to have the neural network learn, the LLM has to produce that pro
 
 In the image above, you see the model itself expressed as a 'giant' mathematical expression:
 <center>
-<img src="./img/mathematic_expression.png" />
+	<img src="./img/mathematic_expression.png" />
 </center>
 
 This is a long expression, but it's not too complicated. We can see that the individual tokens $x_n$ of the input are multiplied with respective weights $w_n$. These products are then the basis for further interconnecting calculations, resulting in the model's output $\hat{y}$, i.e. the $100277$ probabilities.
@@ -312,7 +312,7 @@ To see the fully layed out structure of such a 'giant mathematical expression' f
 
 Here's an example of the structure of the miniaturized LLM [NanoGPT](https://github.com/karpathy/nanogpt):
 <center>
-<img src="./img/nanoGPT-Layout.png" />
+	<img src="./img/nanoGPT-Layout.png" />
 </center>
 
 It's clear that even this tiny model consists of a vast amount of intermediate steps and parameters. Interestingly, we can see that a very particular type of neural network component finds application in LLMs like NanoGPT: [**Transformers**](https://arxiv.org/abs/1706.03762).
@@ -347,7 +347,7 @@ Say that for input $91$ the sampled token is $860$. Now what?
 We append token $860$ to token $91$. This sequence will be the input to the LLM for the next round, producing the third token, $287$ in this case, and so on. **Effectively, the LLM regards its own output as the next input, building a chain of tokens, one after the other, to generate text and respond coherently.**
 
 <center>
-<img src="./img/autoregressive_generation.png" style="width: auto; height: 250px;" />
+	<img src="./img/autoregressive_generation.png" style="width: auto; height: 250px;" />
 </center>
 
 Compare the last generated token $13659$ to what we previously said was the correct answer as per the pretraining dataset: $3962$. The LLM's output is not `|Viewing Single Post`, but `|Viewing Single Article` now. This is a good example of the LLM's creativity and flexibility in generating text. We don't want it to blabber out the exact dataset contents, but we want it to rather show the understanding that an `Article` and a `Post` may share the property of being `Viewed`. This is what's called **generalization**.
@@ -394,7 +394,7 @@ We won't go into full detail on GPT-2's implementation. At least not yet. Please
 
 Andrej at this point showed an active training run. We want to understand what is happening here:
 <center>
-<img src="./img/vscode.png" style="width: auto; height: 350px;" />
+	<img src="./img/vscode.png" style="width: auto; height: 350px;" />
 </center>
 
 This shows the free code editor [VS Code](https://code.visualstudio.com/).<br>I added four red arrows to the image to highlight the following:
@@ -456,17 +456,17 @@ We can find out what base models like Llama 3.1 405B behave like when accessing 
 
 Here's what it looks like when asking the Llama 3.1 405B base model to solve a simple math problem:<br>
 <center>
-<img src="./img/llama31_2+2_2.png" />
+	<img src="./img/llama31_2+2_2.png" />
 </center>
 
 Trying once more results in:<br>
 <center>
-<img src="./img/llama31_2+2_1.png" />
+	<img src="./img/llama31_2+2_1.png" />
 </center>
 
 And once more:<br>
 <center>
-<img src="./img/llama31_2+2_3.png" />
+	<img src="./img/llama31_2+2_3.png" />
 </center>
 
 We very clearly see the stochasticity in the next token selection at work here. The responses vary, but the model shows conceptual understanding of what we presented to it either way. But the style of answering is nonsensical. We can see the model blabbering, trying to continue the text, rather than providing a clean-cut response.
@@ -481,7 +481,7 @@ Let's actually take a step back again and look at the base model Llama 3.1 405B 
 Let's say we prompt Llama 3.1 405B Base with the opening sentence to the Wikipedia article on [zebras](https://en.wikipedia.org/wiki/Zebra):
 
 <center>
-<img src="./img/llamas_zebras.png" />
+	<img src="./img/llamas_zebras.png" />
 </center>
 
 The model continues the text with a coherent, contextually appropriate response. Moreover, **it reproduces a near-exact copy of the Wikipedia article on zebras.** This is because the model has seen this text during pretraining. Moreover, the texts from Wikipedia are generally considered high-quality, so they are used multiple times in pretraining datasets to instill conceptual quality. This causes a seemingly close familiarity of the model with the text.
@@ -489,7 +489,7 @@ The model continues the text with a coherent, contextually appropriate response.
 According to [The Llama 3 Herd of Models \[Grattafiori, et al. 2024\]](https://arxiv.org/pdf/2407.21783#page=4.70), the data used for pretrained was gathered until the end of 2023. So, what if we'd prompt it with a sentence about the 2024 US presidential elections and see how Llama 3.1 405B Base reacts:
 
 <center>
-<img src="./img/llama31_Hallucination.png" />
+	<img src="./img/llama31_Hallucination.png" />
 </center>
 
 This looks reasonably constructed, but we know better. It is factually false, hallucinated by the model based on what sounds good, as the model just doesn't know any better from the older pretraining data.
@@ -519,7 +519,7 @@ We've seen that while base models like Llama 3.1 405B demonstrate an understandi
 Before this, we thought of LLMs pretty much as 'sophisticated next token predictors'. But now we want to bring in the aspect of conversation, the back and forth between human and AI-assistant, the 'sense of purpose' that we want the LLM to have.
 
 <center>
-<img src="./img/post-train_conversation.png" style="width: auto; height: 250px"/>
+	<img src="./img/post-train_conversation.png" style="width: auto; height: 250px"/>
 </center>
 
 **How can we 'program' our pretrained LLM to behave like this?**<br>We can use a technique called **Supervised Finetuning.**
@@ -538,7 +538,7 @@ Akin to what the [TCP/IP stack](https://cdn.kastatic.org/ka-perseus-images/33719
 This concept is best explained by looking at how GPT-4o does this:
 
 <center>
-<img src="./img/tiktokenized_gpt4o.png" style="width: auto; height: 300px"/>
+	<img src="./img/tiktokenized_gpt4o.png" style="width: auto; height: 300px"/>
 </center>
 
 > [!NOTE]
@@ -560,13 +560,13 @@ This is just the textual input from the user and the past response from the LLM 
 [Training language models to follow instruction with human feedback \[Ouyan, et al. 2022\]](https://arxiv.org/pdf/2203.02155) layed out for the first time how OpenAI would take an LLM and finetune it on conversations. This paper for example discusses "Human data collection", i.e. the process of gathering the task-specific finetuning dataset from human annotators who write out how conversations with the LLM should look like as part of the finetuning dataset:
 
 <center>
-<img src="./img/human_feedback_after_all.png" />
+	<img src="./img/human_feedback_after_all.png" />
 </center>
 
 The human labelers not only provide the generation instructions, but also the ideal LLM responses. This is done according to a set of **labeling instructions**, meaning a set of rules that the labelers must follow when creating the finetuning dataset.
 
 <center>
-<img src="./img/annotator_guidance.png" />
+	<img src="./img/annotator_guidance.png" />
 </center>
 
 However, it turns out that the paper's InstructGPT finetuning dataset was never publically released. Open source efforts went into replications of the finetuning efforts, e.g. through [OpenAssistant/oasst1](https://huggingface.co/datasets/OpenAssistant/oasst1) or [OLMo-2-Mixture](https://huggingface.co/datasets/allenai/tulu-3-sft-olmo-2-mixture).<br>A more modern conversation dataset would be [UltraChat](https://github.com/thunlp/UltraChat). This finetuning dataset is relatively large, covering multiple and vast areas of knowledge but also in part **synthetic, meaning that it was generated by an LLM, for an LLM.**
@@ -581,7 +581,7 @@ We can say that with supervised finetuning, **talking to a Conversational LLM li
 We briefly discussed them earlier on in the context of the pretrained base LLMs, but **hallucinations aren't cured by supervised finetuning**. The chatbot LLM may still fabricate good-looking but factually incorrect responses. This is because the LLM is still bound to the pretraining data's and the finetuning data's knowledge cut-off:
 
 <center>
-<img src="./img/sf_hallucinate.png" style="width: auto; height: 200px"/>
+	<img src="./img/sf_hallucinate.png" style="width: auto; height: 200px"/>
 </center>
 
 Interestingly, although the LLM might in some sense be aware that "Orson Kovacs" is a person that it knows nothing about, it still tries to make up a story about him instead of telling us that it doesn't know who he is. This is because **the dataset does not contain or maybe contain very little patterns for such a response.** Those patterns, if existing, are outshone by the patterns that the model has seen with confident answers. This misleads the model into making things up.
@@ -589,7 +589,7 @@ Interestingly, although the LLM might in some sense be aware that "Orson Kovacs"
 Interestingly, hallucinations seem to become less and less of an issue with newer models:
 
 <center>
-<img src="./img/gpt-4o_No_Hallucination.png" style="width: auto; height: 175px"/>
+	<img src="./img/gpt-4o_No_Hallucination.png" style="width: auto; height: 175px"/>
 </center>
 
 **How did they do that?**
@@ -601,7 +601,7 @@ The model is made to handle the fact that it doesn't know who Orson Kovacs is. T
 For example, in section 4.3.6 of [The Llama 3 Herd of Models \[Grattafiori, et al. 2024\]](https://arxiv.org/pdf/2407.21783#page=27.10), the Meta researchers lay out how they track down such good out of scope examples and how they add them to the finetuning dataset:
 
 <center>
-<img src="./img/llama_hallucination_avoidance.png" />
+	<img src="./img/llama_hallucination_avoidance.png" />
 </center>
 
 We essentially take information from the dataset, have another LLM reframe that into questions, ask those to the LLM in question, and if it doesn't respond correctly, we add this particular question to the ones we know it doesn't know. Based on that, we can formulate the answer to take this unawareness into account and add that to the finetuning dataset.
@@ -615,7 +615,7 @@ And very similar to Mitigation technique #1, we enable the model to determine wh
 This technique is actively employed by the likes of [Perplexity.ai](https://perplexity.ai), [ChatGPT](https://chat.openai.com/), and [DeepSeek](https://deepseek.ai). And we saw this exact behavior earlier with GPT-4o:
 
 <center>
-<img src="./img/gpt-4o_No_Hallucination.png" style="width: auto; height: 175px"/>
+	<img src="./img/gpt-4o_No_Hallucination.png" style="width: auto; height: 175px"/>
 </center>
 
 > [!NOTE]
@@ -626,9 +626,9 @@ This technique is actively employed by the likes of [Perplexity.ai](https://perp
 Let's say we have this human prompt for an LLM with two possible and technically correct answers:
 
 <center>
-<div style="display: inline-block; width: auto; border: 1px solid gray;">
-<img src="./img/math_answer_candidates.png" style="width: auto; height: 150px"/>
-</div>
+	<div style="display: inline-block; width: auto; border: 1px solid gray;">
+		<img src="./img/math_answer_candidates.png" style="width: auto; height: 150px"/>
+	</div>
 </center>
 
 Even though both assistant responses are factually correct, one of them is significantly better. Moreover, having the model produce the worse response could indicate serious issues in model capability. **Which one is the better response?**
@@ -636,7 +636,7 @@ Even though both assistant responses are factually correct, one of them is signi
 To solve this question, remember that LLMs work in a strictly sequential fashion, reading and producing one token at a time, autoregressively.
 
 <center>
-<img src="./img/nanogpt_autoregressive_generation.png" style="width: auto; height: 450px"/>
+	<img src="./img/nanogpt_autoregressive_generation.png" style="width: auto; height: 450px"/>
 </center>
 
 Intuitively, the sequential nature with which the LLM generates output should find consideration in the logical build-up of the response it should provide. Therefore, **not only should the response be a correct answer, but a chronological, step by step build-up to it should be present.** This distributes the required computation efforts, i.e. its complexity, across the tokens, making the individual token reasoning tasks easier for the model.
@@ -645,9 +645,9 @@ Intuitively, the sequential nature with which the LLM generates output should fi
 >Given that each next sampled token is derived with a fixed budget of computation, **spreading out complex tasks across the tokens of the context window allows the model to reason more effectively.** And therefore, we can say that **the second response is the better one, as it logically builds up to the answer** in a step-by-step, more consistent fashion.
 
 <center>
-<div style="display: inline-block; width: auto; border: 1px solid gray;">
-<img src="./img/math_answer_solved.png" style="width: auto; height: 180px"/>
-</div>
+	<div style="display: inline-block; width: auto; border: 1px solid gray;">
+		<img src="./img/math_answer_solved.png" style="width: auto; height: 180px"/>
+	</div>
 </center>
 
 The first response candidate would require the model to churn out the entire calculation in one go at the beginning of the response. Only afterwards would it be explaining its 'reasoning', retroactively justifying so to say. One could even say that this reaction to a stated result is a waste of computation, the answer was provided already. **For a finetuning dataset, we should therefore prefer examples of the format of the second response candidate.**
@@ -657,13 +657,13 @@ Actually, a very similar issue arises when tasking an LLM to count.
 #### Counting and Spelling with LLMs
 
 <center>
-<img src="./img/gpt-4o_counting.png" style="width: auto; height: 160px"/>
+	<img src="./img/gpt-4o_counting.png" style="width: auto; height: 160px"/>
 </center>
 
 Again, all of the computational complexity is crunched down into the single digit token for the response. But worse, we now have the tokenizer, more specifically the token granularity, potentially interfering with the model's reasoning:
 
 <center>
-<img src="./img/clk100base_dots_tokenized.png" style="width: auto; height: 240px"/>
+	<img src="./img/clk100base_dots_tokenized.png" style="width: auto; height: 240px"/>
 </center>
 
 > [!NOTE]
@@ -672,13 +672,13 @@ Again, all of the computational complexity is crunched down into the single digi
 Resolving this seems easy, but it's not simple. With state-of-the-art models like GPT-4o, we can fall back to tool-use: GPT-4o can generate and run code itself and inform itself from the results. Copy-Pasting the above token sequence of the dots into the code is well possible and less complex than counting. **GPT-4o generates the code, transfers the dot sequence into the code, runs the code and retrieves the deterministically derived answer:**
 
 <center>
-<img src="./img/gpt-4o_code_tool_use.png" style="width: auto; height: 410px"/>
+	<img src="./img/gpt-4o_code_tool_use.png" style="width: auto; height: 410px"/>
 </center>
 
 The same issue with the tokenizer's overall good but sometimes obstructive intent arises when we want the LLM to solve spelling-related tasks. For example, with `cl100k_base`, the word `Ubiquitous` is tokenized into `Ub`, `iqu`, and `itous`. Again, tool-use to the rescue, at least in state-of-the-art LLMs:
 
 <center>
-<img src="./img/gpt-4o_spelling.png" style="width: auto; height: 440px"/>
+	<img src="./img/gpt-4o_spelling.png" style="width: auto; height: 440px"/>
 </center>
 
 Still, even if you understand LLMs on the level that we do now, there remain problems that make us scratch our heads. Questions like `What is bigger? 9.11 or 9.9?` can still trip models like GPT-4o. There are even papers like [Order Matters in Hallucination: Reasoning Order as Benchmark and Reflexive Prompting for Large-Language-Models \[Xie, Zikai. 2024\]](https://arxiv.org/abs/2408.05093) discussing this very problem in detail.
@@ -702,7 +702,7 @@ Reinforcement Learning (RL) takes LLMs to school, so to say. Think of a school t
 - Exercises for the student to solve on their own.
 
 <center>
-<img src="./img/textbook.png" style="width: auto; height: 400px"/>
+	<img src="./img/textbook.png" style="width: auto; height: 400px"/>
 </center>
 
 Roughly, a school textbook is optimized for the student to mentally grow, contextualize and learn from it. Superimposing this over our LLM training pipeline, we could say that:
@@ -727,13 +727,13 @@ apple?
 Let's say we have three answer candidates, all reaching the correct answer $3$:
 
 <center>
-<img src="./img/cl100k_base_rl.png" style="width: auto; height: 600px"/>
+	<img src="./img/cl100k_base_rl.png" style="width: auto; height: 600px"/>
 </center>
 
 Some of these answers are more concise, others more chronological and verbose, skipping quickly to the core result. 
 
 <center>
-<img src="./img/prompt_response_structure.png" style="width: auto; height: 250px"/>
+	<img src="./img/prompt_response_structure.png" style="width: auto; height: 250px"/>
 </center>
 
 We see that while the primary purpose of all possible candidates is to result in the correct answer, the secondary purpose is to provide a clear, "nice", and easy-to-follow reasoning path to this answer. **But how is the human labeler supposed to know which correct answer is the 'best correct' one?**
@@ -755,7 +755,7 @@ While gathering the outputs to the specific prompt, some of the outputs may lead
 **We finetune our LLM with only those responses that lead to the correct answer(s).** Now, we could continue to finetune the model with this *set of correct responses*, or we could pick out a single **'gold standard / top'** solution response from the set and use that to finetune the model further and towards a most desirable token sequence generation style and behavior.
 
 <center>
-<img src="./img/response_reinforcement.png" style="width: auto; height: 400px"/>
+	<img src="./img/response_reinforcement.png" style="width: auto; height: 400px"/>
 </center>
 
 > [!NOTE]
@@ -785,7 +785,7 @@ Interestingly, *RL training is relatively new and not at all standard for LLMs* 
 
 RL is *very* important for DeepSeek's state-of-the-art LLMs:
 <center>
-<img src="./img/deepseek-r1_AIME_over_steps.png" style="width: auto; height: 375px"/>
+	<img src="./img/deepseek-r1_AIME_over_steps.png" style="width: auto; height: 375px"/>
 </center>
 
 This image shows the capability improvement of DeepSeek's R1 model on the [AIME benchmark](https://artofproblemsolving.com/wiki/index.php/2024_AIME_I_Problems) during the progression of training. **Most interestingly, this graph isn't showing pretraining progression, but the RL post-training progression and impact.** This graph indicates that DeepSeek-R1 became very good at discovering solutions to even complex math problems through RL's guided self-optimization effects.
@@ -793,14 +793,14 @@ This image shows the capability improvement of DeepSeek's R1 model on the [AIME 
 Moreover, we see that the model does something we theorized above on its own account: The longer the RL post-training progresses, the more DeepSeek-R1 sees itself inclinded to spread out its solution across the context window, making the individual contributing token-level reasoning tasks easier for the model. **Critically, this effect emerges by itself:**
 
 <center>
-<img src="./img/deepseek-r1_avg_response_len.png" style="width: auto; height: 375px"/>
+	<img src="./img/deepseek-r1_avg_response_len.png" style="width: auto; height: 375px"/>
 </center>
 
 Furthermore, the paper also lays out *why* this effect emerges on its own.<br>
 The model has learnt that it is better for accuracy (i.e. reward) to try and apply different perspectives with the response, i.e. retrace, reframe, backtrack, compare. It is this behavior that emerges as the main cause for increased token usage in RL-finetuned DeepSeek-R1's responses:
 
 <center>
-<img src="./img/deepseek-r1_emergent_reflection.png" style="width: auto; height: 300px"/>
+	<img src="./img/deepseek-r1_emergent_reflection.png" style="width: auto; height: 300px"/>
 </center>
 
 > [!NOTE]
@@ -811,7 +811,7 @@ You can actually see for yourself how DeepSeek-R1 performs and how it differs fr
 Think of GPT-4o as being an LLM at the supervised finetuning stage and think of DeepSeek-R1 as being a model that underwent not only supervised finetuning, but also extensive reinforcement learning. The difference in problem approach and response quality is quite staggering:
 
 <center>
-<img src="./img/super_rl_emily.png"/>
+	<img src="./img/super_rl_emily.png"/>
 </center>
 
 One can't help but wonder how much closer DeepSeek-R1 seems to be to human-like reasoning, especially when reading phrases like `"Wait a second, let me check my math again to be sure."` or `"Let me just think if there's another way to approach this problem. Maybe setting up an equation?"`.
@@ -819,7 +819,7 @@ One can't help but wonder how much closer DeepSeek-R1 seems to be to human-like 
 With DeepSeek-R1's showcase of such an 'inner monologue', we can clearly see the similarity with what we discussed earlier for the prompt-response structure for RL:
 
 <center>
-<img src="./img/prompt_response_structure.png" style="width: auto; height: 250px"/>
+	<img src="./img/prompt_response_structure.png" style="width: auto; height: 250px"/>
 </center>
 
 ---
@@ -833,7 +833,7 @@ If you don't want to use DeepSeek-R1 through the official website, you can also 
 If you have a powerful enough machine, you can download an run DeepSeek-R1 safely on your system, for free. Tools like Ollama can be setup to accomodate for a simple point of interaction with your local copy of DeepSeek-R1. Note however that your computer is the limit of the model's capabilities. For example, on an NVIDIA 3060, you can expect DeepSeek-R1 to be a lot slower, a lot less fancy because of the lack of text formatting, and you will have to resort to smaller versions of it, e.g. the 8B model, which would look like this:
 
 <center>
-<img src="./img/ollama_deepseek.png" style="width: auto; height: 550px"/>
+	<img src="./img/ollama_deepseek.png" style="width: auto; height: 550px"/>
 </center>
 
 Also, truth be told, GPT-4o is actually not the most recent model from OpenAI.<br>OpenAI released the oX series of models, with o3 being the most recent one. Trust me, these model naming conventions confuse everybody. The oX series was trained with added Reinforcement Learning, like DeepSeek-R1, trained with similar techniques and with similar results.<br>Most of the oX models are paywalled, though. Also, OpenAI doesn't provide a view into the model's solution reasoning, like DeepSeek-R1 does, for fear of revealing too much about the model's inner workings.<br>Google tries their luck on great UI design and fails, but at least provides the hilariously named but capable [Gemini 2.0 Flash Thinking Experimental 01-21](https://aistudio.google.com/prompts/new_chat), a free-to-use model that is also trained with Reinforcement Learning.
@@ -845,7 +845,7 @@ Reinforcement Learning as a technique currently (02/2025) undergoes a sort of re
 Looking at this performance comparison of Lee Sedol vs. AlphaGo trained with Reinforcement Learning vs. AlphaGo trained with Supervised Finetuning, we can see that supervised learning ever only seems to at most mirror top human players, while **RL enables to actually surpass top human player performance by developing actually new, unique strategies**:
 
 <center>
-<img src="./img/alphago_rl_vs_sft.png" style="width: auto; height: 300px;" />
+	<img src="./img/alphago_rl_vs_sft.png" style="width: auto; height: 300px;" />
 </center>
 
 This 'new and unique strategies' part made AlphaGo stand out, and it caused what is now known as *Move 37*. During a game against Lee Sedol, AlphaGo made a move that was so unexpected and so out of the ordinary that it was considered a mistake by Lee Sedol. But it turned out to be a brilliant, never before seen move, and it was this move helped decide the game in AlphaGo's favor.
@@ -863,7 +863,7 @@ Reinforcement Learning with Human Feedback (RLHF) [\[Ziegler, et al. 2019\]](htt
 In principle, naively, we could have humans review every single one of the millions of jokes an LLM might generate, but that would be very time-consuming and expensive. **The scale becomes an issue:**
 
 <center>
-<img src="./img/rlhf_naive.png" style="width: 500px; height: auto;" />
+	<img src="./img/rlhf_naive.png" style="width: 500px; height: auto;" />
 </center>
 
 The core trick of RLHF is **indirection:** We will get humans involved, but only a little bit. We will train a seperate LLM, a so-called **reward model**, and we train it on the objective of imitating the few, but speaking human scores we gathered. This reward model is then used to bridge the scaling gap between the human judgement and what's needed for the LLM.
@@ -876,7 +876,7 @@ Given a prompt, the LLM that we want to apply RL to generates $n$ (attempts at) 
 Now, **seperately from what the human just did**, for each of these $n$ generated jokes, the *reward model* gets to see the prompt and this joke and scores it. Note that this *reward model* scores, it doesn't order. **The *reward model's* scores are within a fixed, continuous range**, say $0$ (worst) to $1$ (best). We go on to do this for all $n$ jokes and note each of their scores. From that, a ranking by the *reward model* emerges.
 
 <center>
-<img src="./img/rlhf_rundown.png" style="width: 500px; height: auto;" />
+	<img src="./img/rlhf_rundown.png" style="width: 500px; height: auto;" />
 </center>
 
 **The objective now is to minimize the difference in ordering between the human and the *reward model*.** In the image above, for example, you can see that the *reward model* and the human disagree on the ranking of the joke at human-decided rank 2. Based on differences like these, the *reward model* is optimized. As soon as this is deemed to be sufficiently achieved, the *reward model* is used to score the vast amounts of LLM-generated jokes.
