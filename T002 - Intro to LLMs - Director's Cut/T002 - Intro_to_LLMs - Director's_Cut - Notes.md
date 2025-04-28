@@ -27,17 +27,17 @@
 
 ### Inference
 
-A large language model requires just 2 files. If you look at [Llama-2-70b](https://ai.meta.com/llama/) by MetaAI, the name tells a lot about its makeup: It's the second iteration of the Llama model series, with 70 billion individual model parameters as part of it. As of now, this exact model is the most powerful one with openly available weights, meaning the specific values to use for all the parameters are known publicly.
+A large language model requires just 2 files, at a minimum. If you look at [Llama-2-70b](https://ai.meta.com/llama/) by MetaAI, the name indicates key details about the model: It is the second iteration of the Llama model series, with 70 billion individual model parameters as part of it. As of now, this exact model is the most powerful one with openly available weights. This means that the specific values to use for all the parameters are known publicly.
 
 > This public approach is in contrast to e.g. OpenAI's ChatGPT, where the only thing a user may see and interact with are the inferences and inputs. Weights are not shared here.
 
 Llama-2-70b consists of just two files: 
 - `parameters`: This file is ~140 GB (2 Bytes per weight, datatype is Float-16) and houses the weights, meaning the representations of the 70b parameters
-- `run.c`: Within this file, a very compact code allows for training and interaction with the parameters through inference. Here, the programming language used is called `C`, but languages like `Python`, `C++` or `Julia` can theoretically be used here as well
+- `run.c`: Within this file, a very compact code allows for training and interaction with the parameters through inference. Here, the programming language used is called `C`, but languages like `Python`, `C++` or `Julia` can be used here as well, theoretically
 
-> Beware that this duality of two files is enough to house the entire model. You could download these files (on say your M2 MacBook), run the model and this would work just fine.
+> Beware that this duality of files is enough to house the entire model. You could download these files (on say your M2 MacBook), run the model and this would work just fine.
 
-To really drive the point home, one could just cut the internet access, then ask the model to describe a specific company or come up with a recipe or anything like that, and the model would answer. This is because inference is done solely based on parameters. Text is solely generated based on parameters. Nothing else matters to Llama.
+To really drive the point home, one could just cut the internet access, then ask the model to describe a specific company or come up with a recipe or anything like that, and the model would answer. This is because inference is done solely using parameters. Text is solely generated based on parameters. No external information is used during inference.
 
 <img src="./img/Pasted%20image%2020231123104403.png" width="250" height="auto" />
 
@@ -45,15 +45,15 @@ To really drive the point home, one could just cut the internet access, then ask
 
 ### Training
 
-The inference process could be perceived as logically simple. Not so with the training process used to attain the parameters. There's no inference without training first. Training is so complex that, other than inference, running it on your laptop is not advised.
+The inference process could be perceived as logically simple. This wouldn't be the case for the training process used to attain the parameters. There's no inference without training first. Training is so complex that, other than inference, running it on your laptop is not advised.
 
-Interestingly, MetaAI [published how they trained Llama 2 exactly](https://arxiv.org/abs/2307.09288).<br>First, we need text for the model to get exposed to and to learn based upon. This is done by crawling the web, downloading ~10 TB of text.<br>The untrained model is exposed to this huge set of text on what's called a GPU cluster. Think of this as a set of servers, each running multiple [specialized graphics cards or graphics processing units (GPU)](https://www.nvidia.com/en-us/data-center/a100/) (not obtainable at BestBuy). As it turns out, specialized GPUs are the best hardware we have for training. MetaAI used 6,000 GPUs for 12 days, which cost them around $2 million. Rookie numbers by standards of closed-source models.
+Interestingly, MetaAI [published how they trained Llama 2 exactly](https://arxiv.org/abs/2307.09288).<br>First, we need text for the model to get exposed to and to learn based upon. This is done by crawling the web, downloading ~10 TB of text.<br>The untrained model is exposed to this huge set of text on what's called a GPU cluster. Think of this as a set of servers, each running multiple [specialized graphics cards or graphics processing units (GPU)](https://www.nvidia.com/en-us/data-center/a100/) (not obtainable at BestBuy). As it turns out, specialized GPUs are the best hardware we have for training. MetaAI used 6,000 GPUs for 12 days, which cost them around $2 million. This is relatively low compared to closed-source models.
 
 > Remarkably, this complex setup aims to distill knowledge about the ~10 TB of text into our desired set of parameters. You can think of this process as lossy knowledge compression.
 
 ### Network Interaction
 
-The core task of the LLM is to find the most likely next word, given a context, a set of words.
+The core task of the LLM is to find the most likely next token given a context, i.e. some set of tokens.
 
 <img src="./img/Pasted%20image%2020231123111305.png" width="500" height="auto" />
 
@@ -142,7 +142,7 @@ With AI tools like [ChatGPT on GPT-4 Turbo](https://chat.openai.com/) or [Perple
 
 ### An Academic Perspective
 
-A perceived academic notion is that of [two general modi operandi](https://en.wikipedia.org/wiki/Thinking,_Fast_and_Slow) in the human brain:
+A perceived academic notion is that of [two general modes of operation](https://en.wikipedia.org/wiki/Thinking,_Fast_and_Slow) in the human brain:
 - **System 1** describes a sort of cache, the idea of quick-fire response requiring little to no effort.
 - **System 2** adds the capability of processing complexity at a price of slower, logical, effortful thinking
 
@@ -158,15 +158,15 @@ Reinforcement Learning really is the looming force to be added more prominently 
 
 ## Jailbreaks and Security Challenges
 
-LLMs Jailbreaks have been discussed at varying degrees of seriousness on social media, but the core problem with them is that information generation by sufficiently trained LLMs has to be hard-restricted in certain areas. You don't want malevolent inquiries to receive constructive contribution. This is called ethics.
+LLMs Jailbreaks have been discussed at varying degrees of seriousness on social media, but the core problem with them is that information generation by sufficiently trained LLMs has to be hard-restricted in certain areas. You don't want malevolent inquiries to receive constructive contribution. This is a core ethical concern.
 
 An early circulated jailbreak consisted of pretending to setup a scenario around the actual inquiry, diluting the model's focus on detecting malintent. You tell a story about somebody asking something, letting the focus drift away from the question to the setting.
 
-*Another one.* Turns out Claude v1.3 not only understands but allows Base64:
+*Another one.* It turns out Claude v1.3 not only understands but also allows interaction in Base64:
 
 <img src="./img/Pasted%20image%2020231123142056.png" width="400" height="auto" /><br>Source: [Jailbroken: How Does LLM Safety Training Fail?](https://arxiv.org/abs/2307.02483)
 
-*Another one.* Turns out a single, universal suffix was found that if appended to your query, disables alignment measures:<br>[Universal and Transferable Adversarial Attacks on Aligned Language Models](https://arxiv.org/abs/2307.15043)
+*Another one.* Turns out a single, universal suffix was found that, if appended to a query, can disable alignment measures in some models:<br>[Universal and Transferable Adversarial Attacks on Aligned Language Models](https://arxiv.org/abs/2307.15043)
 
 *Another one.* Adding an image of a panda with carefully determined noise to your query acts as a key, disabling alignment measures:<br>[Visual Adversarial Examples Jailbreak Aligned Large Language Models](https://arxiv.org/abs/2306.13213)
 
@@ -175,6 +175,6 @@ An early circulated jailbreak consisted of pretending to setup a scenario around
 <img src="./img/F8XM80SXcAAVcVw.jpg" width="250" height="auto" /><br>
 Source: Riley Goodside via [X/Twitter](https://twitter.com/goodside/status/1713000581587976372)
 
-*Another one.* There exists something called a 'sleeper agent attack'. The attack vector concern the training data this time. If malintent is embedded there, e.g. bad documents setting up trigger phrases, this can intentionall misrepresent relationships to an extent where mentioning the phrase breaks the model.<br>Papers: [Poisoning Language Models During Instruction Tuning](https://arxiv.org/abs/2305.00944), [Poisoning Web-Scale Training Datasets is Practical](https://arxiv.org/abs/2302.10149)
+*Another one.* There exists something called a 'sleeper agent attack'. The attack vector concerns the training data this time. If malevolent intent is embedded there, e.g. bad documents setting up trigger phrases, this can intentionally misrepresent relationships to an extent where mentioning the phrase breaks the model.<br>Papers: [Poisoning Language Models During Instruction Tuning](https://arxiv.org/abs/2305.00944), [Poisoning Web-Scale Training Datasets is Practical](https://arxiv.org/abs/2302.10149)
 
 Interestingly, most of these attacks were found, published, addressed and fixed already. But you can see, the chase is on.

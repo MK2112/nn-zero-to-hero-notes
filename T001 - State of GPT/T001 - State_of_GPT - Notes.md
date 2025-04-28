@@ -28,7 +28,7 @@
 
 ## How To: Train GPT Assistance
 
-Think of GPT-personalization as an emerging technology to adapt GPTs to your needs and behavior expectations. A current approach consists of a multi-stage process:
+Think of GPT-personalization as an emerging technology to adapt GPTs to your needs and usage patterns and expected behaviors. A current approach consists of a multi-stage process:
 
 - **Pretraining:**
 	- *Dataset:* Raw internet scraped text, trillions of words with low task-specificity, in high quantity
@@ -40,7 +40,7 @@ Think of GPT-personalization as an emerging technology to adapt GPTs to your nee
 	- *Result:* SFT model *(this could be deployed)*
 - **Reward Modeling:**
 	- *Dataset:* Comparisons, may be written by human contractors
-	- *Algorithm:* Binary Classification (Answer vs. Good Answer labeling by human)
+	- *Algorithm:* Binary Classification (Bad Answer vs. Good Answer as labeled by a human)
 	- *Result:* RM model
 - **Reinforcement Learning (RL):**
 	- *Dataset:* Prompts (10K to 100K), may be written by human contractors
@@ -63,15 +63,15 @@ We've got the text, now what?<br>Given that GPTs are mathematical models, requir
 
 <img src="./img/Pasted%20image%2020231123163046.png" width="400" height="auto"/>
 
-> The main idea a good tokenizer implements is that a numeric representation is both lossless and unique to the text it represents.
+> A good tokenizer ensures that the numeric representation is both lossless and unique for each text.
 
 <img src="./img/Pasted%20image%2020231123163629.png" width="400" height="auto"/><br>Source: [LLaMA: Open and Efficient Foundation Language Models](https://arxiv.org/abs/2302.13971)
 
-Interestingly, LLaMA being smaller in parameter count achieves much higher performance than GPT-3 with its 175B parameters. This is due to longer training runs. LLaMA cost $5 million to train, requiring 2,048 NVIDIA A100 GPUs to be run for 21 days. This results in the base model LLaMA.
+Interestingly, LLaMA being smaller in parameter count achieves much higher performance than GPT-3 with its $175B$ parameters. This is due to longer training runs and factors such as improved data quality and model architecture. LLaMA cost $\$5 \text{million}$ to train, requiring $2,048$ NVIDIA A100 GPUs to be run for $21$ days. This process results in the base LLaMA model.
 
 #### Pretraining with Batches
 
-Now, given we have such a setup and attained the training dataset, we now need to reshape it to most efficiently expose our training process to the data.
+Now, given we have such a setup and attained the training dataset, we now need to reshape it to most efficiently expose the model to the data through training.
 
 **We define:**
 - $B$ as the batch size (e.g. $4$)
@@ -143,7 +143,7 @@ This sentence is the crescendo of a not so trivial thought process:
 
 See how the thought process concerns a writing process, but also a process tasked with reassuring factual correctness through tool use and correcting already written text?
 
-That's ... not how GPTs work. No internal dialogue, no reasoning as such (present, but shallow), no self-correction, no tool-use. A transformer will not reason reasonably.
+That's ... not how GPTs work. No internal dialogue, no reasoning as such (present, but shallow), no self-correction, no tool-use. A transformer will not reason ... reasonably.
 
 ### Self-Consistency
 
@@ -173,13 +173,13 @@ Interestingly, recent advancements worked towards addressing this.<br>**The toke
 
 <img src="./img/Pasted%20image%2020231123212252.png" width="300" height="auto" /><br>Source: [Toolformer: Language Models Can Teach Themselves to Use Tools](https://arxiv.org/abs/2302.04761)
 
-LLM capabilities concern the model memory as well. We have to place relevant information about a task in said memory for the model to perform best. Tool-use can help here, but how can Tools be most suitably established?
+LLM capabilities depend on the model's memory (context window) as well. We have to place relevant information about a task in said memory for the model to perform best. Tool-use can help here, but how can tools be most suitably established?
 
 Emerging right now, LlamaIndex is a data framework facilitating the integration of custom data sources with LLMs. Serving as a central interface, it enables said LLMs to ingest, structure, and access private or domain-specific data. For this, LlamaIndex provides essential tools, including data connectors, indexes, and application integrations, providing a central streamlining platform for ingestion, structuring, and integration of data with LLMs. Think of LlamaIndex as a bridge, enhancing both accessibility and usability of custom data (sources) for (custom) LLM tasks.
 
 ### Constrained Prompting
 
-Another emerging application is *constrained prompting*, meaning the request of contextually very specific, logically fitting information.
+Another emerging application is *constrained prompting*, meaning requesting very specific, contextually appropriate information.
 
 ```json
 {
@@ -200,11 +200,11 @@ Another emerging application is *constrained prompting*, meaning the request of 
 
 ### Finetuning
 
-Finetuning a model means changing its weights through exposure to a comparatively small dataset with the aim of inducing task-specificity in a more broadly trained base model. Thing is, the larger models, the more complex it is to finetune them.
+Finetuning a model means changing its weights through exposure to a comparatively small dataset with the aim of inducing task-specificity in a more broadly trained base model. However, the larger models, the more complex it is to finetune them.
 
 But:
-- Parameter Efficient FineTuning (PEFT) emerges, e.g. with [LoRA](https://arxiv.org/abs/2106.09685) making sure to only partially expose the model and clamp the rest as needed. This works still and also makes finetuning a lot cheaper.
-- High-quality base models emerge, requiring more and more specific specific finetuning, making it more efficient
+- Parameter Efficient FineTuning (PEFT) emerges, e.g. with [LoRA](https://arxiv.org/abs/2106.09685) making sure to only partially expose the model and clamp the rest as needed. This approach still works and also makes finetuning a lot cheaper.
+- High-quality base models emerge, requiring more and more specific specific finetuning, making the models more efficient
 
 ### Default Recommendations
 
@@ -227,7 +227,7 @@ But:
 	2) diverse (if appropriate) 
 - Experiment with tools/plugins to offload tasks difficult for LLMs (calculator, code execution, ...) 
 - If prompts are well-engineered (work for some time on that): Spend quality time optimizing a pipeline / "chain"
-- If you feel confident that you maxed out prompting, consider SFT data collection + finetuning
+- If you feel confident that you optimized your prompts as much as possible, consider SFT data collection + finetuning
 - Expert / fragile / research zone: consider RM data collection, RLHF finetuning 
 
 **Goal 2: Optimize costs to maintain performance** 
