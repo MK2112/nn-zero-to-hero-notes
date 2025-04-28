@@ -29,11 +29,11 @@
 
 ---
 
-The [last chapter](../G001%20-%20Deep%20Dive%20into%20LLMs/G001%20-%20Deep%20Dive%20into%20LLMs.md) provided a deep dive into large language models (LLMs) and their inner workings, the training and fine-tuning process, and their various applications. Now, we take a step further and explore how LLMs can be used in practice and how they can best be applied to specific tasks.
+The [last chapter](../G001%20-%20Deep%20Dive%20into%20LLMs/G001%20-%20Deep%20Dive%20into%20LLMs.md) provided a deep dive into large language models (LLMs) and their inner workings, the training and fine-tuning process, and their various applications. Now, we go further and explore how LLMs can be used in practice and how they can best be applied to specific tasks.
 
 ## The LLM Ecosystem
 
-Deployed in late 2022, OpenAI's ChatGPT showed the world the potential of LLMs. The release was one of the first times an LLM got deployed in a way that allowed users to interact with it for free, at a massive scale, via a simple chat-based interface. What was meant to be a research preview turned into the most popular app ever (back then).
+Deployed in late 2022, OpenAI's ChatGPT showed the world the potential of LLMs. The release was one of the first times an LLM got deployed in a way that allowed users to interact with it for free, at a massive scale, via a simple chat-based interface. What was meant to be a research preview turned into the most popular app ever (in 2022).
 
 ChatGPT hasn't remained the sole player in the chat-based LLM space. A whole ecosystem of LLMs and providers has emerged, each with their own strengths and weaknesses. Some of the most popular LLMs apart from ChatGPT are:
 
@@ -46,7 +46,7 @@ ChatGPT hasn't remained the sole player in the chat-based LLM space. A whole eco
 - [Google Gemini](https://gemini.google.com/)
 - [Mistral Le Chat](https://chat.mistral.ai/)
 
-LLM providers like OpenAI, Anthropic, xAI or Mistral try to distinguish their services by integrating unique features and capabilities. For example, Anthropic Claude 3.5 Sonnet is particularly good at generating code and Grok 3 is especially capable of problem-solving and real-time data analysis (data from 𝕏/Twitter that is). The interaction with these LLMs is made to be very similar to ChatGPT, with a chat-based interface that allows users to chronologically ask questions and receive answers in natural language.
+LLM providers like OpenAI, Anthropic, xAI or Mistral try to distinguish their services by integrating unique features and capabilities. For example, Anthropic Claude 3.5 Sonnet is particularly good at generating code and Grok 3 is especially capable of problem-solving and real-time data analysis (data from 𝕏/Twitter that is, real-time data access is limited). The interaction with these LLMs is made to be very similar to ChatGPT, with a chat-based interface that allows users to chronologically ask questions and receive answers in natural language.
 
 > [!NOTE]
 > You can get a very good picture of the current LLM landscape by visiting the [Chatbot Arena](https://lmarena.ai/) or [Scale AI's SEAL Leaderboards](https://scale.com/leaderboard). They list the up-to-date rankings of LLMs based on their performance on various different benchmarks.
@@ -55,7 +55,7 @@ ChatGPT found the largest adoption by customers and developers, and it presents 
 
 ## Interacting with ChatGPT
 
-Very generally speaking, interacting with an LLM like ChatGPT consists of providing some input and receiving an output in return. The input can be a question, or an instructive prompt, and the output is the model's response to that, with the instilled knowledge and the task-specific behavior it learned during the *pretraining* and the *posttraining* phases.
+Generally, interacting with an LLM like ChatGPT consists of providing some input and receiving an output in return. The input can be a question or an instructive prompt, and the output is the model's response to that, incorporating the learned representations and task-specific behaviors acquired during the pretraining and fine-tuning phases.
 
 <center>
     <img src="./img/ChatGPT_Haiku_Prompt.png" style="width: 550px; height: auto;" />
@@ -196,7 +196,7 @@ Source: [ARC-AGI via 𝕏.com](https://x.com/arcprize/status/1895206472004591637
 
 Regarding this graph, note that GPT-4.5 is a larger-scale *non-reasoning* model, while *DeepSeek R1 and the OpenAI oX model series are reasoning models*.
 
-The downside of reasoning is that the behavior it enforces in the LLM is more extensive and time-consuming.
+Reasoning in LLMs enhances accuracy but increases computational demands, leading to more extensive and time-consuming processing.
 
 > [!NOTE]
 > Reasoning models excel at complex problem-solving tasks, while simpler requests like travel advice or haikus don't require this advanced capability.
@@ -432,7 +432,7 @@ We can also generate images with LLMs, although this is rather done through tool
 
 ## Video
 
-Video processing works with ChatGPT's Advanced Voice Mode on mobile. The app sends both camera feed and voice input to the LLM, which can describe what it sees in the video frames. This capability is particularly valuable for visually impaired users.
+Video processing works with ChatGPT's Advanced Voice Mode on mobile. The app sends both camera feed and voice input to a multimodal LLM, which can describe what it sees in the video frames. This capability is particularly valuable for visually impaired users.
 
 <center>
     <img src="./img/ChatGPT_Audio_Video.png" style="width: 800px; height: auto;" />
@@ -440,11 +440,11 @@ Video processing works with ChatGPT's Advanced Voice Mode on mobile. The app sen
 
 Source: ["ChatGPT Can Now See You!" by K.C. Sabreena Basheer](https://www.analyticsvidhya.com/blog/2024/12/chatgpt-can-now-see-you/)<br><br>
 
-Video output is not well represented, but it's possible via proxy models like OpenAI's Sora. You can see a comparison of recent video models layed out by [this tweet/post](https://x.com/HBCoop_/status/1885002792017838233).
+Video output is not well represented, but it's possible via proxy models like OpenAI's Sora. You can see a comparison of recent video models laid out by [this tweet/post](https://x.com/HBCoop_/status/1885002792017838233).
 
 ## Quality of Life Features
 
-ChatGPT in particular offers additional features to further enhance the user experience and ease of use:
+ChatGPT in particular offers additional features to further enhance the user experience and ease of use.
 
 **Memory:** We said earlier that as soon as we start a new chat, the context window is cleared. ChatGPT now offers a feature to save a summary of the context window across chats in a *memory bank*, so you can continue with information across sessions. The *memory bank* is prepended to every new chat's context window. You can edit and delete individual memories, too.
 
@@ -470,7 +470,7 @@ You prime the entire GPT with a *global instruction set*, e.g. like so, in a few
     <img src="./img/ChatGPT_Custom_GPT_Instructions.png" style="width: 100%; height: auto;" />
 </center>
 
-This can then also be expanded to the other ChatGPT tools and features, like image processing:
+This can also be expanded to the other ChatGPT tools and features, like image processing:
 
 <center>
     <img src="./img/ChatGPT_Custom_GPT_OCR.png" style="width: 500px; height: auto;" />
@@ -484,4 +484,4 @@ In summary, we see an ever-evolving, ever-growing ecosystem of increasingly capa
     <img src="./img/Excalidraw_Summary.png" style="width: 100%; height: auto;" />
 </center>
 
-At any point, you're basically talking to a lossy '`.zip` file' of knowledge this 'file' was exposed to through several stages, intended for several different objectives. Beware of the model tier and model capabilities. Reasoning is the way to go for complex tasks, but it's computationally more expensive. Use tools where you can, especially for niche, recent but findable information. And **always verify the information you retrieve from an LLM**.
+At any point, you're basically talking to 'a lossy `.zip` file' of some knowledge that this 'file' was exposed to through several stages, intended for several different objectives. Beware of the model tier and model capabilities. Reasoning is the way to go for complex tasks, but it's computationally more expensive. Use tools where you can, especially for niche, recent but findable information. And **always verify the information you retrieve from an LLM**.
