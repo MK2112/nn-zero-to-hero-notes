@@ -46,7 +46,7 @@ ChatGPT hasn't remained the sole player in the chat-based LLM space. A whole eco
 - [Google Gemini](https://gemini.google.com/)
 - [Mistral Le Chat](https://chat.mistral.ai/)
 
-LLM providers like OpenAI, Anthropic, xAI or Mistral try to distinguish their services by integrating unique features and capabilities. For example, Anthropic Claude 3.5 Sonnet is particularly good at generating code and Grok 3 is especially capable of problem-solving and real-time data analysis (data from 𝕏/Twitter that is, real-time data access is limited). The interaction with these LLMs is made to be very similar to ChatGPT, with a chat-based interface that allows users to chronologically ask questions and receive answers in natural language.
+LLM providers like OpenAI, Anthropic, xAI or Mistral try to distinguish their services by integrating unique features and capabilities. For example, Anthropic Claude 3.5 Sonnet is particularly good at generating code and Grok 3 is especially capable of problem-solving and real-time data analysis (data from X/Twitter that is, real-time data access is limited). The interaction with these LLMs is made to be very similar to ChatGPT, with a chat-based interface that allows users to chronologically ask questions and receive answers in natural language.
 
 > [!NOTE]
 > You can get a very good picture of the current LLM landscape by visiting the [Chatbot Arena](https://lmarena.ai/) or [Scale AI's SEAL Leaderboards](https://scale.com/leaderboard). They list the up-to-date rankings of LLMs based on their performance on various different benchmarks.
@@ -192,7 +192,7 @@ Reasoning is valuable because it can't be easily faked or pre-programmed. It eme
     <img src="./img/Reasoning_models_and_4.5_ARC.jpeg" style="width: 600px; height: auto;" />
 </center>
 
-Source: [ARC-AGI via 𝕏.com](https://x.com/arcprize/status/1895206472004591637)<br><br>
+Source: [ARC-AGI via X.com](https://x.com/arcprize/status/1895206472004591637)<br><br>
 
 Regarding this graph, note that GPT-4.5 is a larger-scale *non-reasoning* model, while *DeepSeek R1 and the OpenAI oX model series are reasoning models*.
 
