@@ -15,8 +15,8 @@
 	- [Step 4: Inference](#step-4-inference)
 	- [Recap: The LLM Pretraining Pipeline](#recap-the-llm-pretraining-pipeline)
 	- [GPT-2: Training and Inference](#gpt-2-training-and-inference)
-	- [Base Models and Llamas in the wild](#base-models-and-llamas-in-the-wild)
-	- [Recap: Hallucinating LLamas](#recap-hallucinating-llamas)
+	- [Base Models and LLaMAs in the wild](#base-models-and-llamas-in-the-wild)
+	- [Recap: Hallucinating LLaMAs](#recap-hallucinating-llamas)
 - [Post-Training](#post-training)
 	- [Supervised Finetuning](#supervised-finetuning)
 		- [Hallucinations](#hallucinations)
@@ -57,7 +57,7 @@ We will do this with the example of a chatbot LLM like ChatGPT.
 When analyzing an LLM's response to a prompt, the output reflects not only its reference to the prompt itself but also its ability to generalize from the prompt to a broader context it can somehow access. An LLM is made to generalize from an input to a broader understanding through what is called **pretraining**.
 
 > [!NOTE]
-> **Pretraining** is the process of exposing an LLM to vast amounts of text. Through particular methods of exposure, the LLM is enabled to learn the statistical patterns from said text. Only these patterns are retained in the LLM's parameters, but they surprisingly sufficiently capture meaning and contextual interdependencies within text.
+> **Pretraining** is the process of exposing an LLM to vast amounts of text. Through particular methods of exposure, the LLM is enabled to learn the statistical patterns from said text. Only these patterns are retained in the LLM's parameters, but they surprisingly sufficiently capture meaning and contextual interdependencies within text. Pretraining aims to adjust the LLM's parameters so that its output probability for the respective next token is as often as possible as close as possible to the actual next token in the training data.
 
 **I know that this sounds like a lot of jargon. Don't worry about it, we're only just beginning to go through what all this means.**
 
@@ -144,25 +144,27 @@ The purpose of the additional columns is to provide metadata and context for eac
 
 ### Step 2: Tokenization
 
-The claim raised by *Step 1* was that if we expose an LLM to the gigantic corpus of high-quality text that is *FineWeb*, the LLM may become able to internalize and model the textual patterns and the nuances behind which phrases follow which. From that, we hope, that a fundamental, general, conceptual understanding of how language expresses coherent information is derived. **That would be nice.** 
+The claim raised by *Step 1* was that if we expose an LLM to the gigantic corpus of high-quality text that is *FineWeb*, the LLM may become able to internalize and model the textual patterns and the nuances behind which phrases follow which. From that, we hope that a fundamental, general conceptual understanding of how language expresses coherent information is derived. **That would be nice.** 
 
 However, "exposing the LLM to the data" is not that easy. 
 
-**An LLM expects input to be a one-dimensional sequence of a limited set of symbols.** You can argue that text "as-is" is already a one-dimensional sequence, i.e. a string of characters. But we can't really calculate with characters, we need some sort of numeric representation of them.
+**An LLM expects input to be a one-dimensional sequence of some limited set of symbols.** You can argue that text, a string of characters, is already a one-dimensional sequence. But we can't really calculate with characters. We need some sort of numeric representation of them.
+
+**Tokenization transforms text into numerical tokens, enabling language models to process and understand through numerical processing.** A token is a representation of a single unit of meaning. **LLMs don't ever operate on raw text.** Instead, they analyze the transformed token sequences to learn statistical relationships between those tokens. This training process allows LLMs to predict the likelihood of subsequent tokens, fundamentally facilitating downstream tasks like text generation and comprehension.
 
 > [!NOTE]
->We have to find a numeric representation that is ideally as unique, as expressive and as concise as possible for all fragments that make up a text. Transferring a text to this representation is called **tokenization**. The shorter a good numeric representation of a text, the longer the text sequences can be that we process with the LLM in the end, i.e. the more input we can provide or the more of past prompts and responses the LLM will be able to still consider. 
+>We have to find a numeric representation that is ideally as unique, as expressive and as concise as possible for all fragments that make for a text. Transferring a text to this representation is called **tokenization**. The shorter a good numeric representation of a text, the longer the text sequences can be that we process with the LLM in the end, i.e. the more input we can provide or the more of past prompts and outputs the LLM will be able to still consider.
 
-The above holds a key insight. **LLMs do not only process a prompt, but a context window of tokens.** The context window is a sequence of tokens that the LLM can consider at once. The longer the context window, the more tokens the LLM can process at once. LLMs may start out filling the context window with just the user prompt, but then continue to fill that context window with that prompt, their own response and the next prompt a user provides. The LLM can thus, to an extent, remember the chat history.
+The above holds a key insight. **LLMs do not only process a prompt, but a context window of tokens. The context window is a sequence of tokens that the LLM can consider at once while forming an output.** The longer the context window, the more tokens the LLM can consider. LLMs may start out filling the context window with just the initial user prompt, but then continue with that prompt, their own output and the next prompt a user provides, filling it all into the context window. By retaining this information in the context window, the LLM can, to an extent, remember the chat history and act accordingly in its next outputs.
 
-Going back to *tokenization*, like everything else shown and processed by a computer, at its lowest abstraction, text is just binary code. We could translate a text into its binary representation and that would be a one-dimensional, numeric, unique representation. But it would be awfully extensive and inefficient, because we would need a lot of bits to represent just a single character (with unicode encoding, for example, a single character can take up to $32$ bits). This would limit the amount of text we could process at once with the same amount of memory. And this in turn would limit the amount of text we could refer to for generation. We would reduce the LLM's ability to remember and refer to past prompts and responses. Our LLM would suffer if we were to apply binary representation as our level of abstraction.
+Going back to *tokenization*, like everything else shown and processed by a computer, at its lowest abstraction, text is just binary code. We could translate a text into its binary representation and that would be a one-dimensional, numeric, unique representation. But it would be awfully extensive and inefficient, because we would need a lot of bits to represent just a single character (with unicode encoding, for example, a single character can take up to $32$ bits). This would limit the amount of text we could process at once with the same amount of memory. And this in turn would limit the amount of text we could refer to for generation. We would reduce the LLM's ability to remember and refer to past prompts and outputs. Our LLM would suffer if we were to apply binary representation as our level of abstraction.
 
 We are about to go into a specific technique for *tokenization*. Before going there, I want to mention what a **token** actually is.
 **A token is a representation of a single unit of meaning.** This doesn't say much on its own, but it is crucial. It is important to understand that a *token* can be a single character, a word, syllables or even some subword, i.e. a chunk of text. **The tokenization process is not only about transferring text to its tokenized representation, but also and foremost about finding the right balance between the size of the individual tokens, meaning the amount of information each of them carry, and the number of tokens that are produced in total.** The more narrow the information a token represents, the easier it becomes to process, but the more tokens may become necessary to represent the entire text, limiting the processable context size considerably.
 
 #### Byte-Level Tokenization
 
-If this bit-level binary representation idea we just looked at is not a good choice for tokenization, then what about moving up the abstraction hierarchy? What about not using only zeros and ones to embed a text, but instead use fixed-size groups of zeros and ones to represent certain fragments of the text?
+*If this bit-level binary representation idea we just looked at is not a good choice for tokenization, then what about moving up the abstraction hierarchy?* What about not using only zeros and ones to embed a text, but instead use fixed-size groups of zeros and ones to represent certain fragments of the text?
 
 A byte is a sequence of $8$ bits, meaning $8$ values, each either $0$ or $1$. One byte can be one of $2^8 = 256$ different combinations of zeros and ones.
 
@@ -426,7 +428,7 @@ While still nowhere near perfect, we get to see intuitively that training is goi
 
 ---
 
-### Base Models and Llamas in the wild
+### Base Models and LLaMAs in the wild
 
 We can't expect everybody to pull out their credit cards and afford from-scratch training runs for new LLMs on state-of-the-art infrastructure. 
 Fortunately, we can download so-called **base models** and run inference on them using our local machines with much less resource demands.
@@ -447,14 +449,14 @@ These *base models* most often can be found on the [HuggingFace Model Hub](https
 
 **Just for comparison on how far the scaling has come for base models:**
 - OpenAI GPT-2 XL (2019): $1.5\text{B}$ parameters, trained on $100\text{B}$ tokens
-- FAIR Llama 3.1 (2024): $405\text{B}$ parameters, trained on $15\text{T}$ tokens
+- FAIR LLaMA 3.1 (2024): $405\text{B}$ parameters, trained on $15\text{T}$ tokens
 - DeepSeek-V3-0324 (2025): $671\text{B}$ parameters, trained on $14.8\text{T}$ tokens
 
 **What do we get from those Base models?**<br>Base models have been built architectually and they have been exposed to the pretraining step we discussed earlier. The latter of these two is arguably the most expensive step for producing a capable LLM, but it is not the last. Think of it like this: Now that a model was exposed to the pretraining data, and we can attain it, the model may have projected concepts and insights from correlations in the token sequences into its weights, but nothing more. The model has no strategy for how to use insights in context or what style to respond in. It is still a blank slate in terms of how to apply the information it got exposed to.
 
-We can find out what base models like Llama 3.1 405B behave like when accessing them through e.g. [Hyperbolic](https://app.hyperbolic.xyz/models/llama31-405b-base).<br>This costs money, though.
+We can find out what base models like LLaMA 3.1 405B behave like when accessing them through e.g. [Hyperbolic](https://app.hyperbolic.xyz/models/llama31-405b-base).<br>This costs money, though.
 
-Here's what it looks like when asking the Llama 3.1 405B base model to solve a simple math problem:<br>
+Here's what it looks like when asking the LLaMA 3.1 405B base model to solve a simple math problem:<br>
 <center>
 	<img src="./img/llama31_2+2_2.png" />
 </center>
@@ -476,9 +478,9 @@ We very clearly see the stochasticity in the next token selection at work here. 
 
 **Think of ChatGPT for example:** At its release, ChatGPT was powered by the GPT-3.5 model. But when prompted, the model goes beyond simply continuing your text. It would answer questions, generate code, or even write poetry on your demand. **The GPT-3.5 model was fine-tuned beyond pretraining to this specific task of being an assistant to the prompting person, thus having patterns of dialogue emerge between the user and the model.** Those models are referred to commonly as **instruct models.**
 
-Let's actually take a step back again and look at the base model Llama 3.1 405B for another moment.<br>How does a pretrained model react to data it knows vs. data it has never seen before?
+Let's actually take a step back again and look at the base model LLaMA 3.1 405B for another moment.<br>How does a pretrained model react to data it knows vs. data it has never seen before?
 
-Let's say we prompt Llama 3.1 405B Base with the opening sentence to the Wikipedia article on [zebras](https://en.wikipedia.org/wiki/Zebra):
+Let's say we prompt LLaMA 3.1 405B Base with the opening sentence to the Wikipedia article on [zebras](https://en.wikipedia.org/wiki/Zebra):
 
 <center>
 	<img src="./img/llamas_zebras.png" />
@@ -486,20 +488,23 @@ Let's say we prompt Llama 3.1 405B Base with the opening sentence to the Wikiped
 
 The model continues the text with a coherent, contextually appropriate response. Moreover, **it reproduces a near-exact copy of the Wikipedia article on zebras.** This is because the model has seen this text during pretraining. Moreover, the texts from Wikipedia are generally considered high-quality, so they are used multiple times in pretraining datasets to instill conceptual quality. This causes a seemingly close familiarity of the model with the text.
 
-According to [The Llama 3 Herd of Models \[Grattafiori, et al. 2024\]](https://arxiv.org/pdf/2407.21783#page=4.70), the data used for pretrained was gathered until the end of 2023. So, what if we'd prompt it with a sentence about the 2024 US presidential elections and see how Llama 3.1 405B Base reacts:
+According to [The LLaMA 3 Herd of Models \[Grattafiori, et al. 2024\]](https://arxiv.org/pdf/2407.21783#page=4.70), the data used for pretrained was gathered until the end of 2023. So, what if we'd prompt it with a sentence about the 2024 US presidential elections and see how LLaMA 3.1 405B Base reacts:
 
 <center>
 	<img src="./img/llama31_Hallucination.png" />
 </center>
 
-This looks reasonably constructed, but we know better. It is factually false, hallucinated by the model based on what sounds good, as the model just doesn't know any better from the older pretraining data.
+This looks reasonably well constructed, but we know better. It is factually false, **hallucinated by the model based on what sounds good**, as the model just doesn't know any better from the older pretraining data.<br>
 This effect is also one of the reasons why one shouldn't use LLMs for fact-checking or knowledge retrieval. Note that this concerns LLMs with no connection to the internet. LLMs with such a research capability exist now, like [Perplexity.ai](https://perplexity.ai), and can indeed be used for search.
+
+> [!NOTE]
+>A hallucination is a phenomenon where the model generates text that is not grounded in reality, i.e. it produces plausible-sounding but incorrect or nonsensical information. This is a common issue with LLMs, caused by the model's conceptual reliance on patterns and correlations (sequential, co-occurrences, etc.) in the training data.
 
 ---
 
-### Recap: Hallucinating LLamas
+### Recap: Hallucinating LLaMAs
 
-We've seen that while base models like Llama 3.1 405B demonstrate an understanding of the input, their knowledge is very strictly limited to text encountered during pretraining and the format of that particular text. Moreover, **base LLMs aren't operating in any task-specific fashion.** We've seen that in the LLM hallucinating on content beyond its pretraining data's knowledge cut-off, and it trailing off into blabbering at times.
+We've seen that while base models like LLaMA 3.1 405B demonstrate an understanding of the input, their knowledge is very strictly limited to text encountered during pretraining and the format of that particular text. Moreover, **base LLMs aren't operating in any task-specific fashion.** We've seen that in the LLM hallucinating on content beyond its pretraining data's knowledge cut-off, and it trailing off into blabbering at times.
 
 **We can do better than that.**<br>And indeed, there's a stage following the pretraining stage that will help us address these issues. This stage is called **Post-Training**.
 
@@ -598,7 +603,7 @@ Interestingly, hallucinations seem to become less and less of an issue with newe
 
 The model is made to handle the fact that it doesn't know who Orson Kovacs is. This was made possible by adding examples into the supervised finetuning dataset that are out of scope for the rest of the examples therein. For these genuinely unique, unobtainable answer examples, the according reactions to appropriately signal unawareness were added.
 
-For example, in section 4.3.6 of [The Llama 3 Herd of Models \[Grattafiori, et al. 2024\]](https://arxiv.org/pdf/2407.21783#page=27.10), the Meta researchers lay out how they track down such good out of scope examples and how they add them to the finetuning dataset:
+For example, in section 4.3.6 of [The LLaMA 3 Herd of Models \[Grattafiori, et al. 2024\]](https://arxiv.org/pdf/2407.21783#page=27.10), the Meta researchers lay out how they track down such good out of scope examples and how they add them to the finetuning dataset:
 
 <center>
 	<img src="./img/llama_hallucination_avoidance.png" />
