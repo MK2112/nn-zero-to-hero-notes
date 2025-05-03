@@ -115,11 +115,15 @@ Reward Modeling is based on improving through user feedback based on ranking. Th
 
 Between all possible pairs of these potential answers, we do binary classification.<br>To do so, we lay out the (always identical) prompts concatenated with the different responses, and we add a specific $<|reward|>$ token at the end of each response. 
 
-An additional transformer model will predict at the input of the readout token how good it thinks the preceeding Q-A combination is, essentially making a guess on each completion's quality. The prediction at the input of this readout token is now intended as a prediction of quality, serving as a guide in assessing the completion-providing model's confidence.
+The Reward Model evaluates the quality of an entire sequence we just built.
 
-Only now does the human-derived ranking come into play. We adapt perceived rewards through the actual ranking, nudging some scores up, some others down, making the Transformer tend towards one, more favored, option as answer. We attain a *Reward Model* for response quality.
+This model, an additional transformer model, will predict at the input of the sequence, when reaching the readout token how good it thinks the preceeding Q-A combination is, essentially making a guess on each completion's quality. This scalar prediction at the input of this readout token is now intended as a judgement of quality, serving as a guide in assessing the completion-providing model's confidence.
 
-This additional *Reward Model* in itself is small, and not really useful. But coupled to the LLM, it shines in what follow now: Reinforcement Learning
+Only now does the human-derived ranking come into play. We adapt perceived rewards through the actual, human-decided ranking, nudging some scores up, some others down, making the Transformer tend towards one most favored option as the answer. We attain an optimized *Reward Model* for response quality.
+
+The *Reward Model* topic is about how a "sequence rating" can fundamentally be used to steer a revision of the "next token prediction" task, in conjunction here with human feedback for the *Reward Model* itself.
+
+This *Reward Model* in itself is small, and not really useful. But coupled to the LLM, it shines in what follow now: Reinforcement Learning.
 
 ### Reinforcement Learning
 
