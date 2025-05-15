@@ -6,7 +6,7 @@
 
 **Table of Contents**
 
-- [How To: Train GPT Assistance](#how-to-train-gpt-assistance)
+- [How To: Train A GPT Assistant](#how-to-train-gpt-assistance)
 	- [Pretraining](#pretraining)
 		- [Data Gathering](#data-gathering)
 		- [Tokenization](#tokenization)
@@ -15,7 +15,7 @@
 	- [Reward Modeling](#reward-modeling)
 	- [Reinforcement Learning](#reinforcement-learning)
 
-- [How To: Use GPT Assistance](#how-to-use-gpt-assistance)
+- [How To: Use A GPT Assistant](#how-to-use-gpt-assistance)
 	- [Self-Consistency](#self-consistency)
 	- [Present Notion of Past Mistakes](#present-notion-of-past-mistakes)
 	- [Going Experimental](#going-experimental)
@@ -26,7 +26,7 @@
 
 ---
 
-## How To: Train GPT Assistance
+## How To: Train A GPT Assistant
 
 Think of GPT-personalization as an emerging technology to adapt GPTs to your needs and usage patterns and expected behaviors. A current approach consists of a multi-stage process:
 
@@ -136,7 +136,7 @@ We expose our LLM to it, again producing multiple answers per prompt. Thing is, 
 
 Interestingly, RLHF-ed models gain in perceived quality of response and contextual reference, but tend to play it save on the entropy side. They tend to become less and less likely to choose possible, yet not *most preferred* next token predictions. This partially stems from maximizing positive feedback in the RM/RL stages, turning a model risk-averse, making it favor well-established and commonly accepted responses. This, by the way, is a key indicator for detecting AI-generated text.
 
-## How To: Use GPT Assistance
+## How To: Use A GPT Assistant
 
 Human-written sentences are interesting. They reach deep into both the author's and the reader's perception, experience and skillsets. 
 
