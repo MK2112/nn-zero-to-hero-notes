@@ -27,17 +27,17 @@
 
 ### Inference
 
-A large language model requires just 2 files, at a minimum. If you look at [Llama-2-70b](https://ai.meta.com/llama/) by MetaAI, the name indicates key details about the model: It is the second iteration of the Llama model series, with 70 billion individual model parameters as part of it. As of now, this exact model is the most powerful one with openly available weights. This means that the specific values to use for all the parameters are known publicly.
+Given a large language model (LLM) like [Llama-2-70b](https://ai.meta.com/llama/) by MetaAI. The name indicates key details about the model: It is the second iteration of the Llama model series, with $70$ billion individual model parameters as part of it. Before the release of the DeepSeek V3 and R1 models, this model was the most powerful one with openly available weights. This term 'openly available weights' means that the specific values to use for all the parameters have been published.
 
 > This public approach is in contrast to e.g. OpenAI's ChatGPT, where the only thing a user may see and interact with are the inferences and inputs. Weights are not shared here.
 
-Llama-2-70b consists of just two files: 
-- `parameters`: This file is ~140 GB (2 Bytes per weight, datatype is Float-16) and houses the weights, meaning the representations of the 70b parameters
+Llama-2-70b consists of just two files:
+- `parameters`: This file is ~140 GB (2 Bytes per weight, datatype is `Float16`) and houses the weights, meaning the representations of the $70$ billion parameters
 - `run.c`: Within this file, a very compact code allows for training and interaction with the parameters through inference. Here, the programming language used is called `C`, but languages like `Python`, `C++` or `Julia` can be used here as well, theoretically
 
 > Beware that this duality of files is enough to house the entire model. You could download these files (on say your M2 MacBook), run the model and this would work just fine.
 
-To really drive the point home, one could just cut the internet access, then ask the model to describe a specific company or come up with a recipe or anything like that, and the model would answer. This is because inference is done solely using parameters. Text is solely generated based on parameters. No external information is used during inference.
+To really drive the point home, one could just cut the internet access, then ask the model to describe a specific company or come up with a recipe or anything like that, and the model would answer. This is because inference is done solely using parameters. Text is solely generated based on the parameters. No external information is used during inference.
 
 <img src="./img/Pasted%20image%2020231123104403.png" width="250" height="auto" />
 
@@ -47,9 +47,9 @@ To really drive the point home, one could just cut the internet access, then ask
 
 The inference process could be perceived as logically simple. This wouldn't be the case for the training process used to attain the parameters. There's no inference without training first. Training is so complex that, other than inference, running it on your laptop is not advised.
 
-Interestingly, MetaAI [published how they trained Llama 2 exactly](https://arxiv.org/abs/2307.09288).<br>First, we need text for the model to get exposed to and to learn based upon. This is done by crawling the web, downloading ~10 TB of text.<br>The untrained model is exposed to this huge set of text on what's called a GPU cluster. Think of this as a set of servers, each running multiple [specialized graphics cards or graphics processing units (GPU)](https://www.nvidia.com/en-us/data-center/a100/) (not obtainable at BestBuy). As it turns out, specialized GPUs are the best hardware we have for training. MetaAI used 6,000 GPUs for 12 days, which cost them around $2 million. This is relatively low compared to closed-source models.
+Interestingly, MetaAI [published how they trained Llama 2 exactly](https://arxiv.org/abs/2307.09288).<br>First, we need text for the model to get exposed to and to learn based upon. This is done by crawling the web, downloading ~10 TB of text.<br>The untrained model is exposed to this huge set of text on what's called a GPU cluster. Think of this as a set of servers, each running multiple [specialized graphics cards or graphics processing units (GPU)](https://www.nvidia.com/en-us/data-center/a100/) (not obtainable at BestBuy). As it turns out, specialized GPUs are the best hardware we have for training. MetaAI used $6,000$ GPUs for $12$ days, which cost them around $2 million. This is relatively low compared to closed-source models.
 
-> Remarkably, this complex setup aims to distill knowledge about the ~10 TB of text into our desired set of parameters. You can think of this process as lossy knowledge compression.
+> Remarkably, this complex setup aims to distill knowledge about the ~10 TB of text into our desired set of parameters. **You can think of this process as lossy knowledge compression.**
 
 ### Network Interaction
 
@@ -69,7 +69,7 @@ If your objective is next word prediction, your parameters should encode the var
 
 The process of taking output and concatenating it to the former input to form the next input is referred to as 'dreaming'. This is one of the reasons why e.g. OpenAI states for ChatGPT that "ChatGPT can make mistakes. Consider checking important information." Statements by the LLM like DOIs, ISBNs and dates are not based on fact, as they should be, but entirely on perceived likelihood in a given context. The LLM 'parrots' what it thinks fits best based on what it has seen in the training data. Some outputs thus may be factually correct, some others may only seem like it. It's lossy compression at work, basically.
 
-If this sounds interesting, I refer you to [Karpathy's Makemore series](https://www.youtube.com/watch?v=PaCmpygFfXo), where the process of next character prediction gets implemented and discussed in detail.
+If this sounds interesting, I refer you to [Andrej's Makemore series](https://www.youtube.com/watch?v=PaCmpygFfXo), where the process of next character prediction gets implemented and discussed in detail. See the notes for this series [here](../N002%20-%20Makemore%201/N002%20-%20Makemore.ipynb).
 
 ### Network Architecture
 
@@ -81,15 +81,15 @@ This is the [Transformer](https://arxiv.org/abs/1706.03762). This building block
 
 > Seriously, think of LLMs as models that output chains of perceived likelihoods. LLMs are no databases. Think of LLMs as (for now) mostly inscrutable artifacts, and develop correspondingly sophisticated evaluations.
 
-If you're interested in Transformers beyond this, [Karpathy's video on GPT](https://www.youtube.com/watch?v=kCc8FmEb1nY) might be a good resource.
+If you're interested in Transformers beyond this, [Andrej's video on GPT](https://www.youtube.com/watch?v=kCc8FmEb1nY) might be a good resource. (see the notes [here](../N007%20-%20GPT%20From%20Scratch/N007%20-%20GPT.ipynb))
 
 ### Requiring Management Assistance
 
-Ok, imagine we now have setup a Transformer-based model that we already exposed to Terabytes of scraped training texts, optimizing the model for next word prediction. At best, this makes our LLM a proficient document generator.
+Imagine we now have setup a Transformer-based model that we already exposed to Terabytes of scraped training texts, optimizing the model for next word prediction. **At best, this makes our LLM a proficient document generator.**
 
 <img src="./img/Pasted%20image%2020231123115954.png" />
 
-The LLMs behind ChatGPT, Llama or Open Assistant however are not limited to this. You can provide them with a question and receive an answer. To enable this behavior, essentially we continue with the training, but swap out the data. Specifically, a human-written dataset of questions as input and answers as output is derived.
+However, the LLMs behind ChatGPT, Llama or Open Assistant are not limited to this. You can provide them with a question and receive an answer. To enable this behavior, essentially we continue with the training, but swap out the data. Specifically, a human-written dataset of questions as input and answers as output is derived.
 
 > Think of this as the second stage of a [Transfer Learning](https://www.informatica.si/index.php/informatica/article/view/2828) process. The first stage was high quantity, low task-specific quality. The second stage now provides less quantity, but task specification. This is a special case of transfer learning, called **Finetuning**. For OpenAI, the process is outlined in [this paper](https://arxiv.org/abs/2203.02155).
 
@@ -177,4 +177,4 @@ Source: Riley Goodside via [X/Twitter](https://twitter.com/goodside/status/17130
 
 *Another one.* There exists something called a 'sleeper agent attack'. The attack vector concerns the training data this time. If malevolent intent is embedded there, e.g. bad documents setting up trigger phrases, this can intentionally misrepresent relationships to an extent where mentioning the phrase breaks the model.<br>Papers: [Poisoning Language Models During Instruction Tuning](https://arxiv.org/abs/2305.00944), [Poisoning Web-Scale Training Datasets is Practical](https://arxiv.org/abs/2302.10149)
 
-Interestingly, most of these attacks were found, published, addressed and fixed already. But you can see, the chase is on.
+Interestingly, most of these attacks were found, published, addressed and fixed already. But you can see, **the chase is on.**
