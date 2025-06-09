@@ -29,13 +29,13 @@
 
 ---
 
-The [last chapter](../G001%20-%20Deep%20Dive%20into%20LLMs/G001%20-%20Deep%20Dive%20into%20LLMs.md) provided a deep dive into large language models (LLMs) and their inner workings, the training and fine-tuning process, and their various applications. Now, we go further and explore how LLMs can be used in practice and how they can best be applied to specific tasks.
+The [last chapter](../G001%20-%20Deep%20Dive%20into%20LLMs/G001%20-%20Deep%20Dive%20into%20LLMs.md) provided a deep dive into large language models (LLMs) and their inner workings, the training and fine-tuning process, and the various applications for such systems.<br>Now, we go further and explore how LLMs can best be applied to specific, practical tasks.
 
 ## The LLM Ecosystem
 
-Deployed in late 2022, OpenAI's ChatGPT showed the world the potential of LLMs. The release was one of the first times an LLM got deployed in a way that allowed users to interact with it for free, at a massive scale, via a simple chat-based interface. What was meant to be a research preview turned into the most popular app ever (in 2022).
+First deployed in late 2022, OpenAI's ChatGPT showed the broader public the profound potential of AI. The release marked one of the first times that an LLM got deployed in a way that allowed any kind of user to interact with it, for free, at a massive scale, via a simple chat-based interface. What was meant to be a research preview turned into the most popular app *ever* (until Meta released Threads).
 
-ChatGPT hasn't remained the sole player in the chat-based LLM space. A whole ecosystem of LLMs and providers has emerged, each with their own strengths and weaknesses. Some of the most popular LLMs apart from ChatGPT are:
+ChatGPT did not remain the sole player in the chat-based LLM space for long. A whole ecosystem of LLMs and providers has emerged, each with their own strengths and weaknesses. Some of the most popular LLM services, apart from ChatGPT, are:
 
 - [DeepSeek](https://chat.deepseek.ai/)
 - [Anthropic Claude](https://claude.ai/)
@@ -46,16 +46,16 @@ ChatGPT hasn't remained the sole player in the chat-based LLM space. A whole eco
 - [Google Gemini](https://gemini.google.com/)
 - [Mistral Le Chat](https://chat.mistral.ai/)
 
-LLM providers like OpenAI, Anthropic, xAI or Mistral try to distinguish their services by integrating unique features and capabilities. For example, Anthropic Claude 3.5 Sonnet is particularly good at generating code and Grok 3 is especially capable of problem-solving and real-time data analysis (data from X/Twitter that is, real-time data access is limited). The interaction with these LLMs is made to be very similar to ChatGPT, with a chat-based interface that allows users to chronologically ask questions and receive answers in natural language.
+LLM providers like OpenAI, Anthropic, xAI or Mistral try to distinguish their services by integrating unique features and capabilities. For example, Anthropic Claude 4 Opus is particularly good at generating code and Grok 3.5 is capable of problem-solving and data analysis (data from X/Twitter that is, real-time data access is limited). The interaction with these LLMs is made to be very similar to that of ChatGPT: **A chat-based interface allows users to chronologically ask questions and receive answers in natural language.**
 
 > [!NOTE]
-> You can get a very good picture of the current LLM landscape by visiting the [Chatbot Arena](https://lmarena.ai/) or [Scale AI's SEAL Leaderboards](https://scale.com/leaderboard). They list the up-to-date rankings of LLMs based on their performance on various different benchmarks.
+> You can get a good picture of the current LLM landscape by visiting the [Chatbot Arena](https://lmarena.ai/) or [Scale AI's SEAL Leaderboards](https://scale.com/leaderboard). They list the up-to-date rankings of LLMs, the models provided through LLM services, based on their performance on various different benchmarks.
 
-ChatGPT found the largest adoption by customers and developers, and it presents itself as the most feature-rich LLM ecosystem. It is a good idea to start going into detail on how to use ChatGPT and how to get the most out of it.
+**ChatGPT found the largest adoption by customers and developers, and it presents itself as the most feature-rich LLM ecosystem.**<br>It is a good idea to start going into detail on how to use ChatGPT and how to get the most out of it.
 
 ## Interacting with ChatGPT
 
-Generally, interacting with an LLM like ChatGPT consists of providing some input and receiving an output in return. The input can be a question or an instructive prompt, and the output is the model's response to that, incorporating the learned representations and task-specific behaviors acquired during the pretraining and fine-tuning phases.
+Generally, interacting with an LLM like ChatGPT consists of **providing some input and receiving an output in return**. The input can be a question or an instructive prompt, and the output is the model's response to that, incorporating the learned representations and task-specific behaviors acquired during the pretraining and fine-tuning phases.
 
 <center>
     <img src="./img/ChatGPT_Haiku_Prompt.png" style="width: 550px; height: auto;" />
@@ -67,11 +67,11 @@ ChatGPT is tuned to write good text. You will get a good first feel for the capa
     <img src="./img/ChatGPT_Haiku_Response.png" style="width: 550px; height: auto;" />
 </center>
 
-You can see that OpenAI really leaned into the chat-based interface with ChatGPT. The model is designed to be conversational and to provide responses that are engaging and helpful, like a responses from a human. This is a big part of why ChatGPT became so successful.
+You can see that OpenAI really leaned into the chat-based approach with ChatGPT. The model is designed to be conversational, to provide responses that are engaging and helpful, akin to responses from a human. This model behavior is a big part of why ChatGPT became so successful.
 
-As you can imagine, there's quite *a lot* going on under the hood when you interact with ChatGPT. The model has to process your input, generate a response, and then provide that response to you in a way that is fast, referencing your input correctly, while being accurate and engaging. This is a very complex process that involves a lot of different components, including the model itself, the inference engine, the response generation, and the response delivery. We talked about this in a little more detail already in the [last chapter](../G001%20-%20Deep%20Dive%20into%20LLMs/G001%20-%20Deep%20Dive%20into%20LLMs.md), where we also covered what's called the initial step that treats text to be input into such a model: "tokenization".
+As you can imagine, there's quite *a lot* going on under the hood when you interact with ChatGPT. The model has to process your input, generate a response, and then provide that response to you in a way that is fast, referencing your input correctly, while being accurate and engaging. This is a very complex process that involves a lot of different components, including the model itself, the inference engine, the response generation, and the response delivery. We talked about this in a little more detail already in the [last chapter](../G001%20-%20Deep%20Dive%20into%20LLMs/G001%20-%20Deep%20Dive%20into%20LLMs.md), where we also covered what's called the initial step that treats text to be input into such a model: **Tokenization**.
 
-When you provide a prompt for ChatGPT to respond to, a *tokenizer* first chops the text prompt into a sequence of numeric tokens, each uniquely representing a particular chunk of your text. Your text, i.e. your provided sequence of words/letters/sentences, is transformed into a sequence of tokens, which each by their contents have been assigned unique integer ID.
+When you provide a prompt for ChatGPT to respond to, a **tokenizer** first chops the text prompt into a sequence of numeric tokens, each uniquely representing a particular chunk of your text. Your text, i.e. your provided sequence of words/letters/sentences, is transformed into a sequence of tokens, which each by their contents have been assigned unique integer ID.
 
 <center>
     <img src="./img/Haiku_Prompt_Tokenization.png" style="width: 600px; height: auto;" />
@@ -104,7 +104,7 @@ ghost of thought, unseen.<|im_end|>
 ```
 
 > [!NOTE]
-> With Chatbot-like LLM interactions, both the user and the LLM contribute alternately to one common token sequence. With ChatGPT, currently, each participant's contribution is wrapped in the `<|im_start|>` and `<|im_end|>` tokens special phrases, which are mapped to particular, special tokens by the tokenizer, servivng as guiding markers for the model for how to reference which aspects of the nuances of earlier conversation.
+> With Chatbot-like LLM interactions, both the user and the LLM contribute alternately to one common token sequence. With ChatGPT, currently, each participant's contribution is wrapped in the `<|im_start|>` and `<|im_end|>` tokens special phrases, which are mapped to particular, special tokens by the tokenizer, serving as guiding markers for the model for how to reference which aspects of the nuances of earlier conversation.
 
 <center>
     <img src="./img/Special_Tokens_Haiku.png" style="width: 600px; height: auto;" />
@@ -129,7 +129,7 @@ Another dimension to consider is the model itself. In the [last chapter](../G001
 Once *pretraining* concludes, the LLM doesn't yet know anything about the specific task it is supposed to perform.
 At the current stage, the LLM would only ever be able to generate text as a *contiuation of the input*, similar to the text it was trained on. Note also that the data governs the time horizon of the LLM. *The LLM can't know about events that happened after the training data was collected.*
 
-In the second training stage, **posttraining** has the LLM fine-tuned on a task-specific dataset to learn how to perform that task. The task-specific dataset is curated and largely custom-made, e.g. by human labelers at OpenAI. The image above points out that *posttraining* puts a face on the LLM, giving it a specific *persona* and a set of skills to provide task-specific behavior.
+In the second training stage, **posttraining** has the LLM fine-tuned on a task-specific dataset to learn how to perform that task. The task-specific dataset is curated and largely custom-made, e.g., by human labelers at OpenAI. The image above points out that *posttraining* puts a face on the LLM, giving it a specific *persona* and a set of skills to provide task-specific behavior.
 
 > [!NOTE]
 > The LLM takes on the style of a persona created during **posttraining**. This persona can then access the knowledge gained during **pretraining** to generate responses that are ideally coherent, engaging, and accurate. All this is embedded into the LLM's parameters. Responses should under no circumstances be taken as factual, but rather as the model's best guess based on its vague recollection of the training data.
@@ -149,7 +149,7 @@ Once again, an LLM with pre- and posttraining is like a person with a vast amoun
 
 ## Choice of Model and Pricing
 
-In the last note section above, I used the term "vanilla LLM". ChatGPT started out with a single LLM for choice as its backbone: GPT-3.5. Today, you have a choice of models available and thus a factor to consider is the actual version of the LLM you use as backbone inside ChatGPT. You have a choice e.g. between (not limited to):
+In the last note section above, I used the term "vanilla LLM". ChatGPT started out with a single LLM for choice as its backbone: GPT-3.5. Today, you have a choice of models available and thus a factor to consider is the actual version of the LLM you use as backbone inside ChatGPT. You have a choice between (not limited to):
 
 - GPT-3.5 (3.5 deprecated, 3.5 Turbo runs still)
 - GPT-4o and GPT-4o mini
@@ -428,7 +428,7 @@ Just like we handled audio, LLMs can also process images by having them converte
 > [!NOTE]
 > When adding images for the LLM to interpret, it is a good practice to **have the model describe the image contents back to you, to assure that the image was correctly read in.** Only then should you go on and ask questions.
 
-We can also generate images with LLMs, although this is rather done through tool use by which e.g. OpenAI's ChatGPT invokes the image generation model [OpenAI DALL-E](https://openai.com/index/dall-e-3).
+We can also generate images with LLMs, although this is rather done through tool use by which for example OpenAI's ChatGPT invokes the image generation model [OpenAI DALL-E](https://openai.com/index/dall-e-3).
 
 ## Video
 
@@ -458,7 +458,7 @@ An example for a custom instruction would be:
 - I love learning, explanations, education, and insights. When you have any opportunity to be educational, or to provide an interesting insight or a connection or an analogy, please take it.
 ```
 
-**Custom GPTs:** A ChatGPT-exclusive feature that lets users create specialized AI versions with defined personas, skills, knowledge bases, and task interpretations. This is useful e.g. for language learning or translation, as it eliminates the need to specify the task in every prompt:
+**Custom GPTs:** A ChatGPT-exclusive feature that lets users create specialized AI versions with defined personas, skills, knowledge bases, and task interpretations. This is useful for example for language learning or translation, as it eliminates the need to specify the task in every prompt:
 
 <center>
     <img src="./img/ChatGPT_Custom_GPT_Korean.png" style="width: 600px; height: auto;" />
