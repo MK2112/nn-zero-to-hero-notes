@@ -43,9 +43,9 @@ When talking about LLMs, you'll often encounter the term 'prompt'. **A prompt is
 
 When providing a prompt and reading the response of an LLM, it quickly becomes clear that there is some notion of experience embedded into the response you receive. The LLM may show that it can process and articulate:
 
-- Syntax (spelling, sentence structure),
-- Semantics (meaning) and
-- Pragmatics (context and use of language).
+- **Syntax** (spelling, sentence structure),
+- **Semantics** (meaning), and
+- **Pragmatics** (context and use of language).
 
 Below we will go through the general steps that LLM development and operation involve.<br>
 We will do this with the example of a chatbot LLM like ChatGPT.
@@ -116,15 +116,15 @@ HuggingFace performed a series of what is called **data preprocessing** steps. T
 >
 >The LLM will be good at processing and responding to English text. It will be able to understand and generate English text well. But it will not be able to do the same for any other languages.<br> But, note that while <i>FineWeb</i> is derived from English text sources, a new and language-wise broader <a target="_blank" href="https://huggingface.co/datasets/HuggingFaceFW/fineweb-2">FineWeb 2</a> is in the making, allowing training models that will then be able to pretrain to be good at multiple languages in the future.
 
-After passing the raw CommonCrawl data through the preprocessing pipeline, HuggingFace attained *FineWeb*. But what does this dataset actually look like now? Luckily HuggingFace just shows us with its [Dataset Preview](https://huggingface.co/datasets/HuggingFaceFW/fineweb) feature:
+After passing the raw CommonCrawl data through the preprocessing pipeline, HuggingFace attained the *FineWeb* data substrate. But what does this distilled dataset actually look like? Luckily, HuggingFace shows us with its [Dataset Preview](https://huggingface.co/datasets/HuggingFaceFW/fineweb):
 
 <center>
 	<img src="./img/hf_fineweb_viewer.png" style="width: auto; height: 375px;" />
 </center>
 
-**How can we make sense of this?**<br>This is an excerpt of a table. Fundamentally, each row of this table is an entry in the *FineWeb* dataset. Each row for example contains an entry in the `text` column. This is the text that *CommonCrawl* had retrieved from some corner of the internet and that underwent HuggingFace's thorough *data preprocessing*.
+**How can we make sense of this?**<br>This is an excerpt of a table. Fundamentally, **each row of this table is an entry in the *FineWeb* dataset.** Each row for example contains an entry in the `text` column. This is the text that *CommonCrawl* had retrieved from some corner of the internet and that underwent HuggingFace's *data preprocessing*.
 
-But there's more than just the `text` column.<br>The *FineWeb* dataset contains the following columns for each crawled website:
+There's more than just this `text` column.<br>The *FineWeb* dataset contains the following columns for each crawled website:
 
 1. `text`: The actual text content extracted from a web page.
 2. `id`: A unique identifier for each entry in the dataset.
@@ -136,37 +136,37 @@ But there's more than just the `text` column.<br>The *FineWeb* dataset contains 
 8. `language_score`: A confidence score for the language detection, ranging from $0.65$ to $1.00$.
 9. `token_count`: The number of tokens in the text content. We will talk about this later.
 
-The purpose of the additional columns is to provide metadata and context for each entry in the dataset. This way, HuggingFace provides the *FineWeb* dataset is not just as a collection of text snippets, but as a further structured and organized resource.
+**The additional columns provide metadata and context for each dataset entry.** This way, HuggingFace provides the *FineWeb* dataset is not just as a collection of text snippets, but as a further structured and organized resource.
 
-**Ok, high-quality text data secured. What's next?**
+**Ok, we just secured lots of high-quality text data. What's next?**
 
 ---
 
 ### Step 2: Tokenization
 
-The claim raised by *Step 1* was that if we expose an LLM to the gigantic corpus of high-quality text that is *FineWeb*, the LLM may become able to internalize and model the textual patterns and the nuances behind which phrases follow which. From that, we hope that a fundamental, general conceptual understanding of how language expresses coherent information is derived. **That would be nice.** 
+The claim raised by *Step 1* is that if we expose an LLM to the gigantic corpus of high-quality text that is *FineWeb*, the LLM may become able to internalize and model the textual patterns and the nuances between different phrases in the data. From that, we hope that a fundamental, general conceptual understanding of how language expresses coherent meaning and information is derived.<br>**That would be nice.** 
 
-However, "exposing the LLM to the data" is not that easy. 
+*However*, "exposing the LLM to text data" is not that easy. 
 
-**An LLM expects input to be a one-dimensional sequence of some limited set of symbols.** You can argue that text, a string of characters, is already a one-dimensional sequence. But we can't really calculate with characters. We need some sort of numeric representation of them.
+**A standard LLM expects input to be a one-dimensional sequence of some limited set of symbols.** You can argue that text, a string of characters, already is such a one-dimensional sequence. But we can't really do maths with characters. **We need some sort of numeric representation of text.** Also, should text be a interpreted as a sequence of characters, or a sequence of words, or of syllables? What level of abstraction is best?
 
-**Tokenization transforms text into numerical tokens, enabling language models to process and understand through numerical processing.** A token is a representation of a single unit of meaning. **LLMs don't ever operate on raw text.** Instead, they analyze the transformed token sequences to learn statistical relationships between those tokens. This training process allows LLMs to predict the likelihood of subsequent tokens, fundamentally facilitating downstream tasks like text generation and comprehension.
+**Tokenization transforms text into numerical tokens, enabling language models to process and understand through numerical processing.** A token is a representation of a single unit of meaning. **LLMs don't ever operate on raw text.** Instead, they analyze token sequences to learn statistical relationships between said tokens. This training process allows LLMs to predict the likelihood of subsequent tokens, fundamentally facilitating downstream tasks like text generation and comprehension.
 
 > [!NOTE]
->We have to find a numeric representation that is ideally as unique, as expressive and as concise as possible for all fragments that make for a text. Transferring a text to this representation is called **tokenization**. The shorter a good numeric representation of a text, the longer the text sequences can be that we process with the LLM in the end, i.e. the more input we can provide or the more of past prompts and outputs the LLM will be able to still consider.
+>We have to find a **numeric representation** that is ideally as unique, as expressive and as concise as possible for all fragments that make for a text. Transferring a text to this representation is called **tokenization**. The shorter a good numeric representation of a given text, the longer the text sequences can be that we process with the LLM in the end, i.e. the more input we can provide or the more of past prompts and outputs the LLM will be able to still consider.
 
-The above holds a key insight. **LLMs do not only process a prompt, but a context window of tokens. The context window is a sequence of tokens that the LLM can consider at once while forming an output.** The longer the context window, the more tokens the LLM can consider. LLMs may start out filling the context window with just the initial user prompt, but then continue with that prompt, their own output and the next prompt a user provides, filling it all into the context window. By retaining this information in the context window, the LLM can, to an extent, remember the chat history and act accordingly in its next outputs.
+The above holds a key insight. **LLMs do not only process a prompt, but a context window of tokens. The context window is a sequence of tokens that the LLM can consider at once while forming an output. The context window is limited in size.** The longer the context window, the more tokens the LLM can consider. LLMs may start out filling the context window with just the initial user prompt, but then continue with *that* prompt, *their own output* and the *next prompt* a user provides, filling it all into the context window like a single, stacked memory. By retaining this information chronologically in the context window, the LLM can, to an extent, remember the chat history and act accordingly in its next outputs.
 
-Going back to *tokenization*, like everything else shown and processed by a computer, at its lowest abstraction, text is just binary code. We could translate a text into its binary representation and that would be a one-dimensional, numeric, unique representation. But it would be awfully extensive and inefficient, because we would need a lot of bits to represent just a single character (with unicode encoding, for example, a single character can take up to $32$ bits). This would limit the amount of text we could process at once with the same amount of memory. And this in turn would limit the amount of text we could refer to for generation. We would reduce the LLM's ability to remember and refer to past prompts and outputs. Our LLM would suffer if we were to apply binary representation as our level of abstraction.
+Going back to *tokenization*, like everything else shown and processed by a computer, **at its lowest abstraction, text is just binary code.** We could translate a text into its binary representation and that would be a one-dimensional, numeric, unique representation. But it would be awfully long/extensive and inefficient. We would need a lot of bits to represent just a single character (e.g., with unicode encoding, a single character may require up to $32$ bits). This would naturally limit the amount of text we could process at once with a fixed amount of memory. In other words, **unicode encoding would limit context window size, i.e. the amount of text we could refer to for generation.** We would reduce the LLM's ability to remember and refer to past prompts and outputs. Our LLM would suffer unnecessarily if we were to apply binary representation as our level of abstraction.
 
-We are about to go into a specific technique for *tokenization*. Before going there, I want to mention what a **token** actually is.
-**A token is a representation of a single unit of meaning.** This doesn't say much on its own, but it is crucial. It is important to understand that a *token* can be a single character, a word, syllables or even some subword, i.e. a chunk of text. **The tokenization process is not only about transferring text to its tokenized representation, but also and foremost about finding the right balance between the size of the individual tokens, meaning the amount of information each of them carry, and the number of tokens that are produced in total.** The more narrow the information a token represents, the easier it becomes to process, but the more tokens may become necessary to represent the entire text, limiting the processable context size considerably.
+We are about to go into a specific technique applied for *tokenization*. But before going there, I want to explain what a **token** actually is.
+**A token is a representation of a single unit of meaning.** This doesn't say much on its own, but it's crucial. It's important to understand that a *token* can be a single character, a word, syllables or even some subword, i.e., a chunk of text. **The tokenization process is not only about transferring text to its tokenized representation, but also and foremost about finding the right balance between the size of the individual tokens, meaning the amount of information each of them carry, and the number of tokens that are produced in total.** The more narrow the information is that a token represents, the easier it becomes to process, but the more tokens may become necessary to represent the entire text, limiting the processable context size considerably (like we saw with the pure-binary representation).
 
 #### Byte-Level Tokenization
 
-*If this bit-level binary representation idea we just looked at is not a good choice for tokenization, then what about moving up the abstraction hierarchy?* What about not using only zeros and ones to embed a text, but instead use fixed-size groups of zeros and ones to represent certain fragments of the text?
+*If the bit-level/binary representation idea we just looked at is not a good choice for tokenization, then what about moving up the abstraction hierarchy as needed?* What about not using only zeros and ones to embed a text, but instead use fixed-size groups of zeros and ones to represent certain fragments of the text?
 
-A byte is a sequence of $8$ bits, meaning $8$ values, each either $0$ or $1$. One byte can be one of $2^8 = 256$ different combinations of zeros and ones.
+A byte is a sequence of $8$ bits, meaning $8$ values, each of those either $0$ or $1$. One byte can be one of $2^8 = 256$ different combinations of zeros and ones.
 
 ><b>:question: How is this concept now different from bit-level tokenization?</b>
 >
@@ -182,13 +182,13 @@ By using bytes as tokens, we consolidate multiple low-level bits into a meaningf
 >
 >Individual tokens at the byte level are larger in size than individual bit tokens. The twist is that you need far fewer byte-level tokens to represent the same information. When you tokenize at the bit level, you need $8$ tokens to represent what $1$ byte-level token can uniquely represent. So, while each byte-token is $8\times$ larger, you need $8\times$ fewer tokens overall to represent the same text.
 
-To visualize this, let's go for an example. Say we wrote some text and look at the bare binary representation the computer made out of it. Say our binary sequence is $01100010$. Bit-level tokenization would now, very creatively, create the token sequence `0`-`1`-`1`-`0`-`0`-`0`-`1`-`0`. The token count is $8$. Those same $8$ bits, when represented with byte-level tokenization, is this: `01100010`. The token count is $1$, meaning $8\times$ less.
+Let's visualize this with an example. Say, we wrote some text and looked at the raw, binary representation the computer made out of it. Say our binary sequence is $01100010$. Bit-level tokenization would now, very uncreatively, create the token sequence $0$-$1$-$1$-$0$-$0$-$0$-$1$-$0$. The token count is $8$. When represented with byte-level tokenization, this becomes a single token: $01100010$. The token count is $1$, meaning $8\times$ less.
 
 **Token sequences get shorter as each individual token can afford to carry more meaning on its own.**
 
 #### Byte-Pair Encoding
 
-Depending on the dataset, the model we want to train and the compute we have available we may have different needs for tokenization efficiency. Byte-level tokenization might still be too extensive, i.e. each token may still cover too little information. As we discussed earlier for binary tokenization, having a token represent too little information has the effect of requiring more tokens to remember the same amount of content, which in turn reduces the model's ability to remember and refer to past prompts and responses.
+Depending on the dataset, the model we want to train and the compute we have available, we may have different needs for tokenization efficiency. Byte-level tokenization might still be too extensive, i.e. each token may still cover too little information. As we discussed earlier for binary tokenization, having a token represent too little information has the effect of requiring more tokens to remember the same amount of overall content, which in turn reduces the model's ability to remember and refer to prompts and responses further in the past.
 
 **We can take another step up the abstraction ladder:** Instead of treating each byte as a token, we can have additional tokens be represented by pairs of bytes. The first new token identified this way would then be assigned the (previously unused) value $256$ and so on. This is called **Byte-Pair Encoding (BPE)**, a flexible extension to the byte-level tokenization we just looked at.
 
