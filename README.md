@@ -85,7 +85,7 @@ Jupyter Notebooks and Markdown files with detailed notes on Andrej Karpathy's tu
   </tr>
   <tr>
     <td><a href="https://www.youtube.com/watch?v=LCEmiRjPEtQ" target="_blank"><img src="https://img.youtube.com/vi/LCEmiRjPEtQ/0.jpg" alt="YCombinator - Andrej Karpathy: Software Is Changing (Again)" height="auto" width="150"></a></td>
-    <td>Coming Soon...</td>
+    <td><a href="./T003 - Software in the era of AI/T003 - Software_in_the_era_of_AI - Notes.md">T003 - Software in the era of AI</a></td>
   </tr>
 </table>
 
