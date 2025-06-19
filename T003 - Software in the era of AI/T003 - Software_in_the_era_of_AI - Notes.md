@@ -51,7 +51,9 @@ Indeed, *Software 3.0* has an LLM programmed for some specific purpose or set of
 
 **Prompts can program LLMs to then perform specific tasks for us.** The programming language isn't Python or Java or Lisp, but English, French, Spanish, etc.
 
-![](./img/software_paradigms.png)
+<center>
+	<img src="./img/software_paradigms.png" style="width: auto; height: 300px;" />
+</center>
 
 ### Emerge, Eat, Expand
 
@@ -59,15 +61,18 @@ Curiously, it seems that each paradigm update continually *eats up space formerl
 
 Robotic systems like Tesla's Autopilot saw this. The more capable the neural network aspects of the software stack became, the more space they occupied and the more tasks they could take over from what was previously hard-coded C++. Specifically, such a transition took place for the sensor fusion, e.g., merging images from the multiple camera streams.
 
-![](./img/autopilot_nn_takeover.png)
+<center>
+	<img src="./img/autopilot_nn_takeover.png" style="width: auto; height: 350px;" />
+</center>
 
 It is exactly these kinds of expansionist properties that can be observed for *Software 3.0* all over again:
 
-![](./img/paradigms_eating.png)
+<center>
+	<img src="./img/paradigms_eating.png" style="width: auto; height: 300px;" />
+</center>
 
 >[!NOTE]
-> 3.0 doesn't replace 2.0 outright, doesn't replace 1.0 outright. Rather, every paradigm has its pros and cons. **When working with software, one should be fluent in all three.**
-
+> 3.0 doesn't outright replace 2.0 doesn't outright replace 1.0. Rather, every paradigm has its pros and cons. **When working with software, one should be fluent in all three.**
 
 ## How to Think About LLMs
 
@@ -94,7 +99,9 @@ LLM providers like [OpenAI](https://openai.com/) or [Google DeepMind](https://de
 
 **LLMs are highly complex to build, trivial to copy and paste, and easy to interact with.** LLMs are software after all. Open Source LLMs are freely available, communities gather around them. Switching between models may come with up- and/or downsides. All this sounds like what we know from operating systems, doesn't it?
 
-![](./img/llm_os.png)
+<center>
+	<img src="./img/llm_os.png" style="width: auto; height: 400px;" />
+</center>
 
 This analogy is sharpened further by the fact that **LLMs are now able to use tools** (calculators, python interpreters, web search, etc.) and even other LLMs to perform tasks. Additionally, **LLMs are increasingly multimodal**: They can interpret text, images, video and audio for peripheral tasks. 
 
@@ -135,12 +142,16 @@ If you're in the field of coding, you by now probably have heard of the term "Co
 
 This is a juicy market, considering the recent acquisition of Windsurf by OpenAI for $3 billion. **Here's what [Windsurf](https://windsurf.com/) looks like:**
 
-![](./img/windsurf.png)
-Source: [Windsurf](https://windsurf.com/)
+<center>
+	<img src="./img/windsurf.png" style="width: auto; height: 600px;" />
+	Source: <a href="https://windsurf.com/" target="_blank">windsurf.com</a>
+</center><br /><br />
 
 Andrej showed Cursor, a competitor to Windsurf, in his talk. It has a similar interface, and is also quite popular in the AI community. Some startups now even outright announce their products as "Cursor for XYZ", catering mainly to that bubble. **Here's what [Cursor](https://cursor.so/) looks like:**
 
-![](./img/cursor.png)
+<center>
+	<img src="./img/cursor.png" style="width: auto; height: 600px;" />
+</center>
 
 The editable code is on the left, the chat window on the right.
 As a programmer, you can just traditionally write code, but with that right side LLM chat window, you can now also ask questions about the code project you have opened, get explanations, and even have the LLM write or change code and use tools for that, like the file system operations or terminal commands, on its own.<br>
@@ -154,8 +165,9 @@ When ChatGPT came out, people were quick to realize that it could be used for pe
 
 A main driver of this web-integrated LLM application is [Perplexity](https://www.perplexity.ai/), a search engine providing you with answers researched by an LLM. This approach was quickly also integrated into ChatGPT and other competitors, like [Claude](https://claude.ai/).
 
-![](perplexity.png)
-
+<center>
+	<img src="./img/perplexity.png" style="width: auto; height: 500px;" />
+</center>
 
 ### Implications For New Products
 
@@ -196,7 +208,9 @@ Self-driving cars are a great example of how LLMs can be used to make sense of t
 
 We're working on self-driving cars for a long time now. Driving is tricky. Software is tricky. **We should tread carefully with how we apply LLMs and, unlike with vibe coding, apply some seriousness to how we integrate everything. That increases the value of the LLM's application.**
 
-![](./img/autonomous_software.png)
+<center>
+	<img src="./img/autonomous_software.png" style="width: auto; height: 250px;" />
+</center>
 
 #### Beyond the Vibe
 
