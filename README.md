@@ -83,6 +83,10 @@ Jupyter Notebooks and Markdown files with detailed notes on Andrej Karpathy's tu
     <td><a href="https://www.youtube.com/watch?v=zjkBMFhNj_g" target="_blank"><img src="https://img.youtube.com/vi/zjkBMFhNj_g/0.jpg" alt="[1hr Talk] Intro to Large Language Models" height="auto" width="150"></a></td>
     <td><a href="./T002 - Intro to LLMs - Director's Cut/T002 - Intro_to_LLMs - Director's_Cut - Notes.md">T002 - Intro to LLMs - Director's Cut</a></td>
   </tr>
+  <tr>
+    <td><a href="https://www.youtube.com/watch?v=LCEmiRjPEtQ" target="_blank"><img src="https://img.youtube.com/vi/LCEmiRjPEtQ/0.jpg" alt="YCombinator - Andrej Karpathy: Software Is Changing (Again)" height="auto" width="150"></a></td>
+    <td>Coming Soon...</td>
+  </tr>
 </table>
 
 ## Getting Started
