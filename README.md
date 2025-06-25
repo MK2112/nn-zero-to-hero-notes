@@ -106,6 +106,10 @@ jupyter notebook
 
 4. Within Jupyter, navigate to the repository and open the desired notebook.
 
+The [general](#general) notes and the notes on [talks](#talks) are written in Markdown rather than Jupyter Notebooks.<br>
+They can be viewed on GitHub just the same.<br>
+For a best offline experience with Markdown, I suggest using [Obsidian](https://obsidian.md).
+
 ## Contributions
 
 Contributions are welcome and encouraged. If you find any errors, have suggestions for improvements, or want to add to the materials, please submit a pull request.
