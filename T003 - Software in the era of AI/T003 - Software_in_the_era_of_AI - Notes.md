@@ -27,29 +27,29 @@
 
 ## Changing Paradigms
 
->"It used to be that you needed to spend 5-10 years studying in order to be able to really pull something off in software. **This is not the case anymore.**"
+>"It used to be that you needed to spend 5-10 years of studying in order to be able to really pull something off in software. **This is not the case anymore.**"
 
 ### Software 2.0
 
-Software is changing, again, and fundamentally so. For example, [GitHub](https://github.com) is a place where people all over the world host and work on their code projects. GitHub isn't a tiny, niche tool by any means. By 2024, over five billion developer contributions were made to more than 500 million open source projects on GitHub. *You could state the obvious: Coding is quite wide-spread.*
+Software is changing, again, and fundamentally so. For example, [GitHub](https://github.com) is a place where people all over the world host and work on their code projects. GitHub isn't a tiny, niche tool by any means. By 2024, over five billion developer contributions were made to more than 500 million open source projects on [GitHub](https://github.com). *You could state the obvious: Coding is a quite active, wide-spread field.*
 
 We've been coding for ~70 years. Think of that as **Software 1.0.**
 
 >[!NOTE]
-> The concept of **Software 1.0** refers to pure code. Object-oriented, scripted, you name it. It's the code that programs a computer.<br>**Software 2.0** doesn't refer to code anymore, but to the weights that make neural networks attain some capability.
+> The concept of **Software 1.0** refers to pure code. Object-oriented, scripted, you name it. It's the code that programs a computer to do something for us.<br>**Software 2.0** doesn't refer to code anymore, but to the weights that make neural networks attain some capability.
 
-Where [GitHub](https://github.com) served the world of *Software 1.0* there now also exists a platform dedicated to *Software 2.0:* [Huggingface](https://huggingface.co). What is its purpose? Neural networks, if built right, can do incredible things. The key intuition behind *Software 2.0* is that you don't directly model instructions/actions for some task anymore. Instead, you have your network's capability *emerge from a training process*, and apply that to the task at hand.
+Where [GitHub](https://github.com) served the world of *Software 1.0* there now also exists a platform dedicated to *Software 2.0:* [Huggingface](https://huggingface.co). **What is its purpose?** Neural networks, if built right, can do incredible things. The key intuition behind *Software 2.0* is that you don't directly model instructions/actions for some task anymore. Instead, you have your network's capability *emerge from a training process*, and apply that to the task at hand.
 
 [Huggingface](https://huggingface.co) is a platform where people can share and collaborate on neural networks, especially in the realm of natural language processing (NLP). It is a place where you can find pre-trained models, fine-tune them for your specific needs, and share your own models with the world. It's all about the the weights, the model architectures and the training data.
 
-We've been in the *Software 2.0* realm for some years now, already. Andrej wrote a [blogpost](https://karpathy.medium.com/software-2-0-a64152b37c35) about this back in 2017. Truthfully, neural networks aren't *that* new and they are widely spread across our software landscape already (e.g. recommender systems, image classifiers). **But another update to the software paradigm is quickly emerging now.**
+We've been in the *Software 2.0* realm for some years now, already. Andrej wrote a [blogpost](https://karpathy.medium.com/software-2-0-a64152b37c35) about this back in 2017. Truthfully, neural networks aren't *that* new and they are widely spread across our software landscape already (e.g. recommender systems, classifiers, forecasting systems). **But another update to the software paradigm is emerging now.**
 
 ### Software 3.0
 
-The recent update to "what software can be" emerged from Large Language Models (LLMs).
+The recent update to "What software can be" emerged from Large Language Models (LLMs).
 Indeed, *Software 3.0* programs an LLM for some specific purpose or set of tasks. However, this does not happen on the level of code or training/weights, but though **prompts.**
 
-**Prompts can temproarily program multi-purpose LLMs to perform specific tasks for us.** The programming language isn't Python or Java or Lisp, but English, French, Spanish, ...
+**Prompts can temporarily program multi-purpose LLMs to perform specific tasks for us.** The programming language isn't Python or Java or Lisp, but English, French, Spanish, ...
 
 <center>
 	<img src="./img/software_paradigms.png" style="width: auto; height: 300px;" />
@@ -57,7 +57,7 @@ Indeed, *Software 3.0* programs an LLM for some specific purpose or set of tasks
 
 ### Emerge, Eat, Expand
 
-Curiously, it seems that **each paradigm update continually eats up space formerly occupied by the prior paradigm versions.**<br>
+Curiously, it seems that **each paradigm update continually eats up space formerly occupied by the prior paradigm versions.**
 Equally, **newer paradigm versions also open up newly addressable problem spaces.**
 
 Robotic systems like Tesla's Autopilot are a great example for this.<br>
@@ -74,11 +74,11 @@ It is exactly these kinds of "expansionist properties" that can be observed for 
 </center>
 
 >[!NOTE]
-> 3.0 doesn't outright replace 2.0 doesn't outright replace 1.0. Rather, every paradigm has its pros and cons.<br>**When working with software, one should be fluent in all three.**
+> 3.0 doesn't outright replace 2.0 doesn't outright replace 1.0. Rather, every paradigm has its pros and cons.<br>**When working with software, one should be fluent in all three paradigms.**
 
 ## How to Think About LLMs
 
-We said that code programs computers, weights program neural networks, and prompts now program the special neural network type that is the LLM.<br>
+We said that code programs computers, weights program neural networks, and prompts now temporarily program the special, multi-purpose neural network type that is the LLM.<br>
 By analogy, LLMs are the new computers. So what really are LLMs and what ecosystem do they reside in?
 
 ### Grids and Plants
