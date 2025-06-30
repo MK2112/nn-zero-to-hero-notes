@@ -29,24 +29,24 @@
 
 ---
 
-The [last chapter](../G001%20-%20Deep%20Dive%20into%20LLMs/G001%20-%20Deep%20Dive%20into%20LLMs.md) provided a deep dive into large language models (LLMs) and their inner workings, the training and fine-tuning process, and the various applications for such systems.<br>Now, we go further and explore how LLMs can best be applied to specific, practical tasks.
+The [last chapter](../G001%20-%20Deep%20Dive%20into%20LLMs/G001%20-%20Deep%20Dive%20into%20LLMs.md) provided a deep dive into large language models (LLMs) and their inner workings, the training and fine-tuning process, and the different applications for such systems.<br>Now, we will go further and explore how LLMs can best be applied to specific, practical tasks.
 
 ## The LLM Ecosystem
 
 First deployed in late 2022, OpenAI's ChatGPT showed the broader public the profound potential of AI. The release marked one of the first times that an LLM got deployed in a way that allowed any kind of user to interact with it, for free, at a massive scale, via a simple chat-based interface. What was meant to be a research preview turned into the most popular app *ever* (until Meta released Threads).
 
-ChatGPT did not remain the sole player in the chat-based LLM space for long. A whole ecosystem of LLMs and providers has emerged, each with their own strengths and weaknesses. Some of the most popular LLM services, apart from ChatGPT, are:
+ChatGPT did not remain the sole player in the chat-based LLM space for too long. A whole ecosystem of LLMs and providers has emerged, each with their own strengths and weaknesses. Some of the most popular LLM services, apart from ChatGPT, are:
 
 - [DeepSeek](https://chat.deepseek.ai/)
 - [Anthropic Claude](https://claude.ai/)
+- [Google Gemini](https://gemini.google.com/)
 - [Perplexity](https://perplexity.ai/)
 - [xAI Grok](https://grok.com/)
 - [Meta LLaMA](https://www.llama.com/)
 - [Microsoft Copilot](https://copilot.microsoft.com/)
-- [Google Gemini](https://gemini.google.com/)
 - [Mistral Le Chat](https://chat.mistral.ai/)
 
-LLM providers like OpenAI, Anthropic, xAI or Mistral try to distinguish their services by integrating unique features and capabilities. For example, Anthropic Claude 4 Opus is particularly good at generating code and Grok 3.5 is capable of problem-solving and data analysis (data from X/Twitter that is, real-time data access is limited). The interaction with these LLMs is made to be very similar to that of ChatGPT: **A chat-based interface allows users to chronologically ask questions and receive answers in natural language.**
+LLM providers like OpenAI, Anthropic, xAI or Mistral try to distinguish their services by integrating unique features and capabilities. For example, Anthropic Claude 4 Opus is particularly good at generating code and Grok 3.5 is capable of problem-solving and data analysis (data from X/Twitter that is). The interaction with these LLMs is made to be very similar to that of ChatGPT: **A chat-based interface allows users to chronologically ask questions and receive answers in natural language.**
 
 > [!NOTE]
 > You can get a good picture of the current LLM landscape by visiting the [Chatbot Arena](https://lmarena.ai/) or [Scale AI's SEAL Leaderboards](https://scale.com/leaderboard). They list the up-to-date rankings of LLMs, the models provided through LLM services, based on their performance on various different benchmarks.
@@ -120,11 +120,11 @@ Let's get further into what that note I put above really tells us. Under the hoo
 > [!NOTE]
 > **The token sequence, which is built up by us and ChatGPT through conversation, is called the context**. Physically and computationally, this can't grow infinitely. The *context* is therefore limited to a **context window, a fixed-size token count beyond which ChatGPT will not be able to refer back to previous parts of the conversation.**
 
-Anytime you are switching the topic, you should start a new chat to avoid confusion or potential distraction by left-over irrelevant context. This could degrade the quality of the response, slow down the model's response time and even lead to the model costing more to run.
+Any time you are switching the topic, you should start a new chat to avoid confusion or potential distraction by left-over irrelevant context. This could degrade the quality of the response, slow down the model's response time and even lead to the model costing more to run.
 
-It's essential to keep the *context window* limitation in mind when interacting with LLMs like those behind ChatGPT. Think of the *context window* as the working memory of the LLM, which can ever only hold so much information at once.
+It's essential to keep the *context window limitation* in mind when interacting with LLMs like those behind ChatGPT. Think of the *context window* as the working memory of the LLM, which can ever only hold so much information at once.
 
-Another dimension to consider is the model itself. In the [last chapter](../G001%20-%20Deep%20Dive%20into%20LLMs/G001%20-%20Deep%20Dive%20into%20LLMs.md), we talked about the *pretraining* and the *posttraining* stages in the LLM development cycle. The LLM first is exposed to a vast amount of text data during **pretraining**. This is where the model learns the structure of language and the relationships between words. To an extent, we distill the dataset info and characteristics into the LLM's parameters, turning the LLM into a sort of *lossy compression* of the dataset.
+Another dimension to consider is the model itself. In the [last chapter](../G001%20-%20Deep%20Dive%20into%20LLMs/G001%20-%20Deep%20Dive%20into%20LLMs.md), we talked about the *pretraining* and the *post-training* stages in the LLM development cycle. The LLM first is exposed to a vast amount of text data during **pretraining**. This is where the model learns the structure of language and the relationships between words. To an extent, we distill the dataset info and characteristics into the LLM's parameters, turning the LLM into a sort of *lossy compression* of the dataset.
 
 Once *pretraining* concludes, the LLM doesn't yet know anything about the specific task it is supposed to perform.
 At the current stage, the LLM would only ever be able to generate text as a *contiuation of the input*, similar to the text it was trained on. Note also that the data governs the time horizon of the LLM. *The LLM can't know about events that happened after the training data was collected.*
@@ -132,7 +132,7 @@ At the current stage, the LLM would only ever be able to generate text as a *con
 In the second training stage, **posttraining** has the LLM fine-tuned on a task-specific dataset to learn how to perform that task. The task-specific dataset is curated and largely custom-made, e.g., by human labelers at OpenAI. The image above points out that *posttraining* puts a face on the LLM, giving it a specific *persona* and a set of skills to provide task-specific behavior.
 
 > [!NOTE]
-> The LLM takes on the style of a persona created during **posttraining**. This persona can then access the knowledge gained during **pretraining** to generate responses that are ideally coherent, engaging, and accurate. All this is embedded into the LLM's parameters. Responses should under no circumstances be taken as factual, but rather as the model's best guess based on its vague recollection of the training data.
+> The LLM takes on the style of a persona created during **post-training**. This persona can then access the knowledge gained during **pretraining** to generate responses that are ideally coherent, engaging, and accurate. All this is embedded into the LLM's parameters. Responses should under no circumstances be taken as factual, but rather as the model's best guess based on its vague recollection of the training data.
 
 ## Basic Interaction Examples
 
@@ -149,7 +149,7 @@ Once again, an LLM with pre- and posttraining is like a person with a vast amoun
 
 ## Choice of Model and Pricing
 
-In the last note section above, I used the term "vanilla LLM". ChatGPT started out with a single LLM for choice as its backbone: GPT-3.5. Today, you have a choice of models available and thus a factor to consider is the actual version of the LLM you use as backbone inside ChatGPT. You have a choice between (not limited to):
+In the last note section above, I used the term "vanilla LLM". ChatGPT started out with a single option for its backbone: The GPT-3.5 LLM. Today, you have a choice of models available and thus a factor to consider is the actual version of the LLM you use as backbone inside ChatGPT. You have a choice between (not limited to):
 
 - GPT-3.5 (3.5 deprecated, 3.5 Turbo runs still)
 - GPT-4o and GPT-4o mini
