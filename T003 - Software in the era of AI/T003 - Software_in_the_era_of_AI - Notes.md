@@ -100,7 +100,7 @@ LLM providers like [OpenAI](https://openai.com/) or [Google DeepMind](https://de
 
 **These are loose analogies and they aren't perfect. However, comparing the LLM ecosystem to (traditional) operating systems yields an all the more surprisingly good fit.**
 
-**LLMs are highly complex to build, compared to that trivial to copy and paste, and easy to interact with.** LLMs are software after all. Open Source LLMs are freely available, communities gather around them. Switching between models may come with up- and/or downsides. All this sounds like what we know from operating systems, doesn't it?
+**LLMs are a highly complex thing to build. Compared to that, they also are trivial to copy and paste, and easy to interact with.** LLMs are software, after all. Open Source LLMs are freely available, communities gather around them. Switching between models may come with distinct up- and/or downsides. *All this sounds like what we know from operating systems, doesn't it?*
 
 <center>
 	<img src="./img/llm_os.png" style="width: auto; height: 400px;" />
@@ -109,7 +109,7 @@ LLM providers like [OpenAI](https://openai.com/) or [Google DeepMind](https://de
 This analogy is further sharpened by the fact that **LLMs have been enabled to use tools** (calculators, python interpreters, web search, etc.) and even other LLMs to perform tasks. Additionally, **LLMs are increasingly multi-modal**: They can interpret text, images, video and audio for peripheral tasks. 
 
 - **What once was Random Access Memory (RAM) is now an LLM's context window.**
-- **What once was a hard drive is now an LLM's knowledge base from all its training and fine-tuning.**
+- **What once was a hard drive is now an LLM's knowledge base, attained from all the training and fine-tuning.**
 
 It seems that the way LLMs are currently provided and utilized is similar to how computers were used in the 1960s and 70s: No client, all centralized, a mainframe with all resources centralized, everybody who wants to can get a share of that distinct resource. **We time-share LLMs like 60s' mainframes.**
 
