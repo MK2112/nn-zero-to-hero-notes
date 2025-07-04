@@ -28,7 +28,7 @@
 
 ## How To: Train A GPT Assistant
 
-Think of GPT-personalization as an emerging technology to adapt GPTs to your needs and usage patterns and expected behaviors. A current approach consists of a multi-stage process:
+You can think of "GPT-personalization" as an emerging technology to adapt GPTs (General Pretrained Transformers) to your needs and usage patterns and expected behaviors.<br>A current approach consists of a multi-stage process:
 
 - **Pretraining:**
 	- *Dataset:* Raw internet scraped text, trillions of words with low task-specificity, in high quantity
@@ -52,14 +52,14 @@ Think of GPT-personalization as an emerging technology to adapt GPTs to your nee
 #### Data Gathering
 
 - Most of the computational complexity involved in creating aligned LLMs is involved here
-- 1000s of GPUs, months of training, $ Millions in expenses
+- 1,000s of GPUs, months of training, $ Millions in expenses
 - The *core competency* of this step is arguably to be found in the data attaining process, e.g. like listed below for LlaMA; We have to gather data and turn it into a unified format
 
 <img src="./img/Pasted%20image%2020231123162506.png" width="300" height="auto"/><br>Source: [LLaMA: Open and Efficient Foundation Language Models](https://arxiv.org/abs/2302.13971)
 
 #### Tokenization
 
-We've got the text, now what?<br>Given that GPTs are mathematical models, requiring numeric inputs, we need to find a way to encode our training data meaningfully into a numeric representation. Tools like the [OpenAI Tokenizer](https://platform.openai.com/tokenizer) help with that. Specifically, algorithms like the state-of-the-art [Byte Pair Encoding](http://www.pennelynn.com/Documents/CUJ/HTML/94HTML/19940045.HTM) are employed.
+<b>We've got the text, now what?</b><br>Given that GPTs are mathematical models, requiring numeric inputs, we need to find a way to encode our training data meaningfully into a numeric representation. Tools like the [OpenAI Tokenizer](https://platform.openai.com/tokenizer) help with that. Specifically, algorithms like the state-of-the-art [Byte Pair Encoding](http://www.pennelynn.com/Documents/CUJ/HTML/94HTML/19940045.HTM) are employed.
 
 <img src="./img/Pasted%20image%2020231123163046.png" width="400" height="auto"/>
 
@@ -67,11 +67,11 @@ We've got the text, now what?<br>Given that GPTs are mathematical models, requir
 
 <img src="./img/Pasted%20image%2020231123163629.png" width="400" height="auto"/><br>Source: [LLaMA: Open and Efficient Foundation Language Models](https://arxiv.org/abs/2302.13971)
 
-Interestingly, LLaMA being smaller in parameter count achieves much higher performance than GPT-3 with its $175B$ parameters. This is due to longer training runs and factors such as improved data quality and model architecture. LLaMA cost $\$5 \text{million}$ to train, requiring $2,048$ NVIDIA A100 GPUs to be run for $21$ days. This process results in the base LLaMA model.
+Interestingly, LLaMA achieves much higher performance than GPT-3 while being smaller in parameter count (at $175B$ parameters). This is due to longer training runs and factors such as improved data quality and model architecture. LLaMA cost $\$5 \text{million}$ to train, requiring $2,048$ NVIDIA A100 GPUs to be run for $21$ days. This process results in the base LLaMA model.
 
 #### Pretraining with Batches
 
-Now, given we have such a setup and attained the training dataset, we now need to reshape it to most efficiently expose the model to the data through training.
+Given we have such a training setup and attained the pretraining dataset, we now need to shape and mend the text data so as to most efficiently expose the model to the contained information.
 
 **We define:**
 - $B$ as the batch size (e.g. $4$)
@@ -97,13 +97,15 @@ The (gradually) lower, the (gradually) better.
 
 ### Supervised Finetuning
 
-With all that money and time spent on this large-scale exposure of data to the model, we have ... no attained task-specificity. In essence, the model was trained to 'parrot' the training set as best as possible. It can't answer questions, solve tasks or anything like that. But somehow, ChatGPT, LlaMA, Open Assistant etc. can.
+With all that money and time spent on the large-scale exposure of data to the model, we have ... not attained any task-specificity in the model's behavior.<br>The model got trained to predict the next token. If it can do that, great, we got it to do what we wanted, but 'predicting the next token from a large dataset' essentially means that now the model 'parrots' the textual structures from said training set as best as possible.<br>And because 'parroting well' had be the sole objective for pretraining, the model can't yet answer to given questions or solve tasks like an AI assistant. But we know that ChatGPT, LlaMA, Open Assistant etc. can indeed respond to questions and actually solve tasks. **What are we missing?**
 
-To do so, we derive a Question-Answer-style dataset though human contractors.<br>This is a high quality, low quantity dataset. In essence, we just continue the training from above, but now with question as input, and the answer as expected output.
+To provide our model with an assistant-like behavior, we derive an additional Question-Answer-style dataset though human contractors.<br>Think of this as a high quality, low quantity dataset.<br>The model learned general language patterns, token correlations and meaning in a broad, general fashion from pretraining. Now we want to put this broad experience to use through a specific model behavior (answering to questions, not blabbering on). For that, we pretty much continue using the setup we had for pretraining, but now with the new Question-Answer dataset, providing a question as input, and expecting the answer to be generated by the model. This is now called **finetuning**.
+
+> Pretraining allows the model to understand language at all. Finetuning without pretraining first would be useless as the model wouldn't have a grasp of what words mean, how they relate, or how to structure coherent output. Pretraining teaches exactly that and across a vast range of contexts, exposing the model to general syntax, semantics, and world knowledge. Finetuning then, on top of that, repurposes that task-agnostic foundation into something narrower, behavior-specific, like answering questions.
 
 <img src="./img/Pasted%20image%2020231123175113.png" width="400" height="auto"/>
 
-This results in a "Supervised Fine-Tuning" model (SFT model). This model could be published. In practice, though, this is not viewed as sufficient. SFT may not fully capture the complexity and diversity needed for successful fine-tuning, especially for tasks requiring specialized knowledge or nuanced understanding. However, this challenge can be addressed through additional Reward Modeling.
+Completing this second step results in a "Supervised Fine-Tuning" model (SFT model). This model could be published as-is. In practice, though, this is not viewed as sufficient. SFT may not fully capture the complexity and diversity needed for successful fine-tuning, especially for tasks requiring specialized knowledge or nuanced understanding. However, this challenge can be addressed through additional Reward Modeling.
 
 ### Reward Modeling
 
@@ -238,6 +240,6 @@ But:
 - Once you have the top possible performance, attempt cost saving measures (e.g. use GPT-3.5, find shorter prompts, etc.)
 
 **Recommendations:**
-- Use in low-stakes applications, combine with human oversight 
+- Use in *low-stakes applications*, combine with human oversight 
 - Source of inspiration, suggestions 
 - Copilots over autonomous agents
