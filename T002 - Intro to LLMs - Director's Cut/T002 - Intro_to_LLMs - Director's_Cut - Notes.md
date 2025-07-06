@@ -27,25 +27,25 @@
 
 ### Inference
 
-Given a large language model (LLM) like [Llama-2-70b](https://ai.meta.com/llama/) by MetaAI. The name indicates key details about the model: It is the second iteration of the Llama model series, with $70$ billion individual model parameters as part of it. Before the release of the DeepSeek V3 and R1 models, this model was the most powerful one with openly available weights. This term 'openly available weights' means that the specific values to use for all the parameters have been published.
+Given a large language model (LLM) like [Llama-2-70b](https://ai.meta.com/llama/) by MetaAI. The name indicates key details about the model: It is the second iteration of the Llama model series and it consists of $70$ billion individual parameters. Before the release of the DeepSeek V3 and R1 models, Llama-2-70b was the most powerful model for which the weights were openly available. This term 'openly available weights' means that the specific values to use for all the model parameters have been published.
 
-> This public approach is in contrast to e.g. OpenAI's ChatGPT, where the only thing a user may see and interact with are the inferences and inputs. Weights are not shared here.
+> This public approach stands in contrast to, e.g., OpenAI's ChatGPT. Here, the only thing a user may see and interact with are the inferences and inputs. The weights are not shared.
 
 Llama-2-70b consists of just two files:
 - `parameters`: This file is ~140 GB (2 Bytes per weight, datatype is `Float16`) and houses the weights, meaning the representations of the $70$ billion parameters
 - `run.c`: Within this file, a very compact code allows for training and interaction with the parameters through inference. Here, the programming language used is called `C`, but languages like `Python`, `C++` or `Julia` can be used here as well, theoretically
 
-> Beware that this duality of files is enough to house the entire model. You could download these files (on say your M2 MacBook), run the model and this would work just fine.
+> These two files are enough to house the entire model. You could download these files (on, say, your M2 MacBook), run the model and it would work just fine.
 
-To really drive the point home, one could just cut the internet access, then ask the model to describe a specific company or come up with a recipe or anything like that, and the model would answer. This is because inference is done solely using parameters. Text is solely generated based on the parameters. No external information is used during inference.
+To really drive this point home, you could just cut internet access, then ask the model to describe a specific company or come up with a recipe or anything like that, and the model would answer. This is because inference is done solely using what is represented by the weights. Text is solely generated based on the weights. **No external information is used during inference.**
 
 <img src="./img/Pasted%20image%2020231123104403.png" width="250" height="auto" />
 
-> With LLMs, the complexity lies in attaining the parameters based on which the model can generate text perceived as useful.
+> With LLMs, the complexity lies in attaining the weights based on which the model can generate text perceived as useful.
 
 ### Training
 
-The inference process could be perceived as logically simple. This wouldn't be the case for the training process used to attain the parameters. There's no inference without training first. Training is so complex that, other than inference, running it on your laptop is not advised.
+There's no inference without training first. Training is so complex that, other than inference, running it on your laptop is not advised and often enough just impossible.
 
 Interestingly, MetaAI [published how they trained Llama 2 exactly](https://arxiv.org/abs/2307.09288).<br>First, we need text for the model to get exposed to and to learn based upon. This is done by crawling the web, downloading ~10 TB of text.<br>The untrained model is exposed to this huge set of text on what's called a GPU cluster. Think of this as a set of servers, each running multiple [specialized graphics cards or graphics processing units (GPU)](https://www.nvidia.com/en-us/data-center/a100/) (not obtainable at BestBuy). As it turns out, specialized GPUs are the best hardware we have for training. MetaAI used $6,000$ GPUs for $12$ days, which cost them around $2 million. This is relatively low compared to closed-source models.
 
