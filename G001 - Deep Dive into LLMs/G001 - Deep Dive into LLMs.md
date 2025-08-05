@@ -32,99 +32,97 @@
 
 ---
 
-**What *exactly* are Large Language Models (LLMs) and tools like ChatGPT about?<br>How do they provide value?<br>What goes on behind that text box that you type your inputs into?**
+**What *exactly* are Large Language Models (LLMs) and tools like ChatGPT about?**<br>**How do they provide value?**<br>**What goes on behind that text box that you type your inputs into?**
 
 ---
 
-LLMs are advanced Artificial Intelligence (AI) systems trained to process and generate human-like text by identifying linguistic patterns.
-Let's introduce the topic of LLMs, from input to output, in an understandable fashion.
+LLMs are Artificial Intelligence (AI) systems trained to process and generate human-like text by identifying linguistic patterns from training data.<br>
+Let's introduce what LLMs really are, from input to output, in an understandable fashion.
 
-When talking about LLMs, you'll often encounter the term 'prompt'. **A prompt is the input text that you provide to the LLM.** A prompt can be a question, a statement (like an example of text, writing format, etc.), or any other form of text. The LLM processes this prompt and generates an output, a so-called response.
+When talking about LLMs, you will often encounter the term 'prompt'. **A prompt is the input text, the formulated instructions so to say, that you provide to the LLM.** A prompt can be a question, a statement (like an example of text, writing format, etc.), or any other form of text. The LLM processes this prompt and generates an output, the so-called response.
 
-When providing a prompt and reading the response of an LLM, it quickly becomes clear that there is some notion of experience embedded into the response you receive. The LLM may show that it can process and articulate:
+When providing a prompt and reading the response of an LLM, it becomes clear that there is some notion of experience embedded into the response you receive. The LLM may show that it can process and articulate:
 
 - **Syntax** (spelling, sentence structure),
 - **Semantics** (meaning), and
-- **Pragmatics** (context and use of language).
+- **Pragmatics** (context and use of tonality in language).
 
-Below we will go through the general steps that LLM development and operation involve.<br>
-We will do this with the example of a chatbot LLM like ChatGPT.
+Below, we will go through the general steps involved in LLM development and operation.<br>
+We will do this with the example of a chatbot LLM, like ChatGPT.
 
 ---
 
 ## Pretraining
 
-When analyzing an LLM's response to a prompt, the output reflects not only its reference to the prompt itself but also its ability to generalize from the prompt to a broader context it can somehow access. An LLM is made to generalize from an input to a broader understanding through what is called **pretraining**.
+We already touched on this, but when analyzing an LLM's response to a prompt, the output reflects not only its reference to the prompt itself, but also its ability to generalize from the prompt to a broader context somehow accessible to the LLM during response generation. An LLM is intended and built to generalize from an input to a broader understanding through what is called **pretraining**.
 
 > [!NOTE]
 > **Pretraining** is the process of exposing an LLM to vast amounts of text. Through particular methods of exposure, the LLM is enabled to learn the statistical patterns from said text. Only these patterns are retained in the LLM's parameters, but they surprisingly sufficiently capture meaning and contextual interdependencies within text. Pretraining aims to adjust the LLM's parameters so that its output probability for the respective next token is as often as possible as close as possible to the actual next token in the training data.
 
-**I know that this sounds like a lot of jargon. Don't worry about it, we're only just beginning to go through what all this means.**
+**I know this sounds like a lot of jargon. Don't worry about it, we're only just beginning to go through what all this terminology means.**
 
-**Pretraining** is a core objective - not some mere preliminary step - in LLM development. *Pretraining* requires us to walk a systematic sequence of steps. The steps outlined below will get us a pretrained LLM.
+**Pretraining** is a core objective and not some mere preliminary step in LLM development. *Pretraining* requires us to walk a specific sequence of steps.
 
 ### Step 1: Download and Preprocess the Internet
 
 **If we want to expose an LLM to vast amounts of text, we first have to obtain vast amounts of text.**
 
-Nowadays, data on the scale of *the entire internet* is used as basis for pretraining LLMs. Thankfully
-we don't have to scrape the internet ourselves. *FineWeb*, a curated, filtered copy of textual contents
-of the internet was made available by and via HuggingFace:
+Nowadays, data on the scale of *the entire internet* is used as basis for pretraining LLMs. Thankfully we don't have to scrape the internet ourselves. *FineWeb*, a curated, filtered copy of textual contents of the internet was made available by and via HuggingFace:
 
 - The *FineWeb* dataset: https://huggingface.co/datasets/HuggingFaceFW/fineweb
 - The accompanying blog post: https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1
 
-><b>:question: Wait. Why would we need <i>this much</i> text in the first place? Isn't this really expensive?</b>
+><b>:question: Wait. Why would we need <i>this much</i> text in the first place? Isn't this <i>really</i> expensive?</b>
 >
 >Pretraining is widely regarded as the most expensive and vast step for building a capable LLM. We don't actually go for volume as such. Text diversity and quality are the essential contributors for training LLMs that are knowledgeable, versatile, and capable of understanding and generating text for a wide range of contexts. We expect out chatbot LLM to do just that. And just based on source and size, we can assume that <i>FineWeb</i> contains a multitude of facetted, diverse and informative texts. Exposing an LLM to this text dataset will have it encounter a broad range of language.
 
-><b>:question: So more text to train on is just better?</b>
+><b>:question: So, more text to train on is just better?</b>
 >
->No. If we have a dataset that contains a lot of poorly worded or just bad or meaningless text overall (like product listings, repetitions of the same text over and over, no diversity in topics, etc.), an LLM pretrained on it will be poorly skilled. <b>An ideal dataset finds a balance between size, quality, diversity and cost for attaining it.</b> Public, curated datasets like <i>FineWeb</i> are a great help with all four of those aspects.
+>No. If we have a dataset that contains a lot of poorly worded or just bad or meaningless text overall (like product listings, repetitions of the same text over and over, no diversity in topics, etc.), an LLM pretrained on this data will be poorly skilled, poorly generalizing. <b>An ideal dataset finds a balance between size, quality, diversity and cost for attaining it.</b> Public, curated datasets like <i>FineWeb</i> are a great help with all four of those aspects.
 
-HuggingFace did a lot of work ensuring *FineWeb* is a large *but also* high-quality dataset. Truth be told, HuggingFace didn't actually crawl for the text data themselves. Instead, they used a copy of [CommonCrawl](https://commoncrawl.org/latest-crawl) as basis. Since 2007, the organization behind *CommonCrawl* iterates over the internet and takes snapshots of the webpages. This is raw, untreated data, and lots of it. 
+HuggingFace did a lot of work ensuring *FineWeb* is a large *but also* high-quality dataset. Truth be told, HuggingFace didn't actually crawl for the text data themselves. Instead, they used a copy of [CommonCrawl](https://commoncrawl.org/latest-crawl) as basis. Since 2007, the organization behind *CommonCrawl* crawls the internet and takes snapshots of encountered webpages. This is raw, untreated data, and loads of it.
 
 **How did HuggingFace now ensure that the text data selected from *CommonCrawl* for *FineWeb* would be of high quality?**
 
-HuggingFace performed a series of what is called **data preprocessing** steps. These steps are crucial to ensure that any retained data is clean, consistent, and free of noise. More specifically, they went and applied the list of steps outlined below to remove low-quality texts from the *CommonCrawl* dataset to create *FineWeb*.
+HuggingFace performed a series of what is called **data preprocessing** steps. These steps are crucial to ensure that any retained data is clean, consistent and free of noise.
 
-**HuggingFace applies these data preprocessing steps to CommonCrawl to distill the clean data subset that is *FineWeb*:**
+**HuggingFace applied the following data preprocessing steps to CommonCrawl to distill the clean data subset that is *FineWeb*, from potentially low-quality raw text data:**
 
 <center>
 	<img src="./img/fineweb_pipeline.png" style="width: auto; height: 210px;" />
 	Image: https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1
 </center><br /><br />
 
-1. **URL Filtering**:  
-	URL Filtering removes sources that are deemed low-quality or irrelevant ahead of the text gathering process itself. Sources such as spam, adult content, or non-informative pages are discarded, ensuring that only reputable and potentially useful content is considered further. HuggingFace uses specifically [this blocklist](https://dsi.ut-capitole.fr/blacklists/).
-2. **Text Extraction**:  
-    With the URL filtering done, the raw, crawled webpage content (containing text but also e.g. the underlying HTML code used to display the webpage as such, links, etc.) is processed to discard unnecessary parts and extract clean, readable text. This involves a rule-based removal of HTML tags, scripts, and other non-textual elements, while preserving the main content itself.
-3. **Language Filtering**:  
+1. **URL Filtering**:
+	URL Filtering removes sources that are deemed low-quality or irrelevant ahead of the text gathering process itself. Sources such as spam, adult content, or non-informative pages are discarded, ensuring that only reputable and potentially useful content is retained. HuggingFace uses specifically [this blocklist](https://dsi.ut-capitole.fr/blacklists/).
+2. **Text Extraction**:
+    With the URL filtering done, the raw, crawled webpage content (containing text but also, e.g., the underlying HTML code used to display the webpage as such, links, etc.) is processed to discard unnecessary parts and extract clean, readable text. This involves a rule-based removal of HTML tags, scripts, and other non-textual elements, while preserving the main content itself.
+3. **Language Filtering**:
     The extracted text is now subjected to language filtering to ensure the corpus is linguistically consistent. Non-target languages are filtered out, retaining only text in the desired language(s). For *FineWeb*, HuggingFace applies the [FastText Language Classifier](https://fasttext.cc/docs/en/language-identification.html) to retain only english text. This classifier provides not only a decision on language, but also its degree of certainty in this choice. If the confidence scoring is $\geq 0.65$ for English, they keep the text.
-4. **Gopher Filtering**:  
+4. **Gopher Filtering**:
     Gopher filtering, first performed for Google [DeepMind's Gopher](https://deepsense.ai/wp-content/uploads/2023/03/2112.11446.pdf) model, is applied to remove low-quality or boilerplate text. This step uses pre-defined rules or even machine learning models to identify and eliminate repetitive, non-informative, or template-like content (e.g., navigation menus, disclaimers, product lists), ensuring the remaining dataset contains meaningful and diverse text.
-5. **MinHash Deduplication**:  
+5. **MinHash Deduplication**:
     To avoid content redundancies, this technique identifies near-duplicate documents by comparing hashing the examples and comparing those hashed representations, removing examples with another identical or near-identical hash already present. This aims at ensuring content diversity while avoiding overrepresentation of identical, highly similar, or just often encountered texts.
-6. **C4 Filters**:  
-    FineWeb incorporates filters inspired by the [C4 dataset](https://huggingface.co/datasets/allenai/c4), which include removing lines with e.g. excessive punctuation or non-natural language text.
+6. **C4 Filters**:
+    FineWeb was built by applying filters inspired by the [C4 dataset](https://huggingface.co/datasets/allenai/c4), which include removing lines with e.g. excessive punctuation or non-natural language.
 7. **Custom Filters**:  
     Custom filters are applied to address specific requirements or biases potentially encountered in the dataset at this stage. These may include domain-specific exclusions, removal of offensive content, or other tailored criteria.
 8. **PII Removal**:  
     Wrapping up the data preprocessing of FineWeb, personally identifiable information (PII) is removed to ensure privacy and compliance with data protection regulations. This involves detecting and redacting sensitive information, like names, addresses, phone numbers, and email addresses.
 
-><b>:question: Wait. What will it mean for our LLM to pretrain on a dataset of English text only?</b>
+><b>:question: Wait. What will it mean for our LLM to get pretrained on a dataset of English text only?</b>
 >
->The LLM will be good at processing and responding to English text. It will be able to understand and generate English text well. But it will not be able to do the same for any other languages.<br> But, note that while <i>FineWeb</i> is derived from English text sources, a new and language-wise broader <a target="_blank" href="https://huggingface.co/datasets/HuggingFaceFW/fineweb-2">FineWeb 2</a> is in the making, allowing training models that will then be able to pretrain to be good at multiple languages in the future.
+>The LLM will become good at processing and responding to English text. It will be able to understand and generate English text well. But it will not be able to do the same for any other languages.<br> But, note that while <i>FineWeb</i> is derived from English text sources, a new and language-wise broader <a target="_blank" href="https://huggingface.co/datasets/HuggingFaceFW/fineweb-2">FineWeb 2</a> is in the making, allowing training models that will then be able to pretrain to be good at multiple languages in the future.
 
-After passing the raw CommonCrawl data through the preprocessing pipeline, HuggingFace attained the *FineWeb* data substrate. But what does this distilled dataset actually look like? Luckily, HuggingFace shows us with its [Dataset Preview](https://huggingface.co/datasets/HuggingFaceFW/fineweb):
+After passing the raw CommonCrawl data through the preprocessing pipeline, HuggingFace attained the *FineWeb* data substrate. But what does this distilled dataset actually look like? Luckily, HuggingFace shows us in their [Dataset Preview](https://huggingface.co/datasets/HuggingFaceFW/fineweb):
 
 <center>
 	<img src="./img/hf_fineweb_viewer.png" style="width: auto; height: 375px;" />
 </center>
 
-**How can we make sense of this?**<br>This is an excerpt of a table. Fundamentally, **each row of this table is an entry in the *FineWeb* dataset.** Each row for example contains an entry in the `text` column. This is the text that *CommonCrawl* had retrieved from some corner of the internet and that underwent HuggingFace's *data preprocessing*.
+**How can we make sense of this?**<br>This is an excerpt of a table. Fundamentally, **each row of the table is an individual entry in the *FineWeb* dataset.** Each row, for example, contains an entry in the `text` column. This is the text that *CommonCrawl* had retrieved from some corner of the internet and that underwent HuggingFace's *data preprocessing*.
 
-There's more than just this `text` column.<br>The *FineWeb* dataset contains the following columns for each crawled website:
+There's more than just this `text` column though.<br>The *FineWeb* dataset contains the following columns for each crawled website / text chunk:
 
 1. `text`: The actual text content extracted from a web page.
 2. `id`: A unique identifier for each entry in the dataset.
@@ -136,7 +134,7 @@ There's more than just this `text` column.<br>The *FineWeb* dataset contains the
 8. `language_score`: A confidence score for the language detection, ranging from $0.65$ to $1.00$.
 9. `token_count`: The number of tokens in the text content. We will talk about this later.
 
-**The additional columns provide metadata and context for each dataset entry.** This way, HuggingFace provides the *FineWeb* dataset is not just as a collection of text snippets, but as a further structured and organized resource.
+**The additional columns provide metadata and context for each dataset entry.** This way, HuggingFace provides the *FineWeb* dataset not just as a collection of text snippets, but as a structured and organized resource.
 
 **Ok, we just secured lots of high-quality text data. What's next?**
 
@@ -144,13 +142,13 @@ There's more than just this `text` column.<br>The *FineWeb* dataset contains the
 
 ### Step 2: Tokenization
 
-The claim raised by *Step 1* is that if we expose an LLM to the gigantic corpus of high-quality text that is *FineWeb*, the LLM may become able to internalize and model the textual patterns and the nuances between different phrases in the data. From that, we hope that a fundamental, general conceptual understanding of how language expresses coherent meaning and information is derived.<br>**That would be nice.** 
+The claim raised by *Step 1* is that if we expose an LLM to the gigantic corpus of high-quality, informative text that is *FineWeb*, the LLM may become able to internalize and model the textual patterns and the nuances between different phrases in the data. From that, we hope that a fundamental, general, conceptual understanding of how language expresses coherent meaning and information is derived.<br>**That would be nice.** 
 
-*However*, "exposing the LLM to text data" is not that easy. 
+*However*, "exposing the LLM to text data" is not that easy.
 
-**A standard LLM expects input to be a one-dimensional sequence of some limited set of symbols.** You can argue that text, a string of characters, already is such a one-dimensional sequence. But we can't really do maths with characters. **We need some sort of numeric representation of text.** Also, should text be a interpreted as a sequence of characters, or a sequence of words, or of syllables? What level of abstraction is best?
+**A standard LLM expects input to be a one-dimensional sequence of some limited set of symbols.** You can argue that text, a string of characters, already is such a one-dimensional sequence. But we can't really do maths with characters. **We need some sort of numeric representation of text.** Also, should text be a interpreted as a sequence of characters, or a sequence of words, or of syllables? **What level of abstraction is best?**
 
-**Tokenization transforms text into numerical tokens, enabling language models to process and understand through numerical processing.** A token is a representation of a single unit of meaning. **LLMs don't ever operate on raw text.** Instead, they analyze token sequences to learn statistical relationships between said tokens. This training process allows LLMs to predict the likelihood of subsequent tokens, fundamentally facilitating downstream tasks like text generation and comprehension.
+**Tokenization transforms text into numerical tokens, enabling language models to process and understand through numerical processing.** A token is a representation of a distinct unit of meaning in the text. This could be words, phrases, syllables and/or characters. **LLMs don't ever operate on raw text.** Instead, they analyze token sequences to learn statistical relationships between said tokens. This training process allows LLMs to predict the likelihood of subsequent tokens, fundamentally facilitating downstream tasks like text generation and comprehension.
 
 > [!NOTE]
 >We have to find a **numeric representation** that is ideally as unique, as expressive and as concise as possible for all fragments that make for a text. Transferring a text to this representation is called **tokenization**. The shorter a good numeric representation of a given text, the longer the text sequences can be that we process with the LLM in the end, i.e. the more input we can provide or the more of past prompts and outputs the LLM will be able to still consider.
