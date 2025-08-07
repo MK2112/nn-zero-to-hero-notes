@@ -4,7 +4,7 @@
 [Andrej's YouTube](https://www.youtube.com/@AndrejKarpathy)<br>
 [Eureka Labs Discord](https://discord.com/invite/3zy8kqD9Cp)
 
-Jupyter Notebooks and Markdown files with detailed notes on Andrej Karpathy's tutorial series "Neural Networks: Zero to Hero", his talks and general audience videos. The notes aim to provide an additional overview and documentation of the concepts and techniques covered in the videos.
+Jupyter Notebooks and Markdown files with detailed notes on Andrej Karpathy's tutorial series "Neural Networks: Zero to Hero", talks and general audience videos. The notes provide an additional overview and documentation of the concepts and techniques covered in the videos.
 
 ## Zero to Hero Tutorial Series
 
@@ -91,14 +91,14 @@ Jupyter Notebooks and Markdown files with detailed notes on Andrej Karpathy's tu
 
 ## Getting Started
 
-1. Clone this repository to your local machine using the following command:
+1. Clone this repository using the following command:
 
 ```bash
 git clone https://github.com/MK2112/nn-zero-to-hero-notes.git
 ```
 
 2. Navigate to the repository, make sure to run `pip install -r requirements.txt`.
-3. Launch Jupyter Notebook by running the command:
+3. Launch Jupyter Notebook by running this command:
 
 ```bash
 jupyter notebook
@@ -106,8 +106,8 @@ jupyter notebook
 
 4. Within Jupyter, navigate to the repository and open the desired notebook.
 
-The [general](#general) notes and the notes on [talks](#talks) are written in Markdown rather than Jupyter Notebooks.
-They can be viewed on GitHub just the same. For a best offline experience with Markdown, I suggest using [Obsidian](https://obsidian.md).
+The [general](#general) notes and the [talks](#talks) notes are written in Markdown instead of Jupyter Notebooks.
+Markdown notes can be viewed on GitHub just the same. For a best offline experience with Markdown, I suggest using [Obsidian](https://obsidian.md).
 
 ## Contributions
 
@@ -115,8 +115,9 @@ Contributions are welcome and encouraged. If you find any errors, have suggestio
 
 ## Acknowledgments
 
-Thank you Andrej Karpathy for creating and sharing the "Neural Networks: Zero to Hero" tutorial series. Find more of Andrej's work on his [GitHub](https://github.com/karpathy) and [𝕏/Twitter](https://x.com/karpathy).
+Thank you Andrej Karpathy for creating and sharing the "Neural Networks: Zero to Hero" tutorial series.<br>Find more of Andrej's work on his [GitHub](https://github.com/karpathy) and [𝕏/Twitter](https://x.com/karpathy).
 
 ## License
 
-MIT. Please attribute the original content to Andrej Karpathy and provide links to the tutorial series, the videos and this repo.
+MIT. Please attribute the original content to Andrej Karpathy and provide links to the tutorial series, the videos and this repository.
+This repository is not affiliated with Andrej Karpathy or any of his official channels.
