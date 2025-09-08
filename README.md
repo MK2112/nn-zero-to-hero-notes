@@ -64,7 +64,7 @@ Jupyter Notebooks and Markdown files with detailed notes on Andrej Karpathy's tu
   </tr>
   <tr>
     <td><a href="https://www.youtube.com/watch?v=EWvNQjAaOHw" target="_blank"><img src="https://img.youtube.com/vi/EWvNQjAaOHw/0.jpg" alt="How I use LLMs" height="auto" width="150"></a></td>
-    <td><a href="./G002 - How I Use LLMs/G002 - How I Use LLMs.md">G002 - How I Use LLMs</td>
+    <td><a href="./G002 - How I Use LLMs/G002 - How I Use LLMs.md">G002 - How I Use LLMs</a></td>
   </tr>
 </table>
 
