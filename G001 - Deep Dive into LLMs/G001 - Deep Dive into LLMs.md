@@ -1,6 +1,6 @@
 # A Deep Dive into LLMs
 
-[Video](https://www.youtube.com/watch?v=7xTGNNLPyMI)<br>[Andrej's ExcaliDraw File](https://drive.google.com/file/d/1EZh5hNDzxMMy05uLhVryk061QYQGTxiN/view)<br>[Eureka Labs Discord](https://discord.com/invite/3zy8kqD9Cp)<br>Notes by [mk2112](https://github.com/mk2112)
+[Video](https://www.youtube.com/watch?v=7xTGNNLPyMI)<br>[Andrej's Excalidraw File](https://drive.google.com/file/d/1EZh5hNDzxMMy05uLhVryk061QYQGTxiN/view)<br>[Eureka Labs Discord](https://discord.com/invite/3zy8kqD9Cp)<br>Notes by [mk2112](https://github.com/mk2112)
 
 ---
 
@@ -74,7 +74,7 @@ Nowadays, data on the scale of *the entire internet* is used as basis for pretra
 
 ><b>:question: Wait. Why would we need <i>this much</i> text in the first place? Isn't this <i>really</i> expensive?</b>
 >
->Pretraining is widely regarded as the most expensive and vast step for building a capable LLM. We don't actually go for volume as such. Text diversity and quality are the essential contributors for training LLMs that are knowledgeable, versatile, and capable of understanding and generating text for a wide range of contexts. We expect out chatbot LLM to do just that. And just based on source and size, we can assume that <i>FineWeb</i> contains a multitude of facetted, diverse and informative texts. Exposing an LLM to this text dataset will have it encounter a broad range of language.
+>Pretraining is widely regarded as the most expensive and vast step for building a capable LLM. We don't actually go for volume as such. Text diversity and quality are the essential contributors for training LLMs that are knowledgeable, versatile, and capable of understanding and generating text for a wide range of contexts. We expect out chatbot LLM to do just that. And just based on source and size, we can assume that <i>FineWeb</i> contains a multitude of faceted, diverse and informative texts. Exposing an LLM to this text dataset will have it encounter a broad range of language.
 
 ><b>:question: So, more text to train on is just better?</b>
 >
@@ -98,7 +98,7 @@ HuggingFace performed a series of what is called **data preprocessing** steps. T
 2. **Text Extraction**:
     With the URL filtering done, the raw, crawled webpage content (containing text but also, e.g., the underlying HTML code used to display the webpage as such, links, etc.) is processed to discard unnecessary parts and extract clean, readable text. This involves a rule-based removal of HTML tags, scripts, and other non-textual elements, while preserving the main content itself.
 3. **Language Filtering**:
-    The extracted text is now subjected to language filtering to ensure the corpus is linguistically consistent. Non-target languages are filtered out, retaining only text in the desired language(s). For *FineWeb*, HuggingFace applies the [FastText Language Classifier](https://fasttext.cc/docs/en/language-identification.html) to retain only english text. This classifier provides not only a decision on language, but also its degree of certainty in this choice. If the confidence scoring is $\geq 0.65$ for English, they keep the text.
+    The extracted text is now subjected to language filtering to ensure the corpus is linguistically consistent. Non-target languages are filtered out, retaining only text in the desired language(s). For *FineWeb*, HuggingFace applies the [FastText Language Classifier](https://fasttext.cc/docs/en/language-identification.html) to retain only English text. This classifier provides not only a decision on language, but also its degree of certainty in this choice. If the confidence scoring is $\geq 0.65$ for English, they keep the text.
 4. **Gopher Filtering**:
     Gopher filtering, first performed for Google [DeepMind's Gopher](https://deepsense.ai/wp-content/uploads/2023/03/2112.11446.pdf) model, is applied to remove low-quality or boilerplate text. This step uses pre-defined rules or even machine learning models to identify and eliminate repetitive, non-informative, or template-like content (e.g., navigation menus, disclaimers, product lists), ensuring the remaining dataset contains meaningful and diverse text.
 5. **MinHash Deduplication**:
@@ -244,7 +244,7 @@ But it isn't quite as straight forward as the image would have us believe. LLMs 
 
 This is because the LLM is not trained to predict the next token with certainty, but to predict the next token with a certain probability. **The LLM is trained to predict not tokens as such, but the likelihood of tokens to occur next.** This is what we mean when we say that the LLM models the statistical relationships between tokens.
 
-For example, we said that GPT-4 uses a vocabulary of $100,277$ distinct tokens. GPT-4 would then output a probability distribution over these $100,277$ tokens, assigning a percentage likelihood to each token according to the LLMs view on how likely that token is to occur next in the pretraining dataset. So, what actually happens is this:
+For example, we said that GPT-4 uses a vocabulary of $100,277$ distinct tokens. GPT-4 would then output a probability distribution over these $100,277$ tokens, assigning a percentage likelihood, i.e. a probability, to each token according to the LLMs view on how likely that token is to occur next in the pretraining dataset. So, what actually happens is this:
 
 <center>
 	<img src="./img/next_token_sampling.png" style="width: auto; height: 300px;" />
@@ -308,7 +308,7 @@ In the image above, you see the model itself expressed as a 'giant' mathematical
 
 This is a long expression, but it's not too complicated. We can see that the individual tokens $x_n$ of the input are multiplied with respective weights $w_n$. These products are then the basis for further interconnecting calculations, resulting in the model's output $\hat{y}$, i.e. the $100277$ probabilities.
 
-To see the fully layed out structure of such a 'giant mathematical expression' for several different types of LLMs, refer to [bbycroft.net/llm](https://bbycroft.net/llm). 
+To see the fully laid out structure of such a 'giant mathematical expression' for several different types of LLMs, refer to [bbycroft.net/llm](https://bbycroft.net/llm). 
 
 Here's an example of the structure of the miniaturized LLM [NanoGPT](https://github.com/karpathy/nanogpt):
 <center>
@@ -560,7 +560,7 @@ So, a prompt given to a finetuned GPT-4o to respond to a user could for example 
 
 This is just the textual input from the user and the past response from the LLM neatly wrapped into the special tokens. From here it is autoregressive generation as we know it already.
 
-[Training language models to follow instruction with human feedback \[Ouyan, et al. 2022\]](https://arxiv.org/pdf/2203.02155) layed out for the first time how OpenAI would take an LLM and finetune it on conversations. This paper for example discusses "Human data collection", i.e. the process of gathering the task-specific finetuning dataset from human annotators who write out how conversations with the LLM should look like as part of the finetuning dataset:
+[Training language models to follow instruction with human feedback \[Ouyan, et al. 2022\]](https://arxiv.org/pdf/2203.02155) laid out for the first time how OpenAI would take an LLM and finetune it on conversations. This paper for example discusses "Human data collection", i.e. the process of gathering the task-specific finetuning dataset from human annotators who write out how conversations with the LLM should look like as part of the finetuning dataset:
 
 <center>
 	<img src="./img/human_feedback_after_all.png" />

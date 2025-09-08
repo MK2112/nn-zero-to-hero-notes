@@ -1,6 +1,6 @@
 # How I Use LLMs
 
-[Video](https://www.youtube.com/watch?v=EWvNQjAaOHw)<br>[Andrej's ExcaliDraw File](https://drive.google.com/file/d/1DN3LU3MbKI00udxoS-W5ckCHq99V0Uqs/view?usp=sharing)<br>[Eureka Labs Discord](https://discord.com/invite/3zy8kqD9Cp)<br>Notes by [mk2112](https://github.com/mk2112)
+[Video](https://www.youtube.com/watch?v=EWvNQjAaOHw)<br>[Andrej's Excalidraw File](https://drive.google.com/file/d/1DN3LU3MbKI00udxoS-W5ckCHq99V0Uqs/view?usp=sharing)<br>[Eureka Labs Discord](https://discord.com/invite/3zy8kqD9Cp)<br>Notes by [mk2112](https://github.com/mk2112)
 
 ---
 
@@ -127,7 +127,7 @@ It's essential to keep the *context window limitation* in mind when interacting 
 Another dimension to consider is the LLM itself. In the [last chapter](../G001%20-%20Deep%20Dive%20into%20LLMs/G001%20-%20Deep%20Dive%20into%20LLMs.md), we talked about the *pretraining* and the *post-training* stages in the LLM development cycle. The LLM first is exposed to a vast amount of text data during **pretraining**. This is where the model learns the structure of language and the relationships between words. To an extent, we distill the dataset info and characteristics into the LLM's parameters, turning the LLM into a sort of *lossy compression* of the dataset.
 
 Once *pretraining* concluded, the LLM doesn't yet know anything about the specific task it is supposed to perform.<br>
-At this *post-pretraining* stage, the LLM would only ever be able to generate text as a *contiuation of the input*, similar to the text it was trained on. Note also that the pretraining data largely governs the time horizon of the LLM. *The LLM can't know about events that happened after the training data was collected.* (This restriction can be lifted with what's called 'tool use', which we will cover later. For now, pre-training data is all our LLM knows about.)
+At this *post-pretraining* stage, the LLM would only ever be able to generate text as a *continuation of the input*, similar to the text it was trained on. Note also that the pretraining data largely governs the time horizon of the LLM. *The LLM can't know about events that happened after the training data was collected.* (This restriction can be lifted with what's called 'tool use', which we will cover later. For now, pre-training data is all our LLM knows about.)
 
 In the second training stage, **post-training** has the LLM fine-tuned on a task-specific dataset to learn how to perform that task. The task-specific dataset is curated and largely custom-made, e.g., by human labelers contracted by data providers like ScaleAI. The image above points out that *post-training* puts a face on the LLM, giving it a specific *persona* and a set of skills to provide task-specific behavior.
 
@@ -188,7 +188,7 @@ This is what a reasoning model's thinking process might look like:
 
 Source: [\[Guo, et al. 2025\]](https://arxiv.org/abs/2501.12948)
 
-Reasoning is valuable because it can't easily be attained, faked or pre-programmed. It rather emerges naturally through reinforcement learning based on the LLM's understanding of tasks and training data. This noticably increases the LLM's performance especially on complex tasks:
+Reasoning is valuable because it can't easily be attained, faked or pre-programmed. It rather emerges naturally through reinforcement learning based on the LLM's understanding of tasks and training data. This noticeably increases the LLM's performance especially on complex tasks:
 
 <center>
     <img src="./img/Reasoning_models_and_4.5_ARC.jpeg" style="width: 600px; height: auto;" />
@@ -229,7 +229,7 @@ An LLM service that uses web search as a tool at scale is [Perplexity.ai](https:
 </center>
 
 - [Perplexity.ai](https://perplexity.ai/) offers Web Search with a search-engine-like interface
-- [DeepSeek R1](https://chat.deepseek.com/) offers Web Search capabilities
+- [DeepSeek R1](https://chat.deepseek.ai/) offers Web Search capabilities
 - [Gemini 2.0 Pro Experimental](https://gemini.google.com/) does not offer Web Search
 - [Gemini 2.0 Flash](https://gemini.google.com/) does again offer Web Search
 - [Anthropic's Claude 3.5](https://claude.ai/) does not offer Web Search, but that was added for 3.7 and 4
@@ -245,7 +245,7 @@ Deep Research is an LLM capability extension that came about only recently. It i
 Multiple providers began offering similar capabilities quickly, like [Grok's DeepSearch](https://grok.com/?referrer=website), [Perplexity's DeepThink](https://perplexity.ai) or [Gemini Deep Research](https://gemini.google.com/).
 
 > [!NOTE]
-> Actually, [DeepSeek R1](https://chat.deepseek.com/) allows you to activate both "Deep Think" and "Search" at once, but this is not the same as Deep Research. DeepSeek curates the search results before reasoning about them, while Deep Research is more of a continuous process.
+> Actually, [DeepSeek R1](https://chat.deepseek.ai/) allows you to activate both "Deep Think" and "Search" at once, but this is not the same as Deep Research. DeepSeek curates the search results before reasoning about them, while Deep Research is more of a continuous process.
 
 Even though we use WebSearch and Reasoning, after all, we still may encounter some hallucinations or errors in the LLM's responses or source interpretations. **It is imperative to treat even Deep Research responses as suggestions or first drafts only. They are ice-breakers into a field of interest.**
 
@@ -254,13 +254,11 @@ Here's an example of Deep Research messing up:
     <img src="./img/ChatGPT_Deep_Research.png" style="width: 500px; height: auto;" />
 </center>
 
-While this is a comprehensive table intended to show the major LLM research labs in the United States, xAI is missing, HuggingFace is listed, despite not being an LLM research lab in the strict sense, and EleutherAI is listed despite being a decentralized research collective and not a major lab as such.
+While this is a comprehensive table intended to show the major LLM research labs in the United States, xAI is missing, Hugging Face is listed, despite not being an LLM research lab in the strict sense, and EleutherAI is listed despite being a decentralized research collective and not a major lab as such.
 
 ### File Upload
 
-We can integrate specific information for the LLM to consider not
-only by having it look up information on the web but also by
-uploading files for it to tokenize and inject into the context window.
+We can integrate specific information for the LLM to consider not only by having it look up information on the web but also by uploading files for it to tokenize and inject into the context window.
 
 For example, Anthropic's Claude supports file upload, and so does Google's NotebookLM.
 Note that with current tokenization techniques, it is most likely that images
@@ -346,7 +344,7 @@ Still, let's continue using the data analysis capabilities further and extrapola
     <img src="./img/ChatGPT_OAI_Valuation_Projection.png" style="width: 500px; height: auto;" />
 </center>
 
-Note that the written valuation for for 2030 is $\$1.7 \text{Trillion}$, while the graph shows $\$20.27 \text{Trillion}$. Two different values for the same prediction. When asking ChatGPT to provide the actual variable's value, it will respond with $20271.691539$, meaning $\$20.27 \text{Trillion}$.
+Note that the written valuation for 2030 is $\$1.7 \text{Trillion}$, while the graph shows $\$20.27 \text{Trillion}$. Two different values for the same prediction. When asking ChatGPT to provide the actual variable's value, it will respond with $20271.691539$, meaning $\$20.27 \text{Trillion}$.
 
 We see the power of the tool use, and it equally shows the pitfalls of hallucinations and interpretation errors. **Always always verify the information you get from an LLM.** At best, this feature is on par with a junior data analyst.
 
@@ -358,7 +356,7 @@ A really powerful use case for LLMs is to create flashcards for documents or boo
     <img src="./img/Claude_Artifact_Flashcard_App.png" style="width: 100%; height: auto;" />
 </center>
 
-Again, we don't write flashcards that accomodate your app, we write an app that accomodates your flashcards. See more, different, user-submitted Claude Artifacts [here](https://claudeartifacts.com/).
+Again, we don't write flashcards that accommodate your app, we write an app that accommodates your flashcards. See more, different, user-submitted Claude Artifacts [here](https://claudeartifacts.com/).
 
 Apart from flashcards, a really good use case for Artifacts is content-based diagram or mind map generation. Claude can go through text, find key points, concepts etc. and organize them visually to make the text more accessible and understandable.
 
@@ -446,7 +444,7 @@ Video output is not well represented, but it's possible via proxy models like Op
 
 ## Quality of Life Features
 
-ChatGPT in offers some additional features to further enhance the user experience and ease of use.
+ChatGPT offers some additional features to further enhance the user experience and ease of use.
 
 **Memory:** We said earlier that as soon as we start a new chat, the context window is cleared. ChatGPT now offers a feature to save a summary of the context window across chats in a *memory bank*, so you can continue with information across sessions. The *memory bank* is prepended to every new chat's context window. You can edit and delete individual memories, too.
 

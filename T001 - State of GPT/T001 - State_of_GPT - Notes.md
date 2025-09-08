@@ -6,7 +6,7 @@
 
 **Table of Contents**
 
-- [How To: Train A GPT Assistant](#how-to-train-gpt-assistance)
+- [How To: Train A GPT Assistant](#how-to-train-a-gpt-assistant)
 	- [Pretraining](#pretraining)
 		- [Data Gathering](#data-gathering)
 		- [Tokenization](#tokenization)
@@ -119,7 +119,7 @@ Between all possible pairs of these potential answers, we do binary classificati
 
 The Reward Model evaluates the quality of an entire sequence we just built.
 
-This model, an additional transformer model, will predict at the input of the sequence, when reaching the readout token how good it thinks the preceeding Q-A combination is, essentially making a guess on each completion's quality. This scalar prediction at the input of this readout token is now intended as a judgement of quality, serving as a guide in assessing the completion-providing model's confidence.
+This model, an additional transformer model, will predict at the input of the sequence, when reaching the readout token how good it thinks the preceding Q-A combination is, essentially making a guess on each completion's quality. This scalar prediction at the input of this readout token is now intended as a judgement of quality, serving as a guide in assessing the completion-providing model's confidence.
 
 Only now does the human-derived ranking come into play. We adapt perceived rewards through the actual, human-decided ranking, nudging some scores up, some others down, making the Transformer tend towards one most favored option as the answer. We attain an optimized *Reward Model* for response quality.
 
@@ -129,14 +129,14 @@ This *Reward Model* in itself is small, and not really useful. But coupled to th
 
 ### Reinforcement Learning
 
-Again, a large prompt set is aquired from human contractors. Low quantity, high quality.
+Again, a large prompt set is acquired from human contractors. Low quantity, high quality.
 We expose our LLM to it, again producing multiple answers per prompt. Thing is, now we keep the *Reward Model fixed*. It was trained, now serves as reasonably dependable indicator for response quality.
 
 <img src="./img/Pasted%20image%2020231123184003.png" />
 
 > With the predictions of the Reward Model, we attain a guide by which to enforce the prediction of one certain response over others, making the best-ranked answer's associated token prediction more likely to occur. This concludes the RLHF pipeline as applied e.g. to GPT-3.5
 
-Interestingly, RLHF-ed models gain in perceived quality of response and contextual reference, but tend to play it save on the entropy side. They tend to become less and less likely to choose possible, yet not *most preferred* next token predictions. This partially stems from maximizing positive feedback in the RM/RL stages, turning a model risk-averse, making it favor well-established and commonly accepted responses. This, by the way, is a key indicator for detecting AI-generated text.
+Interestingly, RLHF-ed models gain in perceived quality of response and contextual reference, but tend to play it safe on the entropy side. They tend to become less and less likely to choose possible, yet not *most preferred* next token predictions. This partially stems from maximizing positive feedback in the RM/RL stages, turning a model risk-averse, making it favor well-established and commonly accepted responses. This, by the way, is a key indicator for detecting AI-generated text.
 
 ## How To: Use A GPT Assistant
 
@@ -209,7 +209,7 @@ Another emerging application is *constrained prompting*, meaning requesting very
 Finetuning a model means changing its weights through exposure to a comparatively small dataset with the aim of inducing task-specificity in a more broadly trained base model. However, the larger models, the more complex it is to finetune them.
 
 But:
-- Parameter Efficient FineTuning (PEFT) emerges, e.g. with [LoRA](https://arxiv.org/abs/2106.09685) making sure to only partially expose the model and clamp the rest as needed. This approach still works and also makes finetuning a lot cheaper.
+- Parameter-Efficient Finetuning (PEFT) emerges, e.g. with [LoRA](https://arxiv.org/abs/2106.09685) making sure to only partially expose the model and clamp the rest as needed. This approach still works and also makes finetuning a lot cheaper.
 - High-quality base models emerge, requiring more and more specific specific finetuning, making the models more efficient
 
 ### Default Recommendations
