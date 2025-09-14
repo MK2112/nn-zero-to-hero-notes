@@ -47,7 +47,7 @@ We've been in the *Software 2.0* realm for some years now, already. Andrej wrote
 ### Software 3.0
 
 The recent update to "What software can be" emerged from Large Language Models (LLMs).
-Indeed, *Software 3.0* programs an LLM for some specific purpose or set of tasks. However, this does not happen on the level of code or training/weights, but though **prompts.**
+Indeed, *Software 3.0* programs an LLM for some specific purpose or set of tasks. However, this does *not* happen on the level of code or training/weights, but though **prompts.**
 
 **Prompts can temporarily program multi-purpose LLMs to perform specific tasks for us.** The programming language isn't Python or Java or Lisp, but English, French, Spanish, ...
 
@@ -98,32 +98,29 @@ LLM providers like [OpenAI](https://openai.com/) or [Google DeepMind](https://de
 
 ### LLMs as Operating Systems
 
-**These are loose analogies and they aren't perfect. However, comparing the LLM ecosystem to (traditional) operating systems yields an all the more surprisingly good fit.**
+These are loose analogies. They aren't perfect. **Anyway, comparing the LLM ecosystem to (traditional) operating systems yields a really good fit.**
 
-**LLMs are a highly complex thing to build. Compared to that, they also are trivial to copy and paste, and easy to interact with.** LLMs are software, after all. Open Source LLMs are freely available, communities gather around them. Switching between models may come with distinct up- and/or downsides. *All this sounds like what we know from operating systems, doesn't it?*
+**LLMs are highly complex things to build.** They are trivial to copy and paste once they are built, and they are relatively easy to interact with. Open Source LLMs are freely available, communities gather around them. Switching between models may come with distinct up- and downsides. **All this sounds like what we know from operating systems, doesn't it?**
 
 <center>
 	<img src="./img/llm_os.png" style="width: auto; height: 400px;" />
 </center>
 
-This analogy is further sharpened by the fact that **LLMs have been enabled to use tools** (calculators, python interpreters, web search, etc.) and even other LLMs to perform tasks. Additionally, **LLMs are increasingly multi-modal**: They can interpret text, images, video and audio for peripheral tasks. 
+The operating systems analogy is further sharpened by the fact that **LLMs have been enabled to use tools** (calculators, python interpreters, web search, etc.) and even other LLMs to perform tasks. Additionally, **LLMs are increasingly multi-modal**: They can interpret text, images, video and audio for peripheral tasks. 
 
 - **What once was Random Access Memory (RAM) is now an LLM's context window.**
 - **What once was a hard drive is now an LLM's knowledge base, attained from all the training and fine-tuning.**
 
-It seems that the way LLMs are currently provided and utilized is similar to how computers were used in the 1960s and 70s: No client, all centralized, a mainframe with all resources centralized, everybody who wants to can get a share of that distinct resource. **We time-share LLMs like 60s' mainframes.**
+The way LLMs are provided and used is similar to how computers were utilized in the 1960s and 70s: You had a centralized mainframe with equally centralized resources, everybody who wanted to could get a share of the mainframe's compute resources. **Equivalently, we now time-share LLMs like those 60s' mainframes.**<br>
+Moreover, we chat with LLMs in a terminal-like manner.
 
-Moreover, we chat with LLMs, mainly. Feels like a terminal in some sense...
+Distributed, on-device ML in this context really feels like a logical next step for the LLM ecosystem.<br> Tools like [Ollama](https://ollama.com/) and [exolabs](https://github.com/exo-explore/exo) really push the field in terms of making things local, friendly and yet speedy. Making LLMs and ML in general more efficient is a [buzzing](https://efficientml.ai) topic right now.
 
-Distributed, on-device ML in this context really feels like a logical next step for the LLM ecosystem. Tools like [Ollama](https://ollama.com/) and [exolabs](https://github.com/exo-explore/exo) really push the boundaries in terms of making things local, friendly and yet speedy.
-
-That's one dimension, the hardware and inference side. The other one is the software side, and research in the area of making LLMs and ML in general more efficient is [buzzing](https://efficientml.ai).
-
-A stricking dissimilarity to operating systems is that LLMs emerged from the reaction of a broad consumer base to it. [It didn't really trickle down from usage in governments or big corporations, but rather went up the ladder.](https://karpathy.bearblog.dev/power-to-the-people/) That's unlike the internet (ARPANet) or computers or thus operating systems. The research preview that was [ChatGPT](https://chatgpt.com), through the response it got was the catalyst for the LLM ecosystem to emerge.
+A striking dissimilarity to operating systems is that LLMs emerged from the reaction of a broad consumer base to it. [It didn't really trickle down from usage in governments or big corporations, but rather went up the ladder.](https://karpathy.bearblog.dev/power-to-the-people/) That's unlike the internet (ARPANet) or computers or thus operating systems. The research preview that was [ChatGPT](https://chatgpt.com), through the response it got was the catalyst for the LLM ecosystem to emerge.
 
 ## LLM Psychology
 
-**LLMs are autoregressive people simulators in (at least) the text plane.** This is because LLMs are trained mainly on text data, often enough written by people. And in some aspects, this shows: **LLMs can really easily pick up on writing styles,** for example. They are very good at retrieving patterns from the data they encountered during training.
+**LLMs are approximative autoregressive people simulators in (at least) the text plane.** This is because LLMs are trained mainly on text data, often enough written by people, aiming to emulate producing such text. And in some aspects, this shows: **LLMs can really easily pick up on distinct writing styles,** for example. They are very good at retrieving patterns from the data they encountered during training.
 
 The 'people simulators' analogy is weakened, though, as soon as we face **LLM hallucinations**.<br>
 Current LLMs, according to benchmark results, provide PhD-level answers to certain questions, but at the same time may fail on elementary school math problems.<br>
@@ -222,11 +219,11 @@ Self-driving cars are worked on for a long time now. Driving is tricky, so the s
 
 #### Beyond the Vibe
 
-We've discussed vibe coding already. It is a fun way to get started with software engineering, but it is certainly not a final goal.<br>
-And actually, the entire "allure of vibing" finds a comically abrupt halt once your code starts interfacing with the real world, e.g., with payment processors.<br>
-Andrej's app [Menugen](https://menugen.app/) took a couple hours to build, and then *a week* to actually work in the real world, with integrated payments, etc.
+We already discussed vibe coding and found it a fun way to get started with actual software engineering, but it is certainly a stepping stone, not a final goal.<br>
+And, actually, **the entire "allure of vibing" finds a comically abrupt halt once your code starts interfacing with the real world**, e.g., with payment processors.<br>
+Andrej reported that his app [Menugen](https://menugen.app/) took a couple hours to build, and then *a week* to actually get to work in the real world, with integrated payments, etc.
 
-This will be an increasingly common bottleneck to AI-accelerated software development. And therefore...
+This will foreseeably remain a common bottleneck to AI-accelerated software development. Augmentation, not replacement. Checking and validating is key.
 
 #### Build For Agents
 
@@ -243,9 +240,10 @@ One can expect future agentic systems to become able to point and click, to drag
 
 ## Conclusion
 
-**Contrary to doomers, this is an AMAZING time to get into software. Things are changing, fast and fundamentally so.**<br>
-LLMs become part of more and more capable ecosystems, aiding us in our way of working e.g. with software.<br>
-Vibe coding is an onramp to this new world, but **don't get stuck** there.<br>
-Cycle through generation and validation, step-wise, carefully, and build also with agents using your product in mind.
+Contrary to some doomer beliefs, **right now is an AMAZING time to get into software.**<br>
+**Things are changing, fast and fundamentally so.**<br>
+LLMs start to play their role as part of increasingly capable ecosystems, aiding us in our way of working, e.g., with software.<br>
+Vibe coding is an on-ramp to this new world. **Avoid getting stuck on the on-ramp.**<br>
+Cycle through generation, comprehension and validation, carefully, and build also with LLM agents using your products in mind.
 
 **Software 3.0 is here. Embrace, learn and advance with it.**
