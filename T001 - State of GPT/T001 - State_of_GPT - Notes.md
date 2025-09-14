@@ -216,13 +216,15 @@ But:
 
 **Use cases and things to remember:**
 1. Models may be biased 
-2. Models may fabricate (“hallucinate”) information 
+2. Models may fabricate ("hallucinate") information 
 3. Models may have reasoning errors 
-4. Models may struggle in classes of applications, e.g. spelling related tasks 
+4. Models may struggle in classes of applications, e.g. spelling-related tasks 
 5. Models have knowledge cutoffs (e.g. September 2021) 
-6. Models are susceptible to prompt injection, “jailbreak” attacks, data poisoning attacks, etc.
+6. Models are susceptible to prompt injection, "jailbreak" attacks, data poisoning attacks, etc.
+(7. Models are not transparent, and vaguely explainable in their decision-making process at best)
+(8. Models may be unstable, leading to different responses on different runs)
 
-**Goal 1: Achieve your top possible performance**
+**Goal 1: Achieve top possible performance**
 - Use GPT-4 (Turbo)
 - Use prompts with detailed task context, relevant information, instructions
 	- "what would you tell a task contractor if they can’t email you back?"
