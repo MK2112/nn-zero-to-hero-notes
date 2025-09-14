@@ -935,11 +935,11 @@ A token is picked out from this probability distribution. This is generally done
 
 ## The Future of LLMs is Bright
 
-Models are getting bigger and more flexible in what they can consume and produce. Multimodality is a big thing right now: An LLM may be fed text, but also images, audio, video, and more. **The future of LLMs is multimodal.** Note that we still call the models LLMs, because at the end of the day, multimodality means to find ways of translating media into token sequences that the model can understand.
+Models are getting bigger and more flexible in what they can consume and produce. Multimodality is a big deal right now: LLMs may be fed text, but also images, audio, video. **The future of LLMs is multimodal.** We will probably, foreseeably, still call the models LLMs because at the end of the day, multimodality means to find ways of translating media into token sequences that the model can understand and assume interrelations for.
 
-There's a lot of buzz around the concept of LLM agents: LLMs that can interact with the world, that can be given tasks and that can solve them within long, coherent, contexts in which such agents may even backtrack and self-correct. **The future of LLMs is interactive.** And you will become more of a supervisor to agents.
+There is quite the buzz around the concept of **LLM agents**: LLMs that can interact with the world, that can be given tasks and that can solve them within long, coherent, contexts in which such agents may even backtrack and self-correct. **The future of LLMs is interactive** and you will likely increasingly become more of a supervisor to such agents.
 
-LLMs are kind of their own thing right now, a lot of attention is given standalone, LLM-centered applications like ChatGPT, but **the future of LLMs is in integration and invisibility.** LLMs will be part of many systems, but they will be seen as a part of that system.
+LLMs are kind of their own thing right now, a lot of attention is given to standalone, LLM-centered applications like ChatGPT, but **the future of LLMs is in integration and invisibility.** LLMs will be part of many systems, but they will be seen as a part of that system.
 
 Finally, **the future of LLMs is efficient and requires less and less test-time training**. The model should be able to adapt to new tasks and new prompts on the fly, without the need for extensive retraining. This is a big challenge, but it is also a big opportunity.
 
@@ -947,12 +947,14 @@ Finally, **the future of LLMs is efficient and requires less and less test-time 
 
 ## How to Keep Up?
 
-A great way to stay on top of the latest developments in LLMs is to follow the research. The [Chatbot Arena](https://lmarena.ai) gives a great overview over current LLMs and their capabilities in comparison to one another. Take it with a grain of salt, though, as it appears that the ranking has been 'gamed' by some providers. Use it as a starting point, not as the final word.
+A great way to stay on top of the latest developments in LLMs is to [follow the research](https://arxiv.org/list/cs.AI/recent). The [Chatbot Arena](https://lmarena.ai) gives a great overview over current LLMs and their capabilities in comparison to one another. Take it with a grain of salt though. It appears that the ranking has been 'gamed' by some LLM providers. Use it as a starting point for exploration and research, not as the final word.
 
-Another source of up-to-date information are newsletters. Yes, newsletters. There are some very high-quality ones like [AI News](https://buttondown.com/ainews) or [DeepLearning.Ai's The Batch](https://www.deeplearning.ai/the-batch/). They provide a great, concise overview over the latest developments in the field.
+Another source of up-to-date information are newsletters. *Yes, newsletters.* There are some very high-quality ones like [AI News](https://buttondown.com/ainews) or [DeepLearning.Ai's The Batch](https://www.deeplearning.ai/the-batch/). They provide great, concise insights into the latest developments.
 
-Finally, [X (formerly Twitter)](https://x.com) is unmatched, as a lot of the top AI talent is gathered on there. Follow the likes of [Andrej Karpathy](https://x.com/karpathy) or [Ilya Sutskever](https://x.com/ilyasut) for great insights into the field.
+YouTube is also a great resource. [3Blue1Brown](https://www.youtube.com/@3Blue1Brown) and [Yannic Kilcher](https://www.youtube.com/@YannicKilcher) provide a great resources for deep dives into maths and AI. And of course [Andrej Karpathy](https://www.youtube.com/@AndrejKarpathy) is unmatched.
 
-Finally, to access most of the models discussed here, you can use [Hugging Face's Model Hub](https://huggingface.co/models) or the respective website of the LLM provider. For offline use, [LM Studio](https://lmstudio.ai/) or [Ollama](https://ollama.com/) are recommended.
+Finally, [X (formerly Twitter)](https://x.com) is still great for AI. A lot of top talent is on there. Follow the likes of [Andrej Karpathy](https://x.com/karpathy), [Ilya Sutskever](https://x.com/ilyasut) and [Will Brown](https://x.com/willccbb) for excellent commentary on the field.
+
+You can access most of the models discussed here via [Hugging Face's Model Hub](https://huggingface.co/models) or the respective website of the LLM provider. For offline use, [LM Studio](https://lmstudio.ai/) or [Ollama](https://ollama.com/) are recommended.
 <br><br><br><br><br><br><br>
 $\tiny{\text{What did Ilya see?}}$
