@@ -2,10 +2,10 @@ import os
 import sys
 import math
 import time
-from dataclasses import dataclass
 import torch
 import torch.backends
 import torch.nn as nn
+from dataclasses import dataclass
 from torch.nn import functional as F
 
 # Implementation is optimized for CUDA hardware usage.
@@ -210,6 +210,7 @@ class DataLoaderLite:
         enc = tiktoken.get_encoding('gpt2')
         tokens = enc.encode(text) # encode full text into tokens
         self.tokens = torch.tensor(tokens) # wrap with tensor
+        self.tok_count = len(self.tokens)
         # Just some stats for us nerds
         print(f"loaded {len(self.tokens)} tokens")
         print(f"1 epoch = {len(self.tokens) // (B * T)} batches")
@@ -219,6 +220,9 @@ class DataLoaderLite:
 
     def next_batch(self):
         B, T = self.B, self.T
+        # end of the data reached, reset
+        if self.current_position + B*T + 1 > self.tok_count:
+            self.current_position = 0
         # grab a chunk of tokens of size B * T + 1 (we explained this before)
         buf = self.tokens[self.current_position:self.current_position + B * T + 1]
         x = buf[:-1].view(B, T) # input tensor of size (B * T)
