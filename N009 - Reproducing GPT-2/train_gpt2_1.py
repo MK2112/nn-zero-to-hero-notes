@@ -1,8 +1,8 @@
 import math
-from dataclasses import dataclass
 import torch
 import torch.backends
 import torch.nn as nn
+from dataclasses import dataclass
 from torch.nn import functional as F
 
 # Single-batch training of GPT-2
