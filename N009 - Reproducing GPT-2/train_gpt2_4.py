@@ -1,12 +1,12 @@
 import os
 import sys
 import math
-import inspect
 import time
-from dataclasses import dataclass
 import torch
+import inspect
 import torch.backends
 import torch.nn as nn
+from dataclasses import dataclass
 from torch.nn import functional as F
 
 # -----------------------------------------------------------------------------
@@ -208,7 +208,7 @@ class GPT(nn.Module):
         print(f"num non-decayed parameter tensors: {len(nodecay_params)}, with {num_nodecay_params} parameters")
         # Create AdamW optimizer and use the fused version if it is available
         fused_available = 'fused' in inspect.signature(torch.optim.AdamW).parameters
-        use_fused = fused_available and 'cuda' in device
+        use_fused = torch.cuda.is_available() and fused_available and device.startswith('cuda')
         optimizer = torch.optim.AdamW(optim_groups, lr=learning_rate, betas=(0.9, 0.95), eps=1e-8, fused=use_fused)
         return optimizer
 
@@ -227,6 +227,7 @@ class DataLoaderLite:
         enc = tiktoken.get_encoding('gpt2')
         tokens = enc.encode(text) # encode full text into tokens
         self.tokens = torch.tensor(tokens) # wrap with tensor
+        self.tok_count = len(self.tokens)
         # Just some stats for us nerds
         print(f"loaded {len(self.tokens)} tokens")
         print(f"1 epoch = {len(self.tokens) // (B * T)} batches")
@@ -236,6 +237,9 @@ class DataLoaderLite:
 
     def next_batch(self):
         B, T = self.B, self.T
+        # end of the data reached, reset
+        if self.current_position + B*T + 1 > self.tok_count:
+            self.current_position = 0
         # grab a chunk of tokens of size B * T + 1 (we explained this before)
         buf = self.tokens[self.current_position:self.current_position + B * T + 1]
         x = buf[:-1].view(B, T) # input tensor of size (B * T)
