@@ -39,7 +39,7 @@
 LLMs are Artificial Intelligence (AI) systems trained to process and generate human-like text by identifying linguistic patterns from training data.<br>
 Let's introduce what LLMs really are, from input to output, in an understandable fashion.
 
-When talking about LLMs, you will often encounter the term 'prompt'. **A prompt is the input text, the formulated instructions so to say, that you provide to the LLM.** A prompt can be a question, a statement (like an example of text, writing format, etc.), or any other form of text. The LLM processes this prompt and generates an output, the so-called response.
+When talking about LLMs, you will often encounter the term 'prompt'. **A prompt is the input text, the formulated instructions or data so to say, that you provide to the LLM.** A prompt can be a question, a statement (like an example of text, writing format, etc.), or any other form of text. The LLM processes this prompt and generates an output, the so-called response.
 
 When providing a prompt and reading the response of an LLM, it becomes clear that there is some notion of experience embedded into the response you receive. The LLM may show that it can process and articulate:
 
@@ -57,7 +57,7 @@ We will do this with the example of a chatbot LLM, like ChatGPT.
 We already touched on this, but when analyzing an LLM's response to a prompt, the output reflects not only its reference to the prompt itself, but also its ability to generalize from the prompt to a broader context somehow accessible to the LLM during response generation. An LLM is intended and built to generalize from an input to a broader understanding through what is called **pretraining**.
 
 > [!NOTE]
-> **Pretraining** is the process of exposing an LLM to vast amounts of text. Through particular methods of exposure, the LLM is enabled to learn the statistical patterns from said text. Only these patterns are retained in the LLM's parameters, but they surprisingly sufficiently capture meaning and contextual interdependencies within text. Pretraining aims to adjust the LLM's parameters so that its output probability for the respective next token is as often as possible as close as possible to the actual next token in the training data.
+> **Pretraining** is the process of exposing an LLM to vast amounts of text. Through particular methods of exposure, the LLM is enabled to learn the statistical patterns from said text. Only these patterns are retained in the LLM's parameters, but they surprisingly sufficiently capture meaning and contextual interdependencies within text. Pretraining aims to adjust the LLM's parameters so that its output probability for the respective next token is as often as possible as close as possible to the actual next token in the training data. In other words, pretraining maximizes the likelihood (or minimizes cross-entropy) of the observed next tokens under the model's learnt distribution.
 
 **I know this sounds like a lot of jargon. Don't worry about it, we're only just beginning to go through what all this terminology means.**
 
