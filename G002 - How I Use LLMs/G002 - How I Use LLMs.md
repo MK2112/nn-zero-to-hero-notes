@@ -46,12 +46,12 @@ ChatGPT did not remain the sole player in the chat-based LLM space for too long.
 - [Microsoft Copilot](https://copilot.microsoft.com/)
 - [Mistral Le Chat](https://chat.mistral.ai/)
 
-LLM providers, like OpenAI, Anthropic, xAI or Mistral try to distinguish themselves by integrating distinct features and capabilities into their services. For example, Anthropic Claude 4 Opus is particularly good at generating code and Grok 3.5 is capable of problem-solving and data analysis (data from X/Twitter that is). The UX for the interaction with these LLMs is made to be very similar to that of ChatGPT: **A chat-based interface allows users to chronologically ask questions and receive answers, mainly in natural language, but with support for images and sounds, too.**
+LLM providers, like OpenAI, Anthropic, xAI or Mistral try to distinguish themselves by integrating distinct features and capabilities into their services. For example, Anthropic Claude 4 Opus is particularly good at generating code ([see the release notes](https://www.anthropic.com/news/claude-4)) and Grok 3.5 is capable of problem-solving and data analysis (data from X/Twitter that is). The UX for the interaction with these LLMs is made to be very similar to that of ChatGPT: **A chat-based interface allows users to chronologically ask questions and receive answers, mainly in natural language, but with support for images and sounds, too.**
 
 > [!NOTE]
 > You can get a good picture of the current LLM landscape by visiting the [Chatbot Arena](https://lmarena.ai/) or [Scale AI's SEAL Leaderboards](https://scale.com/leaderboard). They list the most recent rankings of LLMs, the models provided through LLM services, based on their performance on various different benchmark tasks.
 
-**ChatGPT found the widest adoption by customers and developers alike, and it presents itself as the most feature-rich LLM ecosystem.**<br>It is a good idea to start going into detail on how to use ChatGPT and how to get the most out of it.
+**ChatGPT found wide adoption by customers and developers alike, presenting itself as the most feature-rich LLM ecosystem [\[OpenAI, 2025\]](https://cdn.openai.com/pdf/a253471f-8260-40c6-a2cc-aa93fe9f142e/economic-research-chatgpt-usage-paper.pdf).**<br>It is a good idea to start going into detail on how to use ChatGPT and how to get the most out of it.
 
 ## Interacting with ChatGPT
 
@@ -149,16 +149,20 @@ Once again, an LLM with pre- and post-training applied is like a person with a v
 
 ## Choice of Model and Pricing
 
-In that last note above, I used the term "vanilla LLM". ChatGPT started out with a single option for its backbone: The GPT-3.5 LLM. Today, you have a choice of models available and thus a factor to consider is the actual version of the LLM you use as backbone inside ChatGPT. You have a choice between (not limited to):
+In that last note above, I used the term "vanilla LLM". ChatGPT started out with a single option for its backbone: The GPT-3.5 LLM. Today you have a choice of models available. Therefore, a factor to consider is the actual version of the LLM you want to use as backbone inside ChatGPT. You have a choice between (not limited to):
 
-- GPT-3.5 (3.5 deprecated, 3.5 Turbo runs still)
+- GPT-3.5 (deprecated) and GPT-3.5 Turbo (offered still as `gpt-3.5-turbo-instruct`)
+- GPT-4 (deprecated)
 - GPT-4o and GPT-4o mini
-- GPT-o1 and GPT-o1 mini
-- GPT-o3 and GPT-o3 mini
-- GPT-4.5 (deprecated)
-- GPT-4.1 and GPT-4.1 nano
+- GPT-o1, GPT-o1 preview (deprecated), GPT-o1 mini (deprecated) and GPT-o1 pro
+- GPT-o3, GPT-o3 mini and GPT-o3 pro
+- GPT-o4 mini, GPT-o4 mini-deep-research
+- GPT-4.5 preview (deprecated)
+- GPT-4.1, GPT-4.1 mini and GPT-4.1 nano
+- GPT-OSS 120b and GPT-OSS 20b
+- GPT-5, GPT-5 mini and GPT-5 nano
 
-(This is the order in which the models were actually released. Horrendous naming scheme, I know.)
+(This is the order in which the models were actually released. Horrendous naming scheme, I know. See for current deprecation information [here](https://platform.openai.com/docs/models) and [here](https://platform.openai.com/docs/deprecations).)
 
 Typically, bigger LLMs (as in the LLMs with more parameters) are more expensive to build and train, yet also considerably more capable.
 
