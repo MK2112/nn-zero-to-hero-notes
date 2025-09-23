@@ -31,13 +31,13 @@ Given a large language model (LLM) like [Llama-2-70b](https://ai.meta.com/llama/
 
 > This public approach stands in contrast to, e.g., OpenAI's GPT-4o. Here, the only thing a user may see and interact with are the inferences and inputs. The weights are not shared.
 
-Llama-2-70b consists of just *two* files:
+The Llama-2-70b deployment package essentially consists of just two files:
 - `parameters`: This file is ~140 GB (2 Bytes per weight, datatype is `Float16`) and contains the weights, i.e. the $70$ billion parameters
 - `run.c`: Some very compact code inside this file defines the model architecture and allows for training and interaction with the parameterized model through inference. The programming language used here is called `C`, but languages like `Python`, `C++` or `Julia` can be used for this task as well, theoretically
 
 > The two files, `parameters` and `run.c`, are enough to house the entire model and basic interaction logic. You could download these files (on, say, your M2 MacBook), run the model and it would generate text to some input just fine.
 
-To *really* drive this point home, you could just cut internet access, then ask the model to describe a specific company or come up with a recipe or anything like that, and the model would answer. This is because text is solely generated based on the loaded weights on your computer. **No external information is used during inference.**
+To *really* drive this point home, you could just cut internet access, then ask the model to describe a specific company or come up with a recipe or anything like that, and the model would answer. This is because text is solely generated based on the loaded weights on your computer. **With standard LLMs like Llama-2-70b, no external information is used during inference.**
 
 <img src="./img/Pasted%20image%2020231123104403.png" width="250" height="auto" />
 
