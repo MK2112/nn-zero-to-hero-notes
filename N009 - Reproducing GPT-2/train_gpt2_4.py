@@ -237,9 +237,6 @@ class DataLoaderLite:
 
     def next_batch(self):
         B, T = self.B, self.T
-        # end of the data reached, reset
-        if self.current_position + B*T + 1 > self.tok_count:
-            self.current_position = 0
         # grab a chunk of tokens of size B * T + 1 (we explained this before)
         buf = self.tokens[self.current_position:self.current_position + B * T + 1]
         x = buf[:-1].view(B, T) # input tensor of size (B * T)
