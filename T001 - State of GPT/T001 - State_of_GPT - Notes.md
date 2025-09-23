@@ -67,7 +67,7 @@ You can think of "GPT-personalization" as an emerging technology to adapt GPTs (
 
 <img src="./img/Pasted%20image%2020231123163629.png" width="400" height="auto"/><br>Source: [LLaMA: Open and Efficient Foundation Language Models](https://arxiv.org/abs/2302.13971)
 
-Interestingly, LLaMA achieves much higher performance than GPT-3 while being smaller in parameter count (at $175B$ parameters). This is due to longer training runs and factors such as improved data quality and model architecture. LLaMA cost $\$5 \text{million}$ to train, requiring $2,048$ NVIDIA A100 GPUs to be run for $21$ days. This process results in the base LLaMA model.
+Interestingly, LLaMA achieves much higher performance than GPT-3 while being smaller in parameter count (at $175B$ parameters). This is due to longer training runs and factors such as improved data quality and model architecture. LLaMA cost $\$5 \text{million}$ to train, requiring $2,048$ NVIDIA A100 GPUs to be run for $21$ days [\[Touvron, et al. 2023\]](https://arxiv.org/abs/2302.13971). This process results in the base LLaMA model.
 
 #### Pretraining with Batches
 
