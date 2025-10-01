@@ -200,7 +200,7 @@ Reasoning is valuable because it can't easily be attained, faked or pre-programm
 
 Source: [ARC-AGI via X.com](https://x.com/arcprize/status/1895206472004591637)<br><br>
 
-Regarding this graph, note that GPT-4.5 is a larger-scale *non-reasoning* model, while *DeepSeek R1 and the OpenAI oX model series are reasoning models*.<br>
+Regarding this graph, note that GPT-4.5 is a larger-scale *non-reasoning* model, while *DeepSeek R1 and the OpenAI o-series models are reasoning models*.<br>
 Reasoning in LLMs enhances accuracy but also increases computational demands, leading to more extensive and time-consuming processing.
 
 > [!NOTE]

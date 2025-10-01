@@ -552,7 +552,7 @@ We actually really create this token only after pretraining concluded. The LLM h
 So, a prompt given to a finetuned GPT-4o to respond to a user could for example look like this:
 
 ```
-<|im_start|>assistant<|im_sep|>What is 2+2?<|im_end|>
+<|im_start|>user<|im_sep|>What is 2+2?<|im_end|>
 <|im_start|>assistant<|im_sep|>2+2 = 4<|im_end|>
 <|im_start|>user<|im_sep|>What if it was *?<|im_end|>
 <|im_start|>assistant<|im_sep|>
@@ -839,7 +839,7 @@ If you have a powerful enough machine, you can download an run DeepSeek-R1 safel
 	<img src="./img/ollama_deepseek.png" style="width: auto; height: 550px"/>
 </center>
 
-Also, truth be told, GPT-4o is actually not the most recent model from OpenAI.<br>OpenAI released the oX series of models, with o3 being the most recent one. **These model naming conventions confuse everybody.** The oX series was trained with added Reinforcement Learning, like DeepSeek-R1, trained with similar techniques and with similar results.<br>Most of the oX models are paywalled, though. Also, OpenAI doesn't provide a view into the model's solution reasoning, like DeepSeek-R1 does, for fear of revealing too much about the model's inner workings.<br>Google tries their luck on great UI design and fails, but at least provides the hilariously named but capable [Gemini 2.0 Flash Thinking Experimental 01-21](https://aistudio.google.com/prompts/new_chat), a free-to-use model that is also trained with Reinforcement Learning.
+Also, truth be told, GPT-4o is actually not the most recent model from OpenAI.<br>OpenAI released the o-series of models, with o3 being the most recent one. **These model naming conventions confuse everybody.** The o-series was trained with added Reinforcement Learning, like DeepSeek-R1, trained with similar techniques and with similar results.<br>Most of the o-series models are paywalled, though. Also, OpenAI doesn't provide a view into the model's solution reasoning, like DeepSeek-R1 does, for fear of revealing too much about the model's inner workings.<br>Google tries their luck on great UI design and fails, but at least provides the hilariously named but capable [Gemini 2.0 Flash Thinking Experimental 01-21](https://aistudio.google.com/prompts/new_chat), a free-to-use model that is also trained with Reinforcement Learning.
 
 ---
 
@@ -941,7 +941,7 @@ There is quite the buzz around the concept of **LLM agents**: LLMs that can inte
 
 LLMs are kind of their own thing right now, a lot of attention is given to standalone, LLM-centered applications like ChatGPT, but **the future of LLMs is in integration and invisibility.** LLMs will be part of many systems, but they will be seen as a part of that system.
 
-Finally, **the future of LLMs is efficient and requires less and less test-time training**. The model should be able to adapt to new tasks and new prompts on the fly, without the need for extensive retraining. This is a big challenge, but it is also a big opportunity.
+Finally, **the future of LLMs is efficient and requires less and less test-time training**. This means that the model should be able to adapt to new tasks and new prompts on the fly, without the need for extensive retraining. This is a big challenge, but it is also a big opportunity.
 
 ---
 
