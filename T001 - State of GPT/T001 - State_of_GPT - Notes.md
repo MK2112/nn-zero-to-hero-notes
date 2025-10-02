@@ -149,7 +149,7 @@ This sentence is the crescendo of a not so trivial thought process:
 
 See how the thought process concerns a writing process, but also a process tasked with reassuring factual correctness through tool use and correcting already written text?
 
-That's ... not how GPTs work. No internal dialogue, no reasoning as such (present, but shallow), no self-correction, no tool-use. A transformer will not reason ... reasonably.
+That's ... not how GPTs work. No internal dialogue, no extensive reasoning as such (only shallow at best), no self-correction, no tool-use. A transformer will not reason ... reasonably.
 
 ### Self-Consistency
 
@@ -210,7 +210,7 @@ Finetuning a model means changing its weights through exposure to a comparativel
 
 But:
 - Parameter-Efficient Finetuning (PEFT) emerges, e.g. with [LoRA](https://arxiv.org/abs/2106.09685) making sure to only partially expose the model and clamp the rest as needed. This approach still works and also makes finetuning a lot cheaper.
-- High-quality base models emerge, requiring more and more specific specific finetuning, making the models more efficient
+- High-quality base models emerge, requiring more and more specific finetuning, making the models more efficient
 
 ### Default Recommendations
 

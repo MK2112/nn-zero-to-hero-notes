@@ -140,7 +140,7 @@ LLMs can help you write code. Tools include:
 - [Cursor](https://cursor.so/)
 - [Windsurf](https://windsurf.com/)
 
-This is a juicy emerging market. Expectations are high. This can be seen with the recent acquisition of Windsurf by OpenAI for $3 billion. **Here's what [Windsurf](https://windsurf.com/) looks like:**
+This is a juicy emerging market. Expectations are high. This can be seen with the recent attempted (but failed) acquisition of Windsurf by OpenAI for $3 billion. **Here's what [Windsurf](https://windsurf.com/) looks like:**
 
 <center>
 	<img src="./img/windsurf.png" style="width: auto; height: 600px;" />
