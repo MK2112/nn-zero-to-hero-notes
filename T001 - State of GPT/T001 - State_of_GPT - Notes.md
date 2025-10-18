@@ -28,7 +28,7 @@
 
 ## How To: Train A GPT Assistant
 
-You can think of "GPT-personalization" as an emerging technology to adapt GPTs (General Pretrained Transformers) to your needs and usage patterns and expected behaviors.<br>A current approach consists of a multi-stage process:
+"GPT-personalization" is an emerging technology to adapt GPTs (General Pretrained Transformers) to a user's needs, usage patterns and behavior demands.<br>One current approach consists of a multi-stage process:
 
 - **Pretraining:**
 	- *Dataset:* Raw internet scraped text, trillions of words with low task-specificity, in high quantity
@@ -63,7 +63,7 @@ You can think of "GPT-personalization" as an emerging technology to adapt GPTs (
 
 <img src="./img/Pasted%20image%2020231123163046.png" width="400" height="auto"/>
 
-> A good tokenizer ensures that the numeric representation is both lossless and unique for each text.
+> A good tokenizer ensures the numeric representation to be both lossless and unique for any text.
 
 <img src="./img/Pasted%20image%2020231123163629.png" width="400" height="auto"/><br>Source: [LLaMA: Open and Efficient Foundation Language Models](https://arxiv.org/abs/2302.13971)
 
