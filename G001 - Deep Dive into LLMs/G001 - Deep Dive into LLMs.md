@@ -37,37 +37,38 @@
 ---
 
 LLMs are Artificial Intelligence (AI) systems trained to process and generate human-like text by identifying linguistic patterns from training data.<br>
-Let's introduce what LLMs really are, from input to output, in an understandable fashion.
+Let's introduce what LLMs really are, from input to output, in an *understandable* fashion.
 
-When talking about LLMs, you will often encounter the term 'prompt'. **A prompt is the input text, the formulated instructions or data so to say, that you provide to the LLM.** A prompt can be a question, a statement (like an example of text, writing format, etc.), or any other form of text. The LLM processes this prompt and generates an output, the so-called response.
+When talking about LLMs, you will inevitably encounter the term 'prompt'. **A prompt is the input text, the formulated instructions or data so to say, that you as the user provide to an LLM.** A prompt can be a question, a statement (like an example of text, writing format, etc.), or any other text-based content. The LLM processes this prompt and generates an output, the so-called *response*.
 
-When providing a prompt and reading the response of an LLM, it becomes clear that there is some notion of experience embedded into the response you receive. The LLM may show that it can process and articulate:
+When providing a prompt and reading the response of an LLM, it becomes clear that there is some notion of experience embedded into this response that you receive. The LLM may show that it can process and articulate:
 
 - **Syntax** (spelling, sentence structure),
 - **Semantics** (meaning), and
 - **Pragmatics** (context and use of tonality in language).
 
-Below, we will go through the general steps involved in LLM development and operation.<br>
-We will do this with the example of a chatbot LLM, like ChatGPT.
+We will go through the general steps involved in LLM development and operation.<br>
+And we will do this with the example of a chatbot LLM, like [ChatGPT](https://chatgpt.com/).
 
 ---
 
 ## Pretraining
 
-We already touched on this, but when analyzing an LLM's response to a prompt, the output reflects not only its reference to the prompt itself, but also its ability to generalize from the prompt to a broader context somehow accessible to the LLM during response generation. An LLM is intended and built to generalize from an input to a broader understanding through what is called **pretraining**.
+When analyzing an LLM's response to a prompt, the output reflects not only its reference to the prompt itself, but also its ability to generalize from the prompt to a broader context somehow accessible to the LLM during the response generation. An LLM is intended and built to generalize from an input to a broader understanding through what is called **pretraining**.
 
 > [!NOTE]
-> **Pretraining** is the process of exposing an LLM to vast amounts of text. Through particular methods of exposure, the LLM is enabled to learn the statistical patterns from said text. Only these patterns are retained in the LLM's parameters, but they surprisingly sufficiently capture meaning and contextual interdependencies within text. Pretraining aims to adjust the LLM's parameters so that its output probability for the respective next token is as often as possible as close as possible to the actual next token in the training data. In other words, pretraining maximizes the likelihood (or minimizes cross-entropy) of the observed next tokens under the model's learnt distribution.
+> **Pretraining** is the process of exposing an LLM to vast amounts of text. Through particular methods of exposure, the LLM is enabled to learn the statistical patterns from said text. Only these patterns are retained in the LLM's parameters, but they surprisingly sufficiently capture meaning and contextual interdependencies within text. Pretraining aims to adjust the LLM's parameters so that its output probability for the respective next token (unit of information) is as often as possible as close as possible to the actual next token in the training data. In other words, pretraining maximizes the likelihood (or minimizes cross-entropy) of the observed next tokens under the model's learnt distribution.
 
-**I know this sounds like a lot of jargon. Don't worry about it, we're only just beginning to go through what all this terminology means.**
+**At this point, this may sound like a lot of jargon. Don't worry about it, we're only just beginning to go through what all this terminology really means.**
 
-**Pretraining** is a core objective and not some mere preliminary step in LLM development. *Pretraining* requires us to walk a specific sequence of steps.
+**Pretraining** is a core objective and not some mere preliminary step in LLM development.<br>
+*Pretraining* requires us to walk a specific sequence of steps.
 
 ### Step 1: Download and Preprocess the Internet
 
 **If we want to expose an LLM to vast amounts of text, we first have to obtain vast amounts of text.**
 
-Nowadays, data on the scale of *the entire internet* is used as basis for pretraining LLMs. Thankfully we don't have to scrape the internet ourselves. *FineWeb*, a curated, filtered copy of textual contents of the internet was made available by and via HuggingFace:
+Nowadays, data on the scale of *the entire internet* is used as basis for pretraining LLMs. Thankfully we don't have to scrape the internet ourselves. *FineWeb*, a curated, filtered copy of textual contents of the internet was made available by HuggingFace:
 
 - The *FineWeb* dataset: https://huggingface.co/datasets/HuggingFaceFW/fineweb
 - The accompanying blog post: https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1
@@ -80,11 +81,11 @@ Nowadays, data on the scale of *the entire internet* is used as basis for pretra
 >
 >No. If we have a dataset that contains a lot of poorly worded or just bad or meaningless text overall (like product listings, repetitions of the same text over and over, no diversity in topics, etc.), an LLM pretrained on this data will be poorly skilled, poorly generalizing. <b>An ideal dataset finds a balance between size, quality, diversity and cost for attaining it.</b> Public, curated datasets like <i>FineWeb</i> are a great help with all four of those aspects.
 
-HuggingFace did a lot of work ensuring *FineWeb* is a large *but also* high-quality dataset. Truth be told, HuggingFace didn't actually crawl for the text data themselves. Instead, they used a copy of [CommonCrawl](https://commoncrawl.org/latest-crawl) as basis. Since 2007, the organization behind *CommonCrawl* crawls the internet and takes snapshots of encountered webpages. This is raw, untreated data, and loads of it.
+HuggingFace did a lot of work ensuring *FineWeb* is a large *yet also* high-quality dataset. Truth be told, HuggingFace didn't actually crawl for the text data themselves. Instead, they used a copy of [CommonCrawl](https://commoncrawl.org/latest-crawl) as basis. Since 2007, the organization behind *CommonCrawl* crawls the internet and takes snapshots of encountered webpages. This is raw, untreated data, and loads of it.
 
 **How did HuggingFace now ensure that the text data selected from *CommonCrawl* for *FineWeb* would be of high quality?**
 
-HuggingFace performed a series of what is called **data preprocessing** steps. These steps are crucial to ensure that any retained data is clean, consistent and free of noise.
+HuggingFace performed a series of what is called **data preprocessing** steps. These steps ensure that any retained data is clean, consistent and noise-free (as best as possible).
 
 **HuggingFace applied the following data preprocessing steps to CommonCrawl to distill the clean data subset that is *FineWeb*, from potentially low-quality raw text data:**
 
