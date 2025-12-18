@@ -4,7 +4,7 @@
 [Andrej's YouTube](https://www.youtube.com/@AndrejKarpathy)<br>
 [Eureka Labs Discord](https://discord.com/invite/3zy8kqD9Cp)
 
-Jupyter Notebooks and Markdown files with detailed notes on Andrej Karpathy's tutorial series "Neural Networks: Zero to Hero", talks and general audience videos. The notes provide an additional overview and documentation of the concepts and techniques covered in the videos.
+Jupyter Notebooks and Markdown files with detailed notes on Andrej Karpathy's tutorial series "Neural Networks: Zero to Hero", talks, and general audience videos. The notes provide an additional overview and documentation of the concepts and techniques covered in the videos.
 
 ## Zero to Hero Tutorial Series
 
@@ -119,5 +119,4 @@ Thank you Andrej Karpathy for creating and sharing the "Neural Networks: Zero to
 
 ## License
 
-MIT. Please attribute the original content to Andrej Karpathy and provide links to the tutorial series, the videos and this repository.
-This repository is not affiliated with Andrej Karpathy or any of his official channels.
+MIT.<br>Please attribute the original content to Andrej Karpathy and provide links to the tutorial series, the videos and this repository. This repository is not affiliated with Andrej Karpathy or any of his official channels.
