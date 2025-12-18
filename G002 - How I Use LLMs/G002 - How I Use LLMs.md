@@ -71,7 +71,7 @@ You can see that OpenAI really leaned into the chat-based approach with ChatGPT.
 
 As you can imagine, there's quite *a lot* going on under the hood when you interact with ChatGPT. The model has to process your input, generate a response, and then provide that response to you in a way that is fast, referencing your input correctly, while being accurate and engaging. This is a very complex process that involves a lot of different components, including the model itself, the inference engine, the response generation, and the response delivery. We talked about this in a little more detail already in the [last chapter](../G001%20-%20Deep%20Dive%20into%20LLMs/G001%20-%20Deep%20Dive%20into%20LLMs.md), where we also covered what's called the initial step that treats text to be input into such a model: **Tokenization**.
 
-When you provide a prompt for ChatGPT to respond to, a **tokenizer** first maps the text prompt to a sequence of numeric tokens, each uniquely representing a particular chunk of your provided text. Your provided sequence of words/letters/sentences is transformed into a sequence of tokens, with each token having been assigned unique integer ID. We can map to and (critically) from this token space to the textual space, back and forth. For now, we need the token sequence though.
+When you provide a prompt for ChatGPT to respond to, a **tokenizer** first maps the text prompt to a sequence of numeric tokens, each uniquely representing a particular chunk of your provided text. Your provided sequence of words/letters/sentences is transformed into a sequence of tokens, with each token having been assigned a unique integer ID. We can map to and (critically) from this token space to the textual space, back and forth. For now, we need the token sequence though.
 
 <center>
     <img src="./img/Haiku_Prompt_Tokenization.png" style="width: 600px; height: auto;" />
@@ -309,7 +309,7 @@ Some LLMs may even generate code to solve complex programming or calculation pro
 
 The LLM literally pauses execution until the program's result is available, then continues to incorporate the result. Note that not all LLMs that support tool use also support program execution. Currently, program execution is supported by ChatGPT and Claude.
 
-Although [xAI states](https://x.ai/blog/grok-3) that Grok 3 indeed supports program execution as a tool, Grok 3 currently (March 2025) seems to not apply any program execution for our example, leading to a mess-up in calculation:
+Although [xAI states](https://x.ai/blog/grok-3) that Grok 3 indeed supports program execution as a tool, Grok 3 as of March 2025 seems to not apply any program execution for our example, leading to a mess-up in calculation:
 
 <center>
     <img src="./img/Grok_Math_Miscalculation.png" style="width: 500px; height: auto;" />

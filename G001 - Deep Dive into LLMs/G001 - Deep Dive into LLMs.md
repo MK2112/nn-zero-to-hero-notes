@@ -75,7 +75,7 @@ Nowadays, data on the scale of *the entire internet* is used as basis for pretra
 
 ><b>:question: Wait. Why would we need <i>this much</i> text in the first place? Isn't this <i>really</i> expensive?</b>
 >
->Pretraining is widely regarded as the most expensive and vast step for building a capable LLM. We don't actually go for volume as such. Text diversity and quality are the essential contributors for training LLMs that are knowledgeable, versatile, and capable of understanding and generating text for a wide range of contexts. We expect out chatbot LLM to do just that. And just based on source and size, we can assume that <i>FineWeb</i> contains a multitude of faceted, diverse and informative texts. Exposing an LLM to this text dataset will have it encounter a broad range of language.
+>Pretraining is widely regarded as the most expensive and vast step for building a capable LLM. We don't actually go for volume as such. Text diversity and quality are the essential contributors for training LLMs that are knowledgeable, versatile, and capable of understanding and generating text for a wide range of contexts. We expect our chatbot LLM to do just that. And just based on source and size, we can assume that <i>FineWeb</i> contains a multitude of faceted, diverse and informative texts. Exposing an LLM to this text dataset will have it encounter a broad range of language.
 
 ><b>:question: So, more text to train on is just better?</b>
 >
@@ -320,7 +320,7 @@ It's clear that even this tiny model consists of a vast amount of intermediate s
 
 **Very generally speaking:**
 - First, we embed the tokens. Each token is mapped to a higher-dimensional vector space, where the model itself can learn how to express distinguishing features of the tokens with these vectors.
-- The green arrow originating from the 'Embedding' layer in the image above is traces the flow of the token embeddings through the model.
+- The green arrow originating from the 'Embedding' layer in the image above traces the flow of the token embeddings through the model.
 - The first branch-off leads to the 3-Headed **Attention Layer**, and so on. We will go into detail on this in due time.
 - The whole structure is logically traversed from top to bottom, with the model's output being the probability distribution over the tokens.
 
@@ -419,7 +419,7 @@ The third red arrow points to the training steps themselves. After we saw the mo
 
 ><b>:question: Are these intermediate runs with the inferences really necessary?</b>
 >
->It's a good practice to check in on the model's progress in capability, especially while training, to adapt to problems quickly. It's a way to ensure that the model is learning the right things, the researcher might get a feel on how the model starts to grasp correlations from the text, concepts from those correlations etc. This also helps identify issues early on and therefore cheaply. <b>It's a good practice to ensure that the model is learning the right things, and to catch any potential issues early on. Showing inference results every few steps helps significantly in achieveing this.</b><br><br>For example, look at the very first inference run:
+>It's a good practice to check in on the model's progress in capability, especially while training, to adapt to problems quickly. It's a way to ensure that the model is learning the right things, the researcher might get a feel on how the model starts to grasp correlations from the text, concepts from those correlations etc. This also helps identify issues early on and therefore cheaply. <b>It's a good practice to ensure that the model is learning the right things, and to catch any potential issues early on. Showing inference results every few steps helps significantly in achieving this.</b><br><br>For example, look at the very first inference run:
 ><img src="./img/20_Inference_GPT-2.png" />
 Compare that to the result after $400$ steps:
 ><img src="./img/400_Inference_GPT-2.png" />
@@ -451,7 +451,7 @@ These *base models* most often can be found on the [HuggingFace Model Hub](https
 - FAIR LLaMA 3.1 (2024): $405\text{B}$ parameters, trained on $15\text{T}$ tokens
 - DeepSeek-V3-0324 (2025): $671\text{B}$ parameters, trained on $14.8\text{T}$ tokens
 
-**What do we get from those Base models?**<br>Base models have been built architectually and they have been exposed to the pretraining step we discussed earlier. The latter of these two is arguably the most expensive step for producing a capable LLM, but it is not the last. Think of it like this: Now that a model was exposed to the pretraining data, and we can attain it, the model may have projected concepts and insights from correlations in the token sequences into its weights, but nothing more. The model has no strategy for how to use insights in context or what style to respond in. It is still a blank slate in terms of how to apply the information it got exposed to.
+**What do we get from those Base models?**<br>Base models have been built architecturally and they have been exposed to the pretraining step we discussed earlier. The latter of these two is arguably the most expensive step for producing a capable LLM, but it is not the last. Think of it like this: Now that a model was exposed to the pretraining data, and we can attain it, the model may have projected concepts and insights from correlations in the token sequences into its weights, but nothing more. The model has no strategy for how to use insights in context or what style to respond in. It is still a blank slate in terms of how to apply the information it got exposed to.
 
 We can find out what base models like LLaMA 3.1 405B behave like when accessing them through e.g. [Hyperbolic](https://app.hyperbolic.xyz/models/llama31-405b-base).<br>This costs money, though.
 
@@ -578,7 +578,7 @@ However, it turns out that the paper's InstructGPT finetuning dataset was never 
 > [!NOTE]
 >You can think of an LLM that underwent supervised finetuning as a **task-specific LLM**. If the task is to be a conversation partner, we can call it a **Conversational LLM**. The LLMs task to finetune on will be to mimic the human labeler-provided chat interactions as closely as possible. 
 
-We can say that with supervised finetuning, **talking to a Conversational LLM like ChatGPT is the statistical mimicing of talking to a human annotator.**
+We can say that with supervised finetuning, **talking to a Conversational LLM like ChatGPT is the statistical mimicking of talking to a human annotator.**
 
 #### Hallucinations
 
@@ -671,7 +671,7 @@ Again, all of the computational complexity is crunched down into the single digi
 </center>
 
 > [!NOTE]
->In its good intent of efficiently grouping together common text fragements for filling the context window more efficiently, the tokenizer may obstruct the model's reasoning capabilities for counting what we as users see as individual elements.
+>In its good intent of efficiently grouping together common text fragments for filling the context window more efficiently, the tokenizer may obstruct the model's reasoning capabilities for counting what we as users see as individual elements.
 
 Resolving this seems easy, but it's not simple. With state-of-the-art models like GPT-4o, we can fall back to tool-use: GPT-4o can generate and run code itself and inform itself from the results. Copy-Pasting the above token sequence of the dots into the code is well possible and less complex than counting. **GPT-4o generates the code, transfers the dot sequence into the code, runs the code and retrieves the deterministically derived answer:**
 
@@ -794,7 +794,7 @@ RL is *very* important for DeepSeek's state-of-the-art LLMs:
 
 This image shows the capability improvement of DeepSeek's R1 model on the [AIME benchmark](https://artofproblemsolving.com/wiki/index.php/2024_AIME_I_Problems) during the progression of training. **Most interestingly, this graph isn't showing pretraining progression, but the RL post-training progression and impact.** This graph indicates that DeepSeek-R1 became very good at discovering solutions to even complex math problems through RL's guided self-optimization effects.
 
-Moreover, we see that the model does something we theorized above on its own account: The longer the RL post-training progresses, the more DeepSeek-R1 sees itself inclinded to spread out its solution across the context window, making the individual contributing token-level reasoning tasks easier for the model. **Critically, this effect emerges by itself:**
+Moreover, we see that the model does something we theorized above on its own account: The longer the RL post-training progresses, the more DeepSeek-R1 sees itself inclined to spread out its solution across the context window, making the individual contributing token-level reasoning tasks easier for the model. **Critically, this effect emerges by itself:**
 
 <center>
 	<img src="./img/deepseek-r1_avg_response_len.png" style="width: auto; height: 375px"/>
@@ -834,7 +834,7 @@ You can in fact download DeepSeek-R1 for free and use it safely, locally, as it 
 
 If you don't want to use DeepSeek-R1 through the official website, you can also give model providers like [together.ai](https://together.ai) a shot. They provide a pay-as-you-go, independent service offering DeepSeek-R1.
 
-If you have a powerful enough machine, you can download an run DeepSeek-R1 safely on your system, for free. Tools like Ollama can be setup to accomodate for a simple point of interaction with your local copy of DeepSeek-R1. Note however that your computer is the limit of the model's capabilities. For example, on an NVIDIA 3060, you can expect DeepSeek-R1 to be a lot slower, a lot less fancy because of the lack of text formatting, and you will have to resort to smaller versions of it, e.g. the 8B model, which would look like this:
+If you have a powerful enough machine, you can download and run DeepSeek-R1 safely on your system, for free. Tools like Ollama can be setup to accommodate for a simple point of interaction with your local copy of DeepSeek-R1. Note however that your computer is the limit of the model's capabilities. For example, on an NVIDIA 3060, you can expect DeepSeek-R1 to be a lot slower, a lot less fancy because of the lack of text formatting, and you will have to resort to smaller versions of it, e.g. the 8B model, which would look like this:
 
 <center>
 	<img src="./img/ollama_deepseek.png" style="width: auto; height: 550px"/>
@@ -856,7 +856,7 @@ This 'new and unique strategies' part made AlphaGo stand out, and it caused what
 
 You can actually see the reactions to *Move 37* for yourself in this excerpt from the documentary "AlphaGo - The Movie": [Lee Sedol vs AlphaGo Move 37 reactions and analysis](https://www.youtube.com/watch?v=HT-UZkiOLv8).
 
-Transfering this back to LLMs, we don't yet know what it will look like when an LLM will reason at a level beyond human capability. But we can say that **RL seems to be a vital step towards unlocking this potential.**
+Transferring this back to LLMs, we don't yet know what it will look like when an LLM will reason at a level beyond human capability. But we can say that **RL seems to be a vital step towards unlocking this potential.**
 
 #### Reinforcement Learning with Human Feedback
 
@@ -870,14 +870,14 @@ In principle, naively, we could have humans review every single one of the milli
 	<img src="./img/rlhf_naive.png" style="width: 500px; height: auto;" />
 </center>
 
-The core trick of RLHF is **indirection:** We will get humans involved, but only a little bit. We will train a seperate LLM, a so-called **reward model**, and we train it on the objective of imitating the few, but speaking human scores we gathered. This reward model is then used to bridge the scaling gap between the human judgement and what's needed for the LLM.
+The core trick of RLHF is **indirection:** We will get humans involved, but only a little bit. We will train a separate LLM, a so-called **reward model**, and we train it on the objective of imitating the few, but speaking human scores we gathered. This reward model is then used to bridge the scaling gap between the human judgement and what's needed for the LLM.
 
 > [!NOTE]
 > Instead of judging being done by a human, we train a simulator for human judgement that can be used to judge the LLM's responses. This is the essence of Reinforcement Learning with Human Feedback.
 
 Given a prompt, the LLM that we want to apply RL to generates $n$ (attempts at) jokes. A human then rates these jokes in an ascending order of funniness, from 1 (best) to $n$ (worst). Ordering is easier for unverifiable correctness than scoring.
 
-Now, **seperately from what the human just did**, for each of these $n$ generated jokes, the *reward model* gets to see the prompt and this joke and scores it. Note that this *reward model* scores, it doesn't order. **The *reward model's* scores are within a fixed, continuous range**, say $0$ (worst) to $1$ (best). We go on to do this for all $n$ jokes and note each of their scores. From that, a ranking by the *reward model* emerges.
+Now, **separately from what the human just did**, for each of these $n$ generated jokes, the *reward model* gets to see the prompt and this joke and scores it. Note that this *reward model* scores, it doesn't order. **The *reward model's* scores are within a fixed, continuous range**, say $0$ (worst) to $1$ (best). We go on to do this for all $n$ jokes and note each of their scores. From that, a ranking by the *reward model* emerges.
 
 <center>
 	<img src="./img/rlhf_rundown.png" style="width: 500px; height: auto;" />
