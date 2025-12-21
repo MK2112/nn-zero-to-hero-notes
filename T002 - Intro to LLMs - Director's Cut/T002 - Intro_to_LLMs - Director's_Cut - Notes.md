@@ -79,7 +79,7 @@ If this sounds interesting, I refer you to [Andrej's Makemore series](https://ww
 
 <img src="./img/Pasted%20image%2020231123114140.png" width="450" height="auto" />
 
-This is the [Transformer](https://arxiv.org/abs/1706.03762). This building block is perfectly well described and understood in its mathematical implications. The transformer iteratively affects the model parameters to better represent likelihoods for producing correct next words. We can measure that the Transformer does that. We only have some barebone ideas as to how the parameters collaborate to come up with the likelihood.
+This is the [Transformer](https://arxiv.org/abs/1706.03762). This building block is perfectly well described and understood in its mathematical implications. The transformer iteratively affects the model parameters to better represent likelihoods for producing correct next words. We can measure that the Transformer does that. We only have some bare-bones ideas as to how the parameters collaborate to come up with the likelihood.
 
 > Think of LLMs as models that output chains of perceived likelihoods. LLMs are no databases, but (for now) mostly inscrutable artifacts, and they develop correspondingly sophisticated evaluations.
 
@@ -87,7 +87,7 @@ If you're interested in Transformers beyond this, [Andrej's video on GPT](https:
 
 ### Requiring Management Assistance
 
-Imagine we now have setup a Transformer-based model that we already exposed to Terabytes of scraped training texts, optimizing the model for next word prediction. **At best, this makes our LLM a proficient document generator.**
+Imagine we now have set up a Transformer-based model that we already exposed to Terabytes of scraped training texts, optimizing the model for next word prediction. **At best, this makes our LLM a proficient document generator.**
 
 <img src="./img/Pasted%20image%2020231123115954.png" />
 
@@ -140,7 +140,7 @@ Interestingly, we don't really ever care about next word prediction as-is beyond
 
 With AI tools like [ChatGPT on GPT-4 Turbo](https://chat.openai.com/) or [Perplexity.Ai](https://www.perplexity.ai/), additional sources of information beyond a training or finetuning set include a real-time internet connection. ChatGPT emits special key words that the backend can interpret as a call for wanting to use Bing Search. The backend emits and collects the results of said search and hands them to the model, which incorporates it for the response.
 
-> This 'special word' gramma can of course be extended to incorporate other external applications, like a calculator or Python, minimizing the further above described 'dreaming' of expected factual data, like maths results. Tool-use adds an entire additional dimension of usability to LLMs, be it through increased factual consistency or through integration of other models like DALL-E. **This is perceived as a fundamental step towards AGI.**
+> This 'special word' grammar can of course be extended to incorporate other external applications, like a calculator or Python, minimizing the further above described 'dreaming' of expected factual data, like maths results. Tool-use adds an entire additional dimension of usability to LLMs, be it through increased factual consistency or through integration of other models like DALL-E. **This is perceived as a fundamental step towards AGI.**
 
 <img src="./img/Pasted%20image%2020231123134345.png" width="450" height="auto" />
 

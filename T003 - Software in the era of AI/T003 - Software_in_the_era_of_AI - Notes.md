@@ -31,7 +31,7 @@
 
 ### Software 2.0
 
-Software is changing, again, and fundamentally so. For example, [GitHub](https://github.com) is a place where people all over the world host and work on their code projects. GitHub isn't a tiny, niche tool by any means. By 2024, over five billion developer contributions were made to more than 500 million open source projects on [GitHub](https://github.com). *You could state the obvious: Coding is a quite active, wide-spread field.*
+Software is changing, again, and fundamentally so. For example, [GitHub](https://github.com) is a place where people all over the world host and work on their code projects. GitHub isn't a tiny, niche tool by any means. By 2024, over five billion developer contributions were made to more than 500 million open source projects on [GitHub](https://github.com). *You could state the obvious: Coding is a quite active, widespread field.*
 
 We've been coding for ~70 years. Think of that as **Software 1.0.**
 
@@ -47,7 +47,7 @@ We've been in the *Software 2.0* realm for some years now, already. Andrej wrote
 ### Software 3.0
 
 The recent update to "What software can be" emerged from Large Language Models (LLMs).
-Indeed, *Software 3.0* programs an LLM for some specific purpose or set of tasks. However, this does *not* happen on the level of code or training/weights, but though **prompts.**
+Indeed, *Software 3.0* programs an LLM for some specific purpose or set of tasks. However, this does *not* happen on the level of code or training/weights, but through **prompts.**
 
 **Prompts can temporarily program multi-purpose LLMs to perform specific tasks for us.** The programming language isn't Python or Java or Lisp, but English, French, Spanish, ...
 
@@ -90,7 +90,7 @@ The ecosystem looks like an electrical grid, where different providers offer LLM
     - If you don't know what tokens are, read about them in [T001 - State of GPT](../T001%20-%20State%20of%20GPT/T001%20-%20State_of_GPT%20-%20Notes.md)
 - **Demands** may be high uptime, low latency, or high throughput (akin to voltage, current and power demands)
 - **Switching** between LLMs is quick and easy, e.g. by using [OpenRouter](https://openrouter.ai/) (a bit like solar panels vs. wind turbines)
-- **Disturbences** can be caused e.g. when a provider's LLM is down (akin to a power outage)
+- **Disturbances** can be caused e.g. when a provider's LLM is down (akin to a power outage)
 
 **But it's more than that. The ecosystem surrounding LLMs can, at several points, resemble fabrication plants, especially recently.**
 
@@ -124,7 +124,7 @@ A striking dissimilarity to operating systems is that LLMs emerged from the reac
 
 The 'people simulators' analogy is weakened, though, as soon as we face **LLM hallucinations**.<br>
 Current LLMs, according to benchmark results, provide PhD-level answers to certain questions, but at the same time may fail on elementary school math problems.<br>
-A lot of this can actually be traced back to the context window and its finite size. It reveals a striking distiction from how humans work and it's a limitation that can be exploited, which can make LLMs behave in unsafe, very distinctly non-human ways.
+A lot of this can actually be traced back to the context window and its finite size. It reveals a striking distinction from how humans work and it's a limitation that can be exploited, which can make LLMs behave in unsafe, very distinctly non-human ways.
 
 >[!NOTE]
 >The landscape of outputs that an LLM may produce has some great peaks, but also some surprising and deep valleys.
