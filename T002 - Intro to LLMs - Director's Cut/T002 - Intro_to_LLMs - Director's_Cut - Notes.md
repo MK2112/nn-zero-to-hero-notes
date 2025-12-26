@@ -37,7 +37,7 @@ The Llama-2-70b deployment package essentially consists of just two files:
 
 > The two files, `parameters` and `run.c`, are enough to house the entire model and basic interaction logic. You could download these files (on, say, your M2 MacBook), run the model and it would generate text to some input just fine.
 
-To *really* drive this point home, you could just cut internet access, then ask the model to describe a specific company or come up with a recipe or anything like that, and the model would answer. This is because text is solely generated based on the loaded weights on your computer. **With standard LLMs like Llama-2-70b, no external information is used during inference.**
+To really drive this point home, you could just cut internet access, then ask the model to describe a specific company or come up with a recipe or anything like that, and the model would answer. This is because text is solely generated based on the loaded weights on your computer. **With standard LLMs like Llama-2-70b, no external information is used during inference.**
 
 <img src="./img/Pasted%20image%2020231123104403.png" width="250" height="auto" />
 
@@ -65,7 +65,7 @@ If our objective is next word prediction, our model parameters should encode the
 
 <img src="./img/Pasted%20image%2020231123112449.png" width="350" height="auto" />
 
-> The "magic" of LLMs is repeating the next word prediction over and over, making the most recent predicted word part of the input sequence to generate a next word again and again. Predictions based on inputs contribute to inputs forming predictions based on inputs contribute to inputs...
+> The 'magic' of LLMs is repeating the next word prediction over and over, making the most recent predicted word part of the input sequence to generate a next word again and again. Predictions based on inputs contribute to inputs forming predictions based on inputs contribute to inputs...
 
 <img src="https://api.wandb.ai/files/darek/images/projects/37727390/9ec381c5.gif" width="500" height="auto" />
 
@@ -81,7 +81,7 @@ If this sounds interesting, I refer you to [Andrej's Makemore series](https://ww
 
 This is the [Transformer](https://arxiv.org/abs/1706.03762). This building block is perfectly well described and understood in its mathematical implications. The transformer iteratively affects the model parameters to better represent likelihoods for producing correct next words. We can measure that the Transformer does that. We only have some bare-bones ideas as to how the parameters collaborate to come up with the likelihood.
 
-> Think of LLMs as models that output chains of perceived likelihoods. LLMs are no databases, but (for now) mostly inscrutable artifacts, and they develop correspondingly sophisticated evaluations.
+> Think of LLMs as models that output chains of predicted likelihoods. LLMs are no databases, but (for now) mostly inscrutable artifacts, and they develop correspondingly sophisticated evaluations.
 
 If you're interested in Transformers beyond this, [Andrej's video on GPT](https://www.youtube.com/watch?v=kCc8FmEb1nY) might be a good resource. (see the notes [here](../N007%20-%20GPT%20From%20Scratch/N007%20-%20GPT.ipynb))
 
@@ -164,7 +164,7 @@ Reinforcement Learning really is the looming force to be added more prominently 
 
 LLMs Jailbreaks have been discussed at varying degrees of seriousness on social media, but the core problem with them is that information generation by sufficiently trained LLMs has to be hard-restricted in certain areas. You don't want malevolent inquiries to receive constructive contribution. This is a core ethical concern.
 
-An early circulated jailbreak consisted of pretending to setup a scenario around the actual inquiry, diluting the model's focus on detecting malintent. You tell a story about somebody asking something, letting the focus drift away from the question to the setting.
+An early circulated jailbreak consisted of pretending to setup a scenario around the actual inquiry, diluting the model's focus on detecting malicious intent. You tell a story about somebody asking something, letting the focus drift away from the question to the setting.
 
 *Another one.* It turns out Claude v1.3 not only understands but also allows interaction in Base64:
 

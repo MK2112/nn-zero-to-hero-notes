@@ -74,7 +74,7 @@ It is exactly these kinds of "expansionist properties" that can be observed for 
 </center>
 
 >[!NOTE]
-> 3.0 doesn't outright replace 2.0 doesn't outright replace 1.0. Rather, every paradigm has its pros and cons.<br>**When working with software, one should be fluent in all three paradigms.**
+> 3.0 doesn't outright replace 2.0, which itself doesn't outright replace 1.0. Rather, every paradigm has its pros and cons.<br>**When working with software, one should be fluent in all three paradigms.**
 
 ## How to Think About LLMs
 
@@ -98,7 +98,7 @@ LLM providers like [OpenAI](https://openai.com/) or [Google DeepMind](https://de
 
 ### LLMs as Operating Systems
 
-These are loose analogies. They aren't perfect. **Anyway, comparing the LLM ecosystem to (traditional) operating systems yields a really good fit.**
+These are loose analogies. They aren't perfect. **However, comparing the LLM ecosystem to (traditional) operating systems yields a really good fit.**
 
 **LLMs are highly complex things to build.** They are trivial to copy and paste once they are built, and they are relatively easy to interact with. Open Source LLMs are freely available, communities gather around them. Switching between models may come with distinct up- and downsides. **All this sounds like what we know from operating systems, doesn't it?**
 
@@ -111,7 +111,7 @@ The operating systems analogy is further sharpened by the fact that **LLMs have 
 - **What once was Random Access Memory (RAM) is now an LLM's context window.**
 - **What once was a hard drive is now an LLM's knowledge base, attained from all the training and fine-tuning.**
 
-The way LLMs are provided and used is similar to how computers were utilized in the 1960s and 70s: You had a centralized mainframe with equally centralized resources, everybody who wanted to could get a share of the mainframe's compute resources. **Equivalently, we now time-share LLMs like those 60s' mainframes.**<br>
+The way LLMs are provided and used is similar to how computers were utilized in the 1960s and 70s: You had a centralized mainframe with equally centralized resources, everybody who wanted to could get a share of the mainframe's compute resources. **Equivalently, we now time-share LLMs like those 60's mainframes.**<br>
 Moreover, we chat with LLMs in a terminal-like manner.
 
 Distributed, on-device ML in this context really feels like a logical next step for the LLM ecosystem.<br> Tools like [Ollama](https://ollama.com/) and [exolabs](https://github.com/exo-explore/exo) really push the field in terms of making things local, friendly and yet speedy. Making LLMs and ML in general more efficient is a [buzzing](https://efficientml.ai) topic right now.
@@ -187,7 +187,7 @@ The faster, without loss of quality, the better.
 
 We can see the downsides of the current state of this loop with a trend called "vibe coding."<br>
 This happens when a developer uses an LLM to generate code, but then doesn't really check it, just "vibes" through the implementation, outsourcing as much work as possible until at least a minimum viable solution is generated.<br>
-This sounds fun an big names like [Rick Rubin](https://www.thewayofcode.com/) encourage trying it out. Nothing speaks against trying out "vibe coding". It's a great indicator showing how capable the applied LLMs are. But other than with music, this practice can lead to bugs and security issues, as the vibed code may not be thoroughly vetted or may rely on outdated dependencies, etc. **Vibe coding, in its current form, is like releasing your project/idea into uncanny valley and hoping it will make it out just fine. At the same time, it is really fun and can function as a gateway-drug to genuine software engineering, if the vibe-coder isn't lazy.**
+This sounds fun an big names like [Rick Rubin](https://www.thewayofcode.com/) encourage trying it out. Nothing speaks against trying out "vibe coding". It's a great indicator showing how capable the applied LLMs are. But other than with music, this practice can lead to bugs and security issues, as the vibed code may not be thoroughly vetted or may rely on outdated dependencies, etc. **Vibe coding, in its current form, is like releasing your project/idea into uncanny valley and hoping it will make it out just fine. At the same time, it is really fun and can function as a gateway drug to genuine software engineering, if the vibe-coder isn't lazy.**
 
 **Vibe coding shouldn't be disregarded. It is a trend, but is also an early indication of where things are headed.**<br>
 And truth be told, having some work lifted off your shoulders is a great thing.
@@ -229,7 +229,7 @@ This will foreseeably remain a common bottleneck to AI-accelerated software deve
 
 Agents emerge as human like entities interacting with the world from the point of view of a user.<br>
 Make your product easy for them to interact with.<br>
-This can mean polishing your website's `robots.txt`, or writing out a documentation in Markdown, which is easily readable by LLMs.
+This can mean polishing your website's `robots.txt`, or writing a documentation in Markdown, which is easily readable by LLMs.
 
 **Make your software's docs structurally legible to LLMs.**
 
