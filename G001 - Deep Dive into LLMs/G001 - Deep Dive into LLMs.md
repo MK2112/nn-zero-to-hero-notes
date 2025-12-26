@@ -207,7 +207,7 @@ We can see BPE in action when looking at GPT-4's `cl100k_base` tokenizer. The sa
 	<img src="./img/cl100k_base_helloworld.png" style="width: auto; height: 375px;" />
 </center>
 
-So, in total, models like GPT-4 see from the arbitrary text they might get prompted with is series of numbers like this here, shown in the lower right corner:
+So, in total, models like GPT-4 see the arbitrary text they might get prompted with only as a series of numbers like shown in the lower right corner:
 
 <center>
 	<img src="./img/cl100k_base_viewing_single_post.png" style="width: auto; height: 350px;" />
@@ -286,7 +286,7 @@ So far, we looked at the outer conditions for training an LLM. But what goes on 
 	<img src="./img/model_mathematic_expression.png" style="width: auto; height: 375px;" />
 </center>
 
-Note that different $x$ may be of different lengths *up to* $\text{context size}$.<br>
+Note that different $x$ may be of different lengths *up to* the $\text{context size}$.<br>
 For our example model, we will accept input sequence lengths from $0$ to $\text{context size}=8000$ tokens.
 
 Now, assume a very initial setting where our LLM exists already, but hasn't ever seen any text yet. The LLM's *weights* are initialized randomly. The LLM is then iteratively fed context sequences from $X$. For each context sequence $x$, the LLM produces a probability distribution over all tokens in the vocabulary. This is the LLM's output. Training an LLM uses a tool called cross‑entropy to compare the predicted probability for each next token candidate $\hat{y}$ against the 100% one‑hot truth of the true next token $y$. 
@@ -351,7 +351,7 @@ We append token $860$ to token $91$. This sequence will be the input to the LLM 
 	<img src="./img/autoregressive_generation.png" style="width: auto; height: 250px;" />
 </center>
 
-Compare the last generated token $13659$ to what we previously said was the correct answer as per the pretraining dataset: $3962$. The LLM's output is not `|Viewing Single Post`, but `|Viewing Single Article` now. This is a good example of the LLM's creativity and flexibility in generating text. We don't want it to blabber out the exact dataset contents, but we want it to rather show the understanding that an `Article` and a `Post` may share the property of being `Viewed`. This is what's called **generalization**.
+Compare the last generated token $13659$ to what we previously identified as the correct answer via the pretraining dataset: $3962$. The LLM's output is not `|Viewing Single Post`, but `|Viewing Single Article` now. This is a good example of the LLM's creativity and flexibility in generating text. We don't want it to blabber out the exact dataset contents, but we want it to rather show the understanding that an `Article` and a `Post` may share the property of being `Viewed`. This is what's called **generalization**.
 
 > [!NOTE]
 > **Generalization** is the ability of an LLM to not just memorize the training data, but to understand the underlying patterns and concepts in the data, and to apply these to new, unseen data. Stochasticity, e.g. by sampling from the output token probabilities, is elemental to this, as it allows the LLM to generate diverse, creative, and contextually appropriate text.
@@ -369,7 +369,7 @@ We went through a comprehensive high-level walkthrough of the steps needed for t
 Let's look at a specific example of an LLM series, namely **GPT-2**. It is a good example to illustrate the concepts we just discussed. GPT-2 is an LLM that was released by OpenAI in 2019. Along with this release, the accompanying paper [Language Models are Unsupervised Multitask Learners \[Radford, et al. 2019\]](https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf) was published.
 
 > [!NOTE]
-> **GPT stands for General Pretrained Transformer**.<br> GPT-2 is indeed not a single model, but a series of models with different sizes:
+> **GPT stands for Generative Pretrained Transformer**.<br> GPT-2 is indeed not a single model, but a series of models with different sizes:
 > - GPT-2 Small: $124\text{M}$
 > - GPT-2 Medium: $355\text{M}$
 > - GPT-2 Large: $774\text{M}$
@@ -667,7 +667,7 @@ Actually, a very similar issue arises when tasking an LLM to count.
 Again, all of the computational complexity is crunched down into the single digit token for the response. But worse, we now have the tokenizer, more specifically the token granularity, potentially interfering with the model's reasoning:
 
 <center>
-	<img src="./img/clk100base_dots_tokenized.png" style="width: auto; height: 240px"/>
+	<img src="./img/cl100k_base_dots_tokenized.png" style="width: auto; height: 240px"/>
 </center>
 
 > [!NOTE]
@@ -840,7 +840,7 @@ If you have a powerful enough machine, you can download and run DeepSeek-R1 safe
 	<img src="./img/ollama_deepseek.png" style="width: auto; height: 550px"/>
 </center>
 
-Also, truth be told, GPT-4o is actually not the most recent model from OpenAI.<br>OpenAI released the o-series of models, with o3 being the most recent one. **These model naming conventions confuse everybody.** The o-series was trained with added Reinforcement Learning, like DeepSeek-R1, trained with similar techniques and with similar results.<br>Most of the o-series models are paywalled, though. Also, OpenAI doesn't provide a view into the model's solution reasoning, like DeepSeek-R1 does, for fear of revealing too much about the model's inner workings.<br>Google tries their luck on great UI design and fails, but at least provides the hilariously named but capable [Gemini 2.0 Flash Thinking Experimental 01-21](https://aistudio.google.com/prompts/new_chat), a free-to-use model that is also trained with Reinforcement Learning.
+Also, truth be told, GPT-4o is actually not the most recent model from OpenAI.<br>OpenAI released the o-series of models, with o3 being the most recent one. **These model naming conventions confuse everybody.** The o-series was trained with added Reinforcement Learning, like DeepSeek-R1, trained with similar techniques and with similar results.<br>Most of the o-series models are paywalled, though. Also, OpenAI doesn't provide a view into the model's solution reasoning, like DeepSeek-R1 does, for fear of revealing too much about the model's inner workings.<br>Google provided the hilariously named yet capable [Gemini 2.0 Flash Thinking Experimental 01-21](https://aistudio.google.com/prompts/new_chat), a free-to-use model that is also finetuned with Reinforcement Learning.
 
 ---
 
@@ -852,7 +852,7 @@ Looking at this performance comparison of Lee Sedol vs. AlphaGo trained with Rei
 	<img src="./img/alphago_rl_vs_sft.png" style="width: auto; height: 300px;" />
 </center>
 
-This 'new and unique strategies' part made AlphaGo stand out, and it caused what is now known as *Move 37*. During a game against Lee Sedol, AlphaGo made a move that was so unexpected and so out of the ordinary that it was considered a mistake by Lee Sedol. But it turned out to be a brilliant, never before seen move, and it was this move helped decide the game in AlphaGo's favor.
+This 'new and unique strategies' part made AlphaGo stand out, and it caused what is now known as *Move 37*. During a game against Lee Sedol, AlphaGo made a move that was so unexpected and so out of the ordinary that it was considered a mistake by Lee Sedol. But it turned out to be a brilliant, never before seen move, and it was this move that helped decide the game in AlphaGo's favor.
 
 You can actually see the reactions to *Move 37* for yourself in this excerpt from the documentary "AlphaGo - The Movie": [Lee Sedol vs AlphaGo Move 37 reactions and analysis](https://www.youtube.com/watch?v=HT-UZkiOLv8).
 
@@ -921,7 +921,7 @@ which are further processed in a large-scale mathematical process, in which the 
 
 3. **Probability Distribution** (see [chapter 7](../N007%20-%20GPT%20From%20Scratch/N007%20-%20GPT.ipynb) for more details)**:**
 The LLM produces not a single token, but a probability distribution over all the possible tokens in its vocabulary.
-This distribution is a prediction of what tokens the LLM thinks will likely occur follow on the input sequence.
+This distribution is a prediction of what tokens the LLM thinks will likely follow the input sequence.
 
 4. **Token Sampling** (see chapters [7](../N007%20-%20GPT%20From%20Scratch/N007%20-%20GPT.ipynb), [8](../N008%20-%20GPT%20Tokenizer/N008%20-%20Tokenization.ipynb) and [9](../N009%20-%20Reproducing%20GPT-2/N009%20-%20Reproducing_GPT-2.ipynb) for more details)**:**
 A token is picked out from this probability distribution. This is generally done by sampling, in which the probability of the token is taken into account for the chance of picking it. This retains a chance for unique, more diverse answers to be returned when applied iteratively. However, it is also possible to just directly select the most probable token.
@@ -952,7 +952,7 @@ A great way to stay on top of the latest developments in LLMs is to [follow the 
 
 Another source of up-to-date information are newsletters. *Yes, newsletters.* There are some very high-quality ones like [AI News](https://buttondown.com/ainews) or [DeepLearning.Ai's The Batch](https://www.deeplearning.ai/the-batch/). They provide great, concise insights into the latest developments.
 
-YouTube is also a great resource. [3Blue1Brown](https://www.youtube.com/@3Blue1Brown) and [Yannic Kilcher](https://www.youtube.com/@YannicKilcher) provide a great resources for deep dives into maths and AI. And of course [Andrej Karpathy](https://www.youtube.com/@AndrejKarpathy) is unmatched.
+YouTube is also a great resource. [3Blue1Brown](https://www.youtube.com/@3Blue1Brown) and [Yannic Kilcher](https://www.youtube.com/@YannicKilcher) provide excellent resources for deep dives into maths and AI. And of course [Andrej Karpathy](https://www.youtube.com/@AndrejKarpathy) is unmatched.
 
 Finally, [X (formerly Twitter)](https://x.com) is still great for AI. A lot of top talent is on there. Follow the likes of [Andrej Karpathy](https://x.com/karpathy), [Ilya Sutskever](https://x.com/ilyasut) and [Will Brown](https://x.com/willccbb) for excellent commentary on the field.
 
