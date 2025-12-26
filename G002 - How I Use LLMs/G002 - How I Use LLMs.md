@@ -258,7 +258,7 @@ Here's an example of Deep Research messing up:
     <img src="./img/ChatGPT_Deep_Research.png" style="width: 500px; height: auto;" />
 </center>
 
-While this is a comprehensive table intended to show the major LLM research labs in the United States, xAI is missing, Hugging Face is listed, despite not being an LLM research lab in the strict sense, and EleutherAI is listed despite being a decentralized research collective and not a major lab as such.
+While this is a comprehensive table intended to show the major LLM research labs in the United States, xAI is missing, Hugging Face is listed, despite not being an LLM research lab in the strict sense (they much rather provide a machine learning platform and ecosystem for open-source work), and EleutherAI is listed despite being a decentralized research collective and not a major lab as such.
 
 ### File Upload
 
@@ -360,7 +360,8 @@ A really powerful use case for LLMs is to create flashcards for documents or boo
     <img src="./img/Claude_Artifact_Flashcard_App.png" style="width: 100%; height: auto;" />
 </center>
 
-Again, we don't write flashcards that accommodate your app, we write an app that accommodates your flashcards. See more, different, user-submitted Claude Artifacts [here](https://claudeartifacts.com/).
+We don't write flashcards that accommodate an app, but instead, we write an app that accommodates our flashcards.<br>
+See more user-submitted Claude Artifacts [here](https://claudeartifacts.com/).
 
 Apart from flashcards, a really good use case for Artifacts is content-based diagram or mind map generation. Claude can go through text, find key points, concepts etc. and organize them visually to make the text more accessible and understandable.
 
