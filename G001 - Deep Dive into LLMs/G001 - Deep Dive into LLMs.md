@@ -39,53 +39,54 @@
 LLMs are Artificial Intelligence (AI) systems trained to process and generate human-like text by identifying linguistic patterns from training data.<br>
 Let's introduce what LLMs really are, from input to output, in an *understandable* fashion.
 
-When talking about LLMs, you will inevitably encounter the term 'prompt'. **A prompt is the input text, the formulated instructions or data so to say, that you as the user provide to an LLM.** A prompt can be a question, a statement (like an example of text, writing format, etc.), or any other text-based content. The LLM processes this prompt and generates an output, the so-called *response*.
+When talking about LLMs, you will inevitably encounter the term 'prompt'.<br>
+**A prompt is the input text, the formulated instructions or data that you as the user provide to an LLM.** A prompt can be a question, a statement (like an example of text, writing format, etc.), or any other text-based content. The LLM processes this prompt and generates an output, the so-called *response*.
 
-When providing a prompt and reading the response of an LLM, it becomes clear that there is some notion of experience embedded into this response that you receive. The LLM may show that it can process and articulate:
+When providing a prompt and reading the response of an LLM, it becomes clear that there is some notion of experience embedded into it. The LLM may show that it can process and articulate:
 
 - **Syntax** (spelling, sentence structure),
 - **Semantics** (meaning), and
 - **Pragmatics** (context and use of tonality in language).
 
-We will go through the general steps involved in LLM development and operation.<br>
-And we will do this with the example of a chatbot LLM, like [ChatGPT](https://chatgpt.com/).
+**But how is that possible?**<br>
+Let's go through the general steps involved in LLM development and operation.<br>
+We will do this with the example of a chatbot LLM like [ChatGPT](https://chatgpt.com/).
 
 ---
 
 ## Pretraining
 
-When analyzing an LLM's response to a prompt, the output reflects not only its reference to the prompt itself, but also its ability to generalize from the prompt to a broader context somehow accessible to the LLM during the response generation. An LLM is intended and built to generalize from an input to a broader understanding through what is called **pretraining**.
+When analyzing an LLM's response to a prompt, the output reflects not only its reference to the prompt itself, but also its ability to generalize from the prompt to a broader context somehow accessible to the LLM while it genereates the response. **An LLM is intended and built to generalize from an input to a broader understanding through what is called pretraining**.
 
 > [!NOTE]
-> **Pretraining** is the process of exposing an LLM to vast amounts of text. Through particular methods of exposure, the LLM is enabled to learn the statistical patterns from said text. Only these patterns are retained in the LLM's parameters, but they surprisingly sufficiently capture meaning and contextual interdependencies within text. Pretraining aims to adjust the LLM's parameters so that its output probability for the respective next token (unit of information) is as often as possible as close as possible to the actual next token in the training data. In other words, pretraining maximizes the likelihood (or minimizes cross-entropy) of the observed next tokens under the model's learnt distribution.
+> **Pretraining** describes the process of exposing an LLM to vast amounts of text. Through particular methods of exposure, the LLM is enabled to learn the statistical patterns from said text. These patterns are ultimately retained in the LLM's parameters. They surprisingly sufficiently capture meaning and contextual interdependencies within text. Pretraining aims to adjust the LLM's parameters so that its output probability for a respective next token (a unit of information) is as often as possible as close as possible to the actual next token in the training data. In other words, pretraining maximizes the likelihood (or minimizes cross-entropy) of the LLM producing the observed next tokens under the LLM's learnt distribution.
 
-**At this point, this may sound like a lot of jargon. Don't worry about it, we're only just beginning to go through what all this terminology really means.**
+**All this may sound like a lot of jargon. Don't worry about it, we're only just beginning to go through what all this terminology really means.**
 
-**Pretraining** is a core objective and not some mere preliminary step in LLM development.<br>
-*Pretraining* requires us to walk a specific sequence of steps.
+The key takeaway so far should be that **pretraining** is a core objective and not some mere preliminary step in LLM development. For *pretraining* to happen, we have to walk a specific sequence of steps.
 
 ### Step 1: Download and Preprocess the Internet
 
-**If we want to expose an LLM to vast amounts of text, we first have to obtain vast amounts of text.**
+**If we want to expose an LLM to vast amounts of text, we have to obtain vast amounts of text first.**
 
-Nowadays, data on the scale of *the entire internet* is used as basis for pretraining LLMs. Thankfully we don't have to scrape the internet ourselves. *FineWeb*, a curated, filtered copy of textual contents of the internet was made available by HuggingFace:
+Nowadays, data at the scale of the entire internet is used as the basis for pretraining LLMs. Thankfully we don't have to scrape the internet ourselves. *FineWeb*, a curated, filtered copy of the internet's textual contents was made available by HuggingFace:
 
-- The *FineWeb* dataset: https://huggingface.co/datasets/HuggingFaceFW/fineweb
-- The accompanying blog post: https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1
+- This is the *FineWeb* dataset: https://huggingface.co/datasets/HuggingFaceFW/fineweb
+- This blog post accompanies it: https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1
 
 ><b>:question: Wait. Why would we need <i>this much</i> text in the first place? Isn't this <i>really</i> expensive?</b>
 >
->Pretraining is widely regarded as the most expensive and vast step for building a capable LLM. We don't actually go for volume as such. Text diversity and quality are the essential contributors for training LLMs that are knowledgeable, versatile, and capable of understanding and generating text for a wide range of contexts. We expect our chatbot LLM to do just that. And just based on source and size, we can assume that <i>FineWeb</i> contains a multitude of faceted, diverse and informative texts. Exposing an LLM to this text dataset will have it encounter a broad range of language.
+>Pretraining is widely regarded as the most expensive step for building a capable LLM. We don't actually go for volume as such, though. Text diversity and quality are the essential contributors for pretraining knowledgeable, versatile LLMs that are capable of understanding and generating text for a wide range of contexts. And that broad understanding is exactly what we expect from our chatbot LLM. Just based on source and size, we can assume that <i>FineWeb</i> contains a multitude of faceted, diverse and informative texts. Exposing an LLM to this text dataset will have it encounter a broad range of language from a broad range of topics.
 
-><b>:question: So, more text to train on is just better?</b>
+><b>:question: So, pretraining on more text improves the LLM?</b>
 >
->No. If we have a dataset that contains a lot of poorly worded or just bad or meaningless text overall (like product listings, repetitions of the same text over and over, no diversity in topics, etc.), an LLM pretrained on this data will be poorly skilled, poorly generalizing. <b>An ideal dataset finds a balance between size, quality, diversity and cost for attaining it.</b> Public, curated datasets like <i>FineWeb</i> are a great help with all four of those aspects.
+>Not exactly. Suppose we pretrain an LLM with a dataset that contains a lot of poorly worded or just bad or meaningless text overall (like product listings, repetitions of the same text over and over, no diversity in topics, etc.). The LLM, because of low quality data, will be poorly skilled. It will also generalize poorly. <b>An ideal dataset finds a balance between size, quality, diversity and cost for attaining it.</b> Public, curated datasets like <i>FineWeb</i> are a great help with all four of those aspects.
 
-HuggingFace did a lot of work ensuring *FineWeb* is a large *yet also* high-quality dataset. Truth be told, HuggingFace didn't actually crawl for the text data themselves. Instead, they used a copy of [CommonCrawl](https://commoncrawl.org/latest-crawl) as basis. Since 2007, the organization behind *CommonCrawl* crawls the internet and takes snapshots of encountered webpages. This is raw, untreated data, and loads of it.
+HuggingFace put a lot of effort into ensuring *FineWeb* to be a *large* yet also *high-quality* dataset. Truth be told, HuggingFace didn't actually source for the text data on their own. Instead, they utilized a copy of [CommonCrawl](https://commoncrawl.org/latest-crawl) as basis. Since 2007, the organization behind *CommonCrawl* crawls the internet and takes snapshots of encountered webpages. This is raw, untreated data, and *loads* of it. HuggingFace takes this data and distills the higher quality *FineWeb* dataset from it.
 
-**How did HuggingFace now ensure that the text data selected from *CommonCrawl* for *FineWeb* would be of high quality?**
+**How can HuggingFace ensure that the text data selected from *CommonCrawl* for *FineWeb* would be of high quality?**
 
-HuggingFace performed a series of what is called **data preprocessing** steps. These steps ensure that any retained data is clean, consistent and noise-free (as best as possible).
+To ensure that any retained data is clean, consistent and noise-free (as best as possible), HuggingFace performed a series of what is called **data preprocessing** steps.
 
 **HuggingFace applied the following data preprocessing steps to CommonCrawl to distill the clean data subset that is *FineWeb*, from potentially low-quality raw text data:**
 
@@ -95,27 +96,27 @@ HuggingFace performed a series of what is called **data preprocessing** steps. T
 </center><br /><br />
 
 1. **URL Filtering**:
-	URL Filtering removes sources that are deemed low-quality or irrelevant ahead of the text gathering process itself. Sources such as spam, adult content, or non-informative pages are discarded, ensuring that only reputable and potentially useful content is retained. HuggingFace uses specifically [this blocklist](https://dsi.ut-capitole.fr/blacklists/).
+	URL Filtering removes sources that are deemed low-quality or irrelevant *ahead of the text gathering process itself*. Sources such as spam, adult content, or non-informative pages are discarded, ensuring that only reputable and potentially useful content is retained. HuggingFace specifically uses [this blocklist](https://dsi.ut-capitole.fr/blacklists/) for this step.
 2. **Text Extraction**:
-    With the URL filtering done, the raw, crawled webpage content (containing text but also, e.g., the underlying HTML code used to display the webpage as such, links, etc.) is processed to discard unnecessary parts and extract clean, readable text. This involves a rule-based removal of HTML tags, scripts, and other non-textual elements, while preserving the main content itself.
+    With the URL filtering done, the raw, crawled webpage content (containing text but also, e.g., the underlying HTML code used to display the webpage as such, links, etc.) is processed to discard unnecessary parts and extract clean, readable text. This involves the rule-based removal of HTML tags, scripts, and other non-textual elements, while preserving the main content itself.
 3. **Language Filtering**:
-    The extracted text is now subjected to language filtering to ensure the corpus is linguistically consistent. Non-target languages are filtered out, retaining only text in the desired language(s). For *FineWeb*, HuggingFace applies the [FastText Language Classifier](https://fasttext.cc/docs/en/language-identification.html) to retain only English text. This classifier provides not only a decision on language, but also its degree of certainty in this choice. If the confidence scoring is $\geq 0.65$ for English, they keep the text.
+    The extracted text now gets subjected to language filtering to ensure the corpus is linguistically consistent. Non-target languages are filtered out, retaining only text in the desired language(s). For *FineWeb*, HuggingFace applies the [FastText Language Classifier](https://fasttext.cc/docs/en/language-identification.html) to retain only English text. This classifier provides not only a decision on the language, but also its degree of certainty in this classification. If the confidence scoring is $\geq 0.65$ for English, Huggingface keeps the text for further processing.
 4. **Gopher Filtering**:
-    Gopher filtering, first performed for Google [DeepMind's Gopher](https://deepsense.ai/wp-content/uploads/2023/03/2112.11446.pdf) model, is applied to remove low-quality or boilerplate text. This step uses pre-defined rules or even machine learning models to identify and eliminate repetitive, non-informative, or template-like content (e.g., navigation menus, disclaimers, product lists), ensuring the remaining dataset contains meaningful and diverse text.
+    Gopher filtering, first performed for [Google DeepMind's Gopher](https://deepsense.ai/wp-content/uploads/2023/03/2112.11446.pdf) model, is applied to remove low-quality or boilerplate text. This step uses pre-defined rules or even machine learning models to identify and eliminate repetitive, non-informative, or template-like content (e.g., navigation menus, disclaimers, product lists), ensuring the remaining dataset contains meaningful and diverse text.
 5. **MinHash Deduplication**:
-    To avoid content redundancies, this technique identifies near-duplicate documents by comparing hashing the examples and comparing those hashed representations, removing examples with another identical or near-identical hash already present. This aims at ensuring content diversity while avoiding overrepresentation of identical, highly similar, or just often encountered texts.
+    To avoid content redundancies, MinHash deduplication identifies near-duplicate documents by comparing hashes made for the text examples, removing those examples with another identical or near-identical hash already present. This aims at ensuring content diversity while avoiding overrepresentation of identical, highly similar, or just frequently encountered texts.
 6. **C4 Filters**:
-    FineWeb was built by applying filters inspired by the [C4 dataset](https://huggingface.co/datasets/allenai/c4), which include removing lines with e.g. excessive punctuation or non-natural language.
+    The deduplicated dataset now gets exposed to filters inspired by the [C4 dataset](https://huggingface.co/datasets/allenai/c4). These filters help identify and remove lines with e.g. excessive punctuation or non-natural language.
 7. **Custom Filters**:  
-    Custom filters are applied to address specific requirements or biases potentially encountered in the dataset at this stage. These may include domain-specific exclusions, removal of offensive content, or other tailored criteria.
+    HuggingFace now applies additional custom filters to address specific requirements or biases potentially encountered in the dataset at this stage. This may include domain-specific exclusions, removal of offensive content, or other tailored criteria.
 8. **PII Removal**:  
-    Wrapping up the data preprocessing of FineWeb, personally identifiable information (PII) is removed to ensure privacy and compliance with data protection regulations. This involves detecting and redacting sensitive information, like names, addresses, phone numbers, and email addresses.
+    Wrapping up the data preprocessing of *FineWeb*, personally identifiable information (PII) gets removed to ensure privacy and compliance with data protection regulations. This requires detecting and redacting sensitive information, like names, addresses, phone numbers, and email addresses.
 
-><b>:question: Wait. What will it mean for our LLM to get pretrained on a dataset of English text only?</b>
+><b>:question: Wait. What will it mean for our LLM to get pretrained on a dataset of only English text?</b>
 >
->The LLM will become good at processing and responding to English text. It will be able to understand and generate English text well. But it will not be able to do the same for any other languages.<br> But, note that while <i>FineWeb</i> is derived from English text sources, a new and language-wise broader <a target="_blank" href="https://huggingface.co/datasets/HuggingFaceFW/fineweb-2">FineWeb 2</a> is in the making, allowing training models that will then be able to pretrain to be good at multiple languages in the future.
+>The LLM will become good at processing and responding to English text. It will be able to understand and generate English text well. However, crucially, it will not be able to do the same for any other language.<br> Note, though, that while <i>FineWeb</i> is derived from English text sources, a new and language-wise broader <a target="_blank" href="https://huggingface.co/datasets/HuggingFaceFW/fineweb-2">FineWeb 2</a> has already been released, allowing for pretraining models by exposure to multiple languages as well.
 
-After passing the raw CommonCrawl data through the preprocessing pipeline, HuggingFace attained the *FineWeb* data substrate. But what does this distilled dataset actually look like? Luckily, HuggingFace shows us in their [Dataset Preview](https://huggingface.co/datasets/HuggingFaceFW/fineweb):
+After passing the raw CommonCrawl data through the preprocessing pipeline, HuggingFace attained the *FineWeb* data substrate. But what does this distilled dataset actually look like? Luckily, HuggingFace shows us in their [dataset preview](https://huggingface.co/datasets/HuggingFaceFW/fineweb):
 
 <center>
 	<img src="./img/hf_fineweb_viewer.png" style="width: auto; height: 375px;" />
@@ -135,9 +136,9 @@ There's more than just this `text` column though.<br>The *FineWeb* dataset conta
 8. `language_score`: A confidence score for the language detection, ranging from $0.65$ to $1.00$.
 9. `token_count`: The number of tokens in the text content. We will talk about this later.
 
-**The additional columns provide metadata and context for each dataset entry.** This way, HuggingFace provides the *FineWeb* dataset not just as a collection of text snippets, but as a structured and organized resource.
+**The additional columns provide metadata and context for each dataset entry.** HuggingFace provides the *FineWeb* dataset not just as a collection of text snippets, but as a structured and organized resource.
 
-**Ok, we just secured lots of high-quality text data. What's next?**
+**Ok, we just secured lots of high-quality text data through FineWeb. What's next?**
 
 ---
 
@@ -145,107 +146,113 @@ There's more than just this `text` column though.<br>The *FineWeb* dataset conta
 
 The claim raised by *Step 1* is that if we expose an LLM to the gigantic corpus of high-quality, informative text that is *FineWeb*, the LLM may become able to internalize and model the textual patterns and the nuances between different phrases in the data. From that, we hope that a fundamental, general, conceptual understanding of how language expresses coherent meaning and information is derived.<br>**That would be nice.** 
 
-*However*, "exposing the LLM to text data" is not that easy.
+*However*, "exposing the LLM to text data" is not as easy as it sounds.
 
-**A standard LLM expects input to be a one-dimensional sequence of some limited set of symbols.** You can argue that text, a string of characters, already is such a one-dimensional sequence. But we can't really do maths with characters. **We need some sort of numeric representation of text.** Also, should text be a interpreted as a sequence of characters, or a sequence of words, or of syllables? **What level of abstraction is best?**
+**A standard LLM is a mathematical model. It expects input to be a one-dimensional sequence of some limited set of processable symbols.** You can argue that text, a string of characters, already is such a one-dimensional sequence. But we can't really do maths with characters. **We need some sort of useful numeric representation of text.** Also, should text be a interpreted as a sequence of characters, of words, or of syllables? **What level of abstraction is best here?** This is exactly where **tokenization** comes into play.
 
-**Tokenization transforms text into numerical tokens, enabling language models to process and understand through numerical processing.** A token is a representation of a distinct unit of meaning in the text. This could be words, phrases, syllables and/or characters. **LLMs don't ever operate on raw text.** Instead, they analyze token sequences to learn statistical relationships between said tokens. This training process allows LLMs to predict the likelihood of subsequent tokens, fundamentally facilitating downstream tasks like text generation and comprehension.
+**Tokenization transforms text into numerical tokens,** enabling language models to process and understand through numerical processing. **A token is a representation of a distinct unit of meaning in the text.** This could be words, phrases, syllables and/or characters. **Remember, the standard LLM is a mathematical model. LLMs therefore don't ever operate on raw text.** Instead, they analyze token sequences to learn statistical relationships between said tokens. This training process allows LLMs to predict the likelihood of subsequent tokens, fundamentally facilitating downstream tasks like text generation and comprehension.
 
 > [!NOTE]
->We have to find a **numeric representation** that is ideally as unique, as expressive, and as concise as possible for all fragments that make for a text. Transferring a text to this representation is called **tokenization**. The shorter a good numeric representation of a given text, the longer the text sequences can be that we process with the LLM in the end, i.e. the more input we can provide or the more of past prompts and outputs the LLM will be able to still consider.
+>We have to find some **numeric representation** that is ideally as unique, as expressive, and as concise as possible for all fragments that make up a text. The process of transferring a text to this representation is called **tokenization**. The more concise a high-quality numeric representation of a given text, the longer the text sequences that we can process with the LLM in the end. With a concise representation, we could fit more tokenized text into memory at once, and thus process more of it at once than e.g. with a less concise representation. And this in turn helps furthering the context horizon, understanding and overall performance of our LLM.
 
-The above holds a key insight. **LLMs do not only process a prompt, but a context window of tokens. The context window is a sequence of tokens that the LLM can consider at once while forming an output. The context window is limited in size.** The longer the context window, the more tokens the LLM can consider. LLMs may start out filling the context window with just the initial user prompt, but then continue with *that* prompt, *their own output* and the *next prompt* a user provides, filling it all into the context window like a single, stacked memory. By retaining this information chronologically in the context window, the LLM can, to an extent, remember the chat history and act accordingly in its next outputs.
+The above holds several key insights. **LLMs do not process a user-given prompt as such, but rather a context window of tokens. The context window is a sequence of tokens that the LLM can consider at once while forming an output. The context window is limited in size. The user-given prompt may get tokenized and placed in this context window.** The longer the context window, the more tokens the LLM can consider while forming an output. LLMs may start out filling the context window with just the initial user prompt, but then continue with *that* prompt, *their own output* and the *next prompt* a user provides, filling it all into the context window like a single, stacked memory. By retaining this information chronologically in the context window, the LLM can, to an extent, remember the chat history and act accordingly in its next outputs.
 
-Going back to *tokenization*, like everything else shown and processed by a computer, **at its lowest abstraction, text is just binary code.** We could translate a text into its binary representation and that would be a one-dimensional, numeric, unique representation. But it would be awfully long/extensive and inefficient. We would need a lot of bits to represent just a single character (e.g., with unicode encoding, a single character may require up to $32$ bits). This would naturally limit the amount of text we could process at once with a fixed amount of memory. In other words, **unicode encoding would limit context window size, i.e. the amount of text we could refer to for generation.** We would reduce the LLM's ability to remember and refer to past prompts and outputs. Our LLM would suffer unnecessarily if we were to apply binary representation as our level of abstraction.
+<center>
+	<img src="../N008%20-%20GPT%20Tokenizer/img/Tokenizer_Schema.png" style="width: auto; height: 250px;" />
+</center>
 
-We are about to go into a specific technique applied for *tokenization*. But before going there, I want to explain what a **token** actually is.
-**A token is a representation of a single unit of meaning.** This doesn't say much on its own, but it's crucial. It's important to understand that a *token* can be a single character, a word, syllables or even some subword, i.e., a chunk of text. **The tokenization process is not only about transferring text to its tokenized representation, but also and foremost about finding the right balance between the size of the individual tokens, meaning the amount of information each of them carry, and the number of tokens that are produced in total.** The more narrow the information is that a token represents, the easier it becomes to process, but the more tokens may become necessary to represent the entire text, limiting the processable context size considerably (like we saw with the pure-binary representation).
+**But how can we now meaningfully do that now? How can we usefully tokenize text?**
+
+Like everything else shown and processed by a computer, **at its lowest abstraction, text is just binary code.** We could translate a text into its binary representation and that would be a *one-dimensional, numeric, unique* representation. But it would be *awfully long/extensive* and inefficient. We would need a lot of bits to represent just a single character (e.g., with unicode encoding, a single character may require up to $32$ bits). This would naturally limit the amount of text we could process at once with the fixed amount of memory our computer provides. In other words, **unicode encoding would limit context window size, i.e. the amount of text we could refer to for generation.** We would reduce the LLM's ability to remember and refer to past prompts and outputs. **Our LLM would suffer unnecessarily if we were to apply binary representation as our level of abstraction.**
+
+We are about to go into a specific technique applied for *tokenization*. Before going there, I want to explain what a **token** actually is.<br>
+So far we know that **a token is a representation of a single unit of meaning.** This doesn't say much on its own, but it's important. A *token* can be a single character, a word, syllables or even some subword, i.e., some chunk of text. **The tokenization process is not only about transferring text to its tokenized numeric representation, but also about finding the right balance between the size of the individual tokens, meaning the amount of information each of them carry, and the number of tokens that are ultimately produced in total for a given text.** The more narrow the information is that a token represents, the easier it becomes to process, but the more tokens may become necessary to represent the entire text. This in turn would be limiting the processable context size considerably (like we saw with the pure-binary representation).
 
 #### Byte-Level Tokenization
 
-*If the bit-level/binary representation idea we just looked at is not a good choice for tokenization, then what about moving up the abstraction hierarchy as needed?* What about not using only zeros and ones to embed a text, but instead use fixed-size groups of zeros and ones to represent certain fragments of the text?
+*If the bit-level/binary representation idea we just looked at is not a good choice for tokenization, what about moving up the abstraction hierarchy as needed?* What about not using only zeros and ones to embed a text, but instead use fixed-size groups of zeros and ones to represent certain fragments of the text?
 
-A byte is a sequence of $8$ bits, meaning $8$ values, each of those either $0$ or $1$. One byte can be one of $2^8 = 256$ different combinations of zeros and ones.
+A byte is a sequence of $8$ bits, meaning $8$ binary values (each is either $0$ or $1$).<br>One byte can therefore represent one of $2^8 = 256$ different combinations of zeros and ones.
 
-><b>:question: How is this concept now different from bit-level tokenization?</b>
+><b>:question: How is this concept now different from bit-level tokenization? Isn't that just the same thing?</b>
 >
->The difference becomes clear when we consider that one byte can represent $2^8 = 256$ distinct values, whereas one bit can represent just $2^1 = 2$ values. In other words, by tokenizing text into bytes, our vocabulary consists of the distinct values $0$ to $255$ rather than merely $0$ and $1$. When we can assign $256$ text chunks their own unique tokens, it significantly increases the expressiveness of those tokens on their own. And this effect in turn makes computations more straightforward, as the tokens themselves, without their neighboring tokens in the sequence, carry more, expressive information. By mapping text to a numeric representation based on bytes, tokenization becomes both more expressive and computationally efficient, even though token representations are now $8\times$ larger than with bit-level tokenizing, but the positives from going byte-level outweigh this intuitively added cost, because it enables the representation and unique distinction of a wider set of individual text chunks.
+>The difference becomes clear when we again consider that one byte can represent $2^8 = 256$ distinct values, whereas one bit can represent just $2^1 = 2$ different values. By tokenizing text into bytes, our vocabulary consists of the distinct values $0$ to $255$ rather than merely $0$ and $1$. If we can assign $256$ text chunks their own unique tokens, we can significantly increase the expressiveness of those tokens on their own. And this effect in turn makes computations more straightforward, as the tokens themselves, without their neighboring tokens in the sequence, carry more, expressive information. By mapping text to a numeric representation based on bytes, tokenization becomes both more expressive and computationally efficient, even though token representations are now $8\times$ larger than with bit-level tokenizing, but the positives from going byte-level outweigh this intuitively added cost, because it enables the representation and unique distinction of a wider set of individual text chunks.
 
-><b>:question: I still don't get it. Aren't bytes just concatenations of bits?</b>
+><b>:question: I still don't get it. Aren't bytes just concatenations of bits? Why does that change anything? We use the same concept, don't we?</b>
 >
->Yes, bytes are collections of $8$ bits each. However, the crucial distinction is the level of abstraction at which we operate now. It's helpful to think of bits and bytes not merely as numbers but as identifiers at different abstraction layers, both with their cost and effects:<br><br><b>Bits</b> are the most basic units, the fastest to be computed, but representing only an atomic value of $0$ or $1$. When you look at a sequence like $01100010$ at the bit level, you're looking at $8$ individual tokens, $8$ individual pieces of information that crucially don't inherently carry meaning together.<br><b>Bytes:</b> When those $8$ bits are logically grouped together to form one byte, they represent a single token with a specific, longer and thus arguably more costly to determine value (for instance, $01100010$ corresponds to the value $98$). But now, each grouped unit becomes a richer, more expressive representation. It can directly correspond to one of $256$ distinct text chunks based solely on its byte value, without relying on any surrounding context. That byte, just by itself, is therefore way, way more expressive and identifiable than a single bit that may be fast to compute but easy to mess up interpretation-wise.
+>True, bytes are collections of $8$ bits each. However, the crucial distinction is the level of abstraction at which we operate now. It's helpful to think of bits and bytes not merely as numbers but as identifiers at different abstraction layers, both with their cost and effects:<br><br><b>Bits</b> are the most basic units, the fastest to be computed, but representing only an atomic value of $0$ or $1$. When you look at a sequence like $01100010$ at the bit level, you're looking at $8$ individual tokens, $8$ individual pieces of information that crucially don't inherently carry meaning together.<br><b>Bytes:</b> When those $8$ bits are logically grouped together to form one byte, they represent a single token with a specific, longer and thus arguably more costly to determine value (for instance, $01100010$ corresponds to the value $98$). But now, each grouped unit becomes a richer, more expressive representation. It can directly correspond to one of $256$ distinct text chunks based solely on its byte value, without relying on any surrounding context. That byte, on its own, is therefore way, way more expressive and identifiable than a single bit that may be fast to compute but easy to mess up interpretation-wise.
 
-By using bytes as tokens, we consolidate multiple low-level bits into a meaningful identifier that captures more semantic information, making the overall system far more efficient and expressive. $1$ byte token = $8$ bits representation depth, so it produces $8\times$ shorter sequences than bit-level tokenization.
+By using bytes as tokens, we use what the computer can process best, meaning bytes made up of bits. But, crucially, we consolidate multiple low-level bits into a meaningful identifier that captures more semantic information, making the overall system far more efficient and expressive. $1$ byte token = $8$ bits representation depth, so it produces $8\times$ shorter sequences than bit-level tokenization.
 
-><b>:question: Wait what? Why is byte-level tokenization now shortening the token sequences? I thought tokens were now bytes and thus 8 times larger?</b>
+><b>:question: Wait. Why is byte-level tokenization now shortening the token sequences? I thought tokens were now bytes and thus 8 times larger in memory?</b>
 >
->Individual tokens at the byte level are larger in size than individual bit tokens. The twist is that you need far fewer byte-level tokens to represent the same information. When you tokenize at the bit level, you need $8$ tokens to represent what $1$ byte-level token can uniquely represent. So, while each byte-token is $8\times$ larger, you need $8\times$ fewer tokens overall to represent the same text.
+>Individual tokens at the byte level are larger in size than individual bit tokens. Crucially, you need far fewer byte-level tokens to represent the same information. When you tokenize at the bit level, you need $8$ tokens to represent what $1$ byte-level token can uniquely represent. So, while each byte-token is $8\times$ larger, you need $8\times$ fewer tokens overall to represent the same text.
 
-Let's visualize this with an example. Say, we wrote some text and looked at the raw, binary representation the computer made out of it. Say our binary sequence is $01100010$. Bit-level tokenization would now, very uncreatively, create the token sequence $0$-$1$-$1$-$0$-$0$-$0$-$1$-$0$. The token count is $8$. When represented with byte-level tokenization, this becomes a single token: $01100010$. The token count is $1$, meaning $8\times$ less.
+We can visualize this with an example. Say, we wrote some text and looked at the raw, binary representation the computer made out of it. Say our binary sequence is $01100010$. Bit-level tokenization would now, very uncreatively, create the token sequence $0$-$1$-$1$-$0$-$0$-$0$-$1$-$0$. The token count is $8$. When represented with byte-level tokenization, this becomes a single token: $01100010$. The token count is $1$, meaning $8\times$ less.
 
 **Token sequences get shorter as each individual token can afford to carry more meaning on its own.**
 
 #### Byte-Pair Encoding
 
-Depending on the dataset, the model we want to train and the compute we have available, we may have different needs for tokenization efficiency. Byte-level tokenization might still be too extensive, i.e. each token may still cover too little information. As we discussed earlier for binary tokenization, having a token represent too little information has the effect of requiring more tokens to remember the same amount of overall content, which in turn reduces the model's ability to remember and refer to prompts and responses further in the past.
+Depending on the dataset, the model we want to train and the compute we have available, we may have different needs for tokenization efficiency. Byte-level tokenization might still be too extensive, i.e. each token may still express too little information. As we discussed earlier for binary tokenization, having a token represent too little information requires us to use more tokens to remember the same amount of overall content, which in turn reduces the model's ability to remember and refer to prompts and responses further in the past.
 
-**We can take another step up the abstraction ladder:** Instead of treating each byte as a token, we can have additional tokens be represented by pairs of bytes. The first new token identified this way would then be assigned the (previously unused) value $256$ and so on. This is called **Byte-Pair Encoding (BPE)**, a flexible extension to the byte-level tokenization we just looked at.
-
-> [!NOTE]
-> In an iterative way, **BPE finds the most frequent pair of consecutive bytes in the byte-level encoded text and then replaces this most frequent pair of bytes with a new, single token fused together from the two.** This way, what required two tokens to express now uses up only a single one. The tokenization vocabulary is reduced, and the token sequences become shorter.
-
-As BPE can be repeated iteratively, it can find the next most frequent pair of tokens time and time again and replace it with a new token. We can do that for as long as we wish, in fact. This way, the tokenization vocabulary expands, but this allows for the token sequences of the tokenized text to in turn become shorter and shorter. And that is what we want to enable the LLM to remember and refer to more past prompts and responses.
+**We can take another step up the abstraction ladder:** Instead of treating each byte as a token, we can have additional tokens be represented by pairs of bytes. The first new token identified this way would then be assigned the (previously unused) value $256$ and so on. This is called **Byte-Pair Encoding (BPE)**, a flexible extension to our byte-level tokenization approach.
 
 > [!NOTE]
-> As a rule of thumb, one should aim to use BPE to produce around $100000$ distinct tokens for tokenization based on a large dataset like *FineWeb*. For example, GPT-4 uses a vocabulary of $100277$ distinct tokens through the `cl100k_base` tokenizer.
+> In an iterative way, **BPE finds the most frequent pair of consecutive bytes in the byte-level encoded text and then replaces this most frequent pair of bytes with a new, single token fused together from the two.** This way, what required two tokens to express now uses up only a single one. The tokenization vocabulary gets reduced, and the token sequences become even shorter.
 
-To tie it back to the actual text we want to tokenize: The [blog post on *FineWeb*](https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1) stated an estimate for the entire dataset to take up $15$ trillion tokens. This of course depends on how we tokenize and how far we BPE'd our approach. But to achieve this, generally, the text is first encoded into bytes, then the byte-level tokenization is applied, and finally the BPE is applied to the byte-level tokens. The result is a sequence of tokens that is shorter than the original text, but still retains the information of the text.
+As BPE can be repeated iteratively, it can find the next most frequent pair of tokens time and time again and replace it with a new token. We can do that for as long as we wish, in fact. And shortening the required token sequences for text representation is what we want to enable the LLM to remember and refer to more past prompts and responses.
 
-We can see BPE in action when looking at GPT-4's `cl100k_base` tokenizer. The same phrase, "Hello World", written differently, is also tokenized differently, but more importantly, distinctly. Try it out for yourself with [dqbd's TikTokenizer App](https://tiktokenizer.vercel.app/):
+> [!NOTE]
+> As a rule of thumb, one should aim to use BPE to produce around $100000$ distinct tokens for tokenization based on a large dataset like *FineWeb*. For example, GPT-4 uses a vocabulary of $100277$ distinct tokens through its `cl100k_base` tokenizer.
+
+To tie things back to the actual text we want to tokenize: The [blog post on *FineWeb*](https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1) stated an estimate for the entire *FineWeb* dataset to take up $15$ trillion tokens. This of course depends on how we tokenize and how far we BPE'd our approach. But to achieve this, generally, the text is first encoded into bytes, then the byte-level tokenization is applied, and finally BPE is applied to the byte-level tokens. The result then still retains the information of the text while requiring less, more meaningful tokens to describe it.
+
+We can see BPE in action when looking at GPT-4's `cl100k_base` tokenizer. The same phrase, `"Hello World"`, written differently, is also tokenized differently. Try it out for yourself with [dqbd's TikTokenizer App](https://tiktokenizer.vercel.app/):
 
 <center>
 	<img src="./img/cl100k_base_helloworld.png" style="width: auto; height: 375px;" />
 </center>
 
-So, in total, models like GPT-4 see the arbitrary text they might get prompted with only as a series of numbers like shown in the lower right corner:
+In total, models like GPT-4 see the arbitrary text they might get prompted with only as a series of numbers like the one shown in the lower right corner:
 
 <center>
 	<img src="./img/cl100k_base_viewing_single_post.png" style="width: auto; height: 350px;" />
 </center>
 
-You can learn even more about tokenization in [chapter 8](../N008%20-%20GPT%20Tokenizer/N008%20-%20Tokenization.ipynb) of this series.
+**You can learn even more about tokenization in [chapter 8](../N008%20-%20GPT%20Tokenizer/N008%20-%20Tokenization.ipynb) of this series.**
 
 ---
 
 ### Step 3: Training the Neural Network behind the LLM
 
-**LLMs are a specific type of model based on neural networks**, trained for a specific purpose, i.e. to process and generate human-like text. To understand general neural network training means to understand how LLMs are trained.
+**LLMs are a specific type of model based on neural networks**, trained for example to process and generate human-like text. To understand general neural network training means to understand how LLMs are trained.
 
 > [!NOTE]
->With neural network training, we hinted until now at wanting to "expose" our model to the pretraining data from *FineWeb*. More specifically now, **we want to model the statistical relationships between tokens, the likelihoods for which tokens follow which in our pretraining dataset.**
+>With neural network training, we hinted until now at wanting to "expose" our LLM to the pretraining text data from *FineWeb*. More specifically now, this means **we want to model the statistical relationships between tokens, the likelihoods for which tokens follow which in our pretraining dataset.**
 
-Given our pretraining dataset, we take some random window of sequential tokens. This window's size can be anything from zero to an upper bound that we can set ourselves. Practically applied token windows are usually around $8000$ tokens long. The token windows are also more commonly referred to as **context windows**.
+Given our pretraining dataset, we take some random window of sequential tokens. This window's size can be anything from zero to an upper bound that we can set ourselves. The token windows are also more commonly referred to as **context windows**.
 
 > [!NOTE]
-> The longer a context window, the more context the LLM can consider, but the more computationally expensive this consideration becomes, as it spans more tokens.
+> The larger a context window, the more context the LLM can consider for formulating an output, but the more computationally expensive this consideration becomes.
 
 ><b>:question: Isn't this really bad that we have to do this, capping the context window size like that?</b>
 >
->It's more nuanced than that. Yes, effectively this caps the bandwidth of information the LLM can process at once/in concurrent consideration. But with this architecture of LLMs that we're in fact about to discuss, unlimited context would require infinite memory. And actually, in practice, often the most meaningful patterns are witnessed to occur within practical window lengths. But strictly speaking, one could argue that this is a limitation of current LLMs.
+>It's more nuanced than that. Yes, effectively this caps the bandwidth of information the LLM can process at once. But with this architecture of LLMs that we're in fact about to discuss, unlimited context would require infinite memory. Although theoretical context could be arbitrarily large, in practice the context length needed for useful performance is finite and often much smaller than some maximum nominal window. It was observed (e.g. by [\[An, et al. 2025\]](https://proceedings.iclr.cc/paper_files/paper/2025/file/884baf65392170763b27c914087bde01-Paper-Conference.pdf)) that actually the performance gains saturate and then degrade beyond a certain context range. But, strictly speaking, not being able to process arbitarily long, potentially infinite context is a limitation of current LLMs.
 
-Given a context window that we feed into our LLM, our objective is to get the LLM to predict the single next token that follows the window's tokens as per the pretraining dataset. This is called **autoregressive training:**
+Given a context window containing tokens that we feed into our LLM, our objective is to get the LLM to predict the single next token that follows the window's tokens as per the pretraining dataset. This is called **autoregressive training:**
 
 <center>
 	<img src="./img/next_token_prediction.png" style="width: auto; height: 115px;" />
 </center>
 
-To reiterate, **the input is a sequence of tokens, variable in length up to the maximum we set as the context window size.** Then, **the output is a single token, which is expected to be the one that follows the input sequence in our pretraining dataset.** The LLM is trained to predict this next token.
+To reiterate, **the input is text represented by a sequence of tokens, variable in length up to a maximum which is the context window size.** Then, **the output is a single token, which is expected to be the one that follows the input sequence in our pretraining dataset.** The LLM is trained to predict this single next token.
 
-But it isn't quite as straight forward as the image would have us believe. LLMs actually do not produce a single token as output. Instead, **LLMs actually produce a probability distribution over all possible tokens in the vocabulary.** 
+It isn't quite as straight forward as the image would have us believe, though. **LLMs actually do not produce a single token as output.** Instead, **LLMs actually produce a probability distribution over all possible tokens in the vocabulary.** 
 
-This is because the LLM is not trained to predict the next token with certainty, but to predict the next token with a certain probability. **The LLM is trained to predict not tokens as such, but the likelihood of tokens to occur next.** This is what we mean when we say that the LLM models the statistical relationships between tokens.
+The LLM is not trained to predict the next token with distinct certainty, but to predict the next token with a certain probability. **The LLM is trained not to predict tokens as such, but to predict the likelihood of tokens to occur next.** This is what we mean when we say that the LLM models the statistical relationships between tokens.
 
-For example, we said that GPT-4 uses a vocabulary of $100,277$ distinct tokens. GPT-4 would then output a probability distribution over these $100,277$ tokens, assigning a percentage likelihood, i.e. a probability, to each token according to the LLMs view on how likely that token is to occur next in the pretraining dataset. So, what actually happens is this:
+For example, we said that GPT-4 uses a vocabulary of $100,277$ distinct tokens. GPT-4 would then, per iteration, output a probability distribution over these $100,277$ tokens, assigning a percentage likelihood, a probability, to each token according to the LLMs view on how likely that token is to occur next in the pretraining dataset. So, what actually happens is this:
 
 <center>
 	<img src="./img/next_token_sampling.png" style="width: auto; height: 300px;" />
@@ -253,20 +260,20 @@ For example, we said that GPT-4 uses a vocabulary of $100,277$ distinct tokens. 
 
 We can see that the LLM does not yet produce the correct token certainty. We know the next token to be `3962` from our tokenized dataset. But, the LLM assigned a higher probability to the token `19438` ('Direction') than to the correct token `3962` ('Post').
 
-This is where pretraining comes into play. **Pretraining an LLM means shifting the LLM's parameters for it to produce probability distributions that better capture what actually follows as next token in the dataset.** In our case, the result of pretraining would assign higher probabilities to the actual follow-up token, which could look like so:
+This is where pretraining comes into play again. **Pretraining an LLM means shifting the LLM's parameters so that it produces probability distributions that most suitably capture what actually follows as the next token in the pretaining dataset.** In our case, the result of pretraining would assign higher probabilities to the actual follow-up token, which could look like this:
 
 <center>
 	<img src="./img/next_token_probabilities.png" style="width: auto; height: 300px;" />
 </center>
 
-This is an ideal state, the LLM correctly assigned the highest probability for the next token `3962` that also occurs next in the dataset:
+This is an ideal state, the LLM correctly assigned the highest probability for the next token `3962` which also occurs next in the dataset:
 
 <center>
 	<img src="./img/cl100k_base_mini_example.png" style="width: auto; height: 250px;" />
 </center>
 
 > [!NOTE]
-> **Pretraining is a mathematically rigid process to compare the LLM's output probability distribution and thus the tendency toward specific tokens to the actual next token in the pretraining dataset.** The difference between the LLM's output and the actual next token is calculated as a loss value. The LLM is then traversed, nudging its parameters in a way that minimizes this loss value in a next iteration, i.e. to get better at predicting the next token. **This happens iteratively, for each context window retrievable from the pretraining dataset.**
+> **Pretraining is a mathematically rigid process to compare the LLM's output probability distribution and thus the tendency toward specific tokens to the actual next token in the pretraining dataset.** The difference between the LLM's output and the actual next token is calculated through a loss function. The LLM is then traversed, nudging its parameters in a way that minimizes this loss value in a next iteration, i.e. to get better at predicting the next token. **This happens iteratively, for each context window retrievable from the pretraining dataset.**
 
 ><b>:question: Why would we afford to produce so much output by the LLM for selecting every single token? Isn't this really resource-intense?</b>
 >
@@ -274,7 +281,7 @@ This is an ideal state, the LLM correctly assigned the highest probability for t
 
 #### Neural Network Internals
 
-So far, we looked at the outer conditions for training an LLM. But what goes on inside the neural network that is the LLM? How does it in fact learn to predict the token probabilities?
+So far, we looked at the outer conditions for training an LLM. But what goes on *inside* the neural network structures of the LLM itself? How does it in fact learn to predict the token probabilities?
 
 **At this point, we can already say that:**
 - We have **inputs** $x \in X$, with each $x$ being a token sequence of up to $\text{context size}$ length.
@@ -289,103 +296,104 @@ So far, we looked at the outer conditions for training an LLM. But what goes on 
 Note that different $x$ may be of different lengths *up to* the $\text{context size}$.<br>
 For our example model, we will accept input sequence lengths from $0$ to $\text{context size}=8000$ tokens.
 
-Now, assume a very initial setting where our LLM exists already, but hasn't ever seen any text yet. The LLM's *weights* are initialized randomly. The LLM is then iteratively fed context sequences from $X$. For each context sequence $x$, the LLM produces a probability distribution over all tokens in the vocabulary. This is the LLM's output. Training an LLM uses a tool called cross‑entropy to compare the predicted probability for each next token candidate $\hat{y}$ against the 100% one‑hot truth of the true next token $y$. 
+Assume a very initial setting where our LLM exists already, but hasn't ever seen any text yet. The LLM's *weights* are initialized with random values. Then the LLM iteratively receives context sequences from $X$. For each context sequence $x$, the LLM produces a probability distribution over all tokens in the vocabulary. This is the LLM's output. Training an LLM uses a tool called *cross‑entropy loss* to compare this predicted probability for each next token candidate $\hat{y}$ against the 100% (one‑hot) truth of the true next token $y$. Think of the cross-entropy loss as the loss function, providing us with a value indicating how good/bad the LLM is at predicting the true next token $y$ as expressed through the distribution values.
 
-Do not worry about cross-entropy at this point. The key intuition you should take away is that using cross-entropy, we can compare the predicted probability distribution across all possible tokens against the single true next token $y$ from our dataset. Ideally, the predicted probability distribution should assign a highest possible probability to the true next token $y$ and lowest possible probabilities to all other tokens. The cross-entropy loss ultimately expresses how well the predicted distribution matches this ideal, true "one-hot" distribution. Based on the difference, the LLM's parameters are adjusted in a way that the output probabilities $\hat{y}$ become more consistent with the patterns imposed by $y$ which we see in the dataset. The model parameters are updated for the cross-entropy loss to shrink. This happens through what is called **backpropagation**.
+*Don't worry about cross-entropy at this point.* The key intuition you should take away is that using cross-entropy, we can compare the predicted probability distribution across all possible tokens against the single true next token $y$ from our dataset. Ideally, the predicted probability distribution should assign a highest possible probability to the true next token $y$ and lowest possible probabilities to all other tokens. The cross-entropy loss ultimately expresses how well the predicted distribution matches this ideal, true "one-hot" distribution. Based on the difference, the LLM's parameters are adjusted in a way that the output probabilities $\hat{y}$ become more consistent with the patterns imposed by $y$ which we see in the dataset. The model parameters are updated for the cross-entropy loss to shrink. This happens through what is called **backpropagation**.
 
 <center>
 	<img src="./img/LLM_Cross-Entropy.png" />
 </center>
 
 > [!NOTE]
-> Training a neural network, like an LLM, means to discover a setting of the network's parameters that seems to be consistent with the statistics of the training data in terms of the output probabilities.
+> Training a neural network, like an LLM, means discovering a setting of the network's parameters that seems to be consistent with the statistics of the training data in terms of the output probabilities.
 
-To do that and to have the neural network learn, the LLM has to produce that probability distribution we talked about in the first place. Somehow, this has to involve the training-adaptable weights.
+To have the neural network learn, the LLM has to produce the probability distribution we just talked about in the first place. Somehow, this has to involve the network's weights, which in turn are trainable.
 
-In the image above, you see the model itself expressed as a 'giant' mathematical expression:
+In the image above, you see the model itself expressed as one 'giant' mathematical expression:
 <center>
 	<img src="./img/mathematic_expression.png" />
 </center>
 
-This is a long expression, but it's not too complicated. We can see that the individual tokens $x_n$ of the input are multiplied with respective weights $w_n$. These products are then the basis for further interconnecting calculations, resulting in the model's output $\hat{y}$, i.e. the $100277$ probabilities.
+It is a long expression, but it's not too complicated. One can see that the individual tokens $x_n$ of the input are multiplied with respective weights $w_n$. These products are then the basis for further interconnecting calculations, resulting in the model's output $\hat{y}$, i.e. the $100277$ probabilities.
 
-To see the fully laid out structure of such a 'giant mathematical expression' for several different types of LLMs, refer to [bbycroft.net/llm](https://bbycroft.net/llm). 
+To see the full structure of such a 'giant mathematical expression' for several different types of LLMs, refer to [bbycroft.net/llm](https://bbycroft.net/llm). 
 
-Here's an example of the structure of the miniaturized LLM [NanoGPT](https://github.com/karpathy/nanogpt):
+This is an example of the structure of the miniaturized LLM [NanoGPT](https://github.com/karpathy/nanogpt):
 <center>
 	<img src="./img/nanoGPT-Layout.png" />
 </center>
 
-It's clear that even this tiny model consists of a vast amount of intermediate steps and parameters. Interestingly, we can see that a very particular type of neural network component finds application in LLMs like NanoGPT: [**Transformers**](https://arxiv.org/abs/1706.03762).
+It's clear that even this tiny model is made up of a vast amount of intermediate steps and parameters. Interestingly, we can see that a very particular type of neural network component finds application in LLMs like NanoGPT: [**Transformers**](https://arxiv.org/abs/1706.03762).
 
 **Very generally speaking:**
-- First, we embed the tokens. Each token is mapped to a higher-dimensional vector space, where the model itself can learn how to express distinguishing features of the tokens with these vectors.
+- First, we map text chunks to their representing tokens. The tokens may be represented by integer IDs (`Hello` -> `24412`)
+- Each token now gets embedded into a higher-dimensional vector space (`24412` -> `[2.5, 6.35, ..., 1.2]`). These vectors are not computed from the tokens, but learned in their place. Put differently, through such a vector the model itself can learn how to express distinguishing features of the token. The token ID is used to look up a corresponding vector in a learned embedding matrix.
 - The green arrow originating from the 'Embedding' layer in the image above traces the flow of the token embeddings through the model.
 - The first branch-off leads to the 3-Headed **Attention Layer**, and so on. We will go into detail on this in due time.
 - The whole structure is logically traversed from top to bottom, with the model's output being the probability distribution over the tokens.
 
-We use the terms "neural" and "neuron" here, but there is no biochemistry involved anywhere. The "neurons" are really just mathematical functions that are applied to the input data, or in our case, the token embeddings and intermediate results.
+We use the terms "neural" and "neuron" here, but there is *no biochemistry* involved anywhere. The "neurons" are really just mathematical functions that are applied to the input data, or in our case, the token embeddings and intermediate results.
 
 > [!NOTE]
-> LLMs are big mathematical functions, parameterized by a fixed, large set of parameters, which may be initially set at random. It receives token sequences as input, and produces, through having information flow through different layers, notably the *Transformer Blocks*, a probability distribution over all tokens in the vocabulary. The model is trained to adjust its parameters to minimize the difference between its output and the actual next token in the pretraining dataset.
+> LLMs are big mathematical functions, made up of a large set of parameters, which may be initially set at random. The LLM receives token sequences as input, and produces, through having information flow through different layers, notably the *Transformer Blocks*, a probability distribution over all tokens in the vocabulary. The model is trained to adjust its parameters to minimize the difference between its output and the actual next token in the pretraining dataset.
 
-If you want to go deeper into the precise mathematical structure of LLMs, you can refer to the [GPT From Scratch](../N007%20-%20GPT%20From%20Scratch/N007%20-%20GPT.ipynb) chapter of this series.
+If you want to dive deeper into the precise mathematical structure of LLMs, you can refer to the [GPT From Scratch](../N007%20-%20GPT%20From%20Scratch/N007%20-%20GPT.ipynb) lecture of this series.
 
 ---
 
 ### Step 4: Inference
 
-So far we looked at how to expose text to an LLM and (on a high level) how to learn from that text. But we were very clear about the LLM only producing probabilities over tokens. **How do we get the LLM to actually generate text?**
+So far we looked at how to expose text to an LLM and (on a high level) how to learn from that text. But we were very clear about the LLM only producing probabilities over tokens. **How do we get the LLM to actually generate text now?**
 
-To generate text, just repeatedly predict a token distribution and sample a token from it. **The higher the assigned probability for a token, the more likely it is to be sampled.** This is how we can get the LLM to produce text, one token at a time, appending that next token to the input for generating a new next token for this new sequence. This is called **autoregressive generation**.
+To produce text, just repeatedly predict a token distribution and sample a token from that. **The higher the assigned probability for a token, the more likely it is to be sampled.** This is how we can get the LLM to produce text, one token at a time, appending that next token to the input for generating a new next token for this new sequence. This is called **autoregressive generation**.
 
-><b>:question: Why don't we just pick specifically and only the token deemed most likely by the LLM?</b>
+><b>:question: Why don't we only pick the token deemed most likely by the LLM? Why sample?</b>
 >
->The decision to use sampling approaches (like temperature-based sampling) instead of always selecting the single most likely token (which would be called a "greedy" strategy) is rooted in the <b>added possibility of balancing accuracy, diversity, and creativity in the LLM outputs.</b><br> You may want to avoid single 'best guesses' and with that, avoid repetitive and uncreative responses, especially in tasks like dialogue generation or text completion. Also, <b>there might be multiple valid continuations of a prompt. Sampling allows the LLM to not have to disregard these options.</b>
+>The decision to use sampling approaches (like temperature-based weighted sampling) instead of always selecting the single most likely token (which would be called a "greedy" strategy) is rooted in the <b>added possibility of balancing accuracy, diversity, and creativity in the LLM outputs.</b><br> You may want to avoid single 'best guesses' and with that, avoid repetitive and uncreative responses, especially in tasks like dialogue generation or text completion. Also, <b>there might be multiple valid continuations of a prompt. Sampling allows the LLM to not have to disregard these options.</b>
 
-Say that for input $91$ the sampled token is $860$. Now what?
+Say that for input token with ID $91$ the sampled token has the ID $860$. **Now what?**
 
-We append token $860$ to token $91$. This sequence will be the input to the LLM for the next round, producing the third token, $287$ in this case, and so on. **Effectively, the LLM regards its own output as the next input, building a chain of tokens, one after the other, to generate text and respond coherently.**
+We append token $860$ to token $91$. This sequence will be the input to the LLM for the next round, producing the third token, $287$ in this case, and so on. **Effectively, the LLM is made to regard its own output as part of the next input, building a chain of tokens, one after another, to generate text and respond coherently.**
 
 <center>
 	<img src="./img/autoregressive_generation.png" style="width: auto; height: 250px;" />
 </center>
 
-Compare the last generated token $13659$ to what we previously identified as the correct answer via the pretraining dataset: $3962$. The LLM's output is not `|Viewing Single Post`, but `|Viewing Single Article` now. This is a good example of the LLM's creativity and flexibility in generating text. We don't want it to blabber out the exact dataset contents, but we want it to rather show the understanding that an `Article` and a `Post` may share the property of being `Viewed`. This is what's called **generalization**.
+Compare the last generated token $13659$ to what we previously identified as the correct answer via the pretraining dataset: Token $3962$. The LLM's output is not `|Viewing Single Post`, but `|Viewing Single Article` now. This is a good example of the LLM's creativity and flexibility in generating text, entirely made possible through learning a distribution and then sampling, not greedily picking from it. We don't want it to blabber out the exact dataset contents, but we want it to rather show the understanding that an `Article` and a `Post` may share the property of being `Viewed`. This is what's called **generalization**.
 
 > [!NOTE]
-> **Generalization** is the ability of an LLM to not just memorize the training data, but to understand the underlying patterns and concepts in the data, and to apply these to new, unseen data. Stochasticity, e.g. by sampling from the output token probabilities, is elemental to this, as it allows the LLM to generate diverse, creative, and contextually appropriate text.
+> **Generalization** is the ability of an LLM to not just memorize the training data, but to understand the underlying patterns and concepts in the data, and to apply these to new, unseen data. Stochasticity, e.g. by sampling from the output token probabilities in a weighted fashion, is elemental to this, as it allows the LLM to generate diverse, creative, and contextually appropriate text.
 
 ---
 
 ### Recap: The LLM Pretraining Pipeline
 
-We went through a comprehensive high-level walkthrough of the steps needed for training and using an LLM. We saw how data is retrieved and tokenized for the LLM to get exposed to it, how the LLM learns from this data, and how it generates text based on the training using autoregressive generation. We also briefly looked at the general neural network structure making up the LLM.
+We went through a comprehensive high-level walkthrough of the steps needed for training and using an LLM. We saw how data gets retrieved and tokenized for the LLM to get exposed to it, how the LLM learns from this data, and how it generates text based on the training using autoregressive generation. We also briefly looked at the general neural network structure making up the LLM.
 
 ---
 
 ### GPT-2: Training and Inference
 
-Let's look at a specific example of an LLM series, namely **GPT-2**. It is a good example to illustrate the concepts we just discussed. GPT-2 is an LLM that was released by OpenAI in 2019. Along with this release, the accompanying paper [Language Models are Unsupervised Multitask Learners \[Radford, et al. 2019\]](https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf) was published.
+Let's look at **GPT-2** for a specific example of an LLM series. GPT-2 is a group of LLMs that was released by OpenAI in 2019. Along with this release, the accompanying paper [Language Models are Unsupervised Multitask Learners \[Radford, et al. 2019\]](https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf) was published.
 
 > [!NOTE]
-> **GPT stands for Generative Pretrained Transformer**.<br> GPT-2 is indeed not a single model, but a series of models with different sizes:
+> **GPT stands for Generative Pretrained Transformer**.<br> GPT-2 is a series of differently sized models:
 > - GPT-2 Small: $124\text{M}$
 > - GPT-2 Medium: $355\text{M}$
 > - GPT-2 Large: $774\text{M}$
 > - GPT-2 Extra Large: $1.5\text{B}$
-> - GPT-2 uses a so-called *decoder-only* Transformer architecture, meaning it only uses the decoder part of the Transformer architecture. This is in contrast to models like BERT, which use the encoder part of the Transformer architecture.
+> - GPT-2 uses a so-called *decoder-only* Transformer architecture, meaning it only uses the decoder part of the standard Transformer architecture. This is in contrast to models like BERT, which for example just use the Transformer's encoder part.
 >
-> All GPT-2s have a maximum context length of $1024$ tokens and were trained on $\sim 100\text{B}$ tokens. At the time of writing this, the most recent iteration of this type of LLM is GPT-4.<br> All of the elements of GPT-2 became known, recognized and applied in Natural Language Processing (NLP) over time, just in a scaled-up fashion. **GPT-2 set the standard for modern LLM architectures, and it was a big deal.**
+> All GPT-2 models have a maximum context length of $1024$ tokens. All of them were trained on $\sim 100\text{B}$ tokens. **GPT-2 set the standard for modern LLM architectures, and it was a big deal.**
 
-Today's LLMs are still largely based on the structures and conceptual ideas that GPT-2 introduced. Newer models differ mainly in size, training data and training duration. For example, GPT-2 Extra Large, at $1.5\text{B}$ parameters, is very small by today's standards, with current models nearing $1\text{T}$ parameters. The same scaling was applied to the training data and the context window size.
+Today's LLMs are still largely based on the structures and conceptual ideas that GPT-2 pioneered. Newer models differ mainly in size, training data and training duration. For example, GPT-2 Extra Large, at $1.5\text{B}$ parameters, is tiny by today's standards. Current models near the $1\text{T}$+ parameter ranges. The same scaling was applied to the training data and the context window size.
 
-We extensively discuss and walk through implementing GPT-2 in [chapter 9](../N009%20-%20Reproducing%20GPT-2/N009%20-%20Reproducing_GPT-2.ipynb). You may also refer to [Andrej's llm.c GitHub Repository](https://github.com/karpathy/llm.c/discussions/677) for a C-based, optimized implementation of GPT-2.
+We extensively discuss and walk through implementing GPT-2 in [chapter 9](../N009%20-%20Reproducing%20GPT-2/N009%20-%20Reproducing_GPT-2.ipynb). You may also refer to [Andrej's llm.c GitHub Repository](https://github.com/karpathy/llm.c/discussions/677) for a C-based, further optimized implementation of GPT-2.
 
-The reason we were able to scale from GPT-2 onwards to today's models is manifold.<br>The most important reasons are:
+The reason we were able to scale from GPT-2 onwards to today's models is manifold.<br>The two most important reasons are:
 
-- Data availability and quality increased substantially, e.g. through platforms like HuggingFace, allowing for more extensive pretraining.
-- Computational resources became more available and more powerful both hardware- and software-wise, allowing for larger models to be trained.
+- Data availability and quality increased substantially, e.g. through platforms like HuggingFace, allowing for more extensive, fruitful pretraining.
+- Computational resources became more widely available and more powerful both hardware- and software-wise, allowing for larger models to be trained.
 
 ><b>:question: Why are GPUs, particularly those made by NVIDIA, used for AI training?</b>
 >
@@ -393,15 +401,15 @@ The reason we were able to scale from GPT-2 onwards to today's models is manifol
 
 We won't go into full detail on GPT-2's implementation. At least not yet. Please refer to [chapter 9](../N009%20-%20Reproducing%20GPT-2/N009%20-%20Reproducing_GPT-2.ipynb) for the more technical deep dive. **We will have an intuitive look at what it looks like to actually train one of these models.**
 
-Andrej at this point showed an active training run. We want to understand what is happening here:
+Andrej at this point showed an active training run. Let's understand what is happening here:
 <center>
 	<img src="./img/vscode.png" style="width: auto; height: 350px;" />
 </center>
 
-This shows the free code editor [VS Code](https://code.visualstudio.com/).<br>I added four red arrows to the image to highlight the following:
+This screenshot shows the free code editor [VS Code](https://code.visualstudio.com/).<br>I added four red arrows to the image to highlight the following:
 
-Using VS Code, Andrej connected to a remote computer. He connects to that computer via a protocol called SSH, which is integrated neatly into VS Code. Absolutely not relevant to us, don't worry about it, we only need this to understand that VS Code as we see it here can show us what is currently running on a different, remote computer.<br>
-The remote computer we connect to may be a dedicated system for neural network training, housing potentially multiple GPUs to train models more quickly. Those systems can cost several millions, even billions of dollars. The remote connection allows us to use the power of these systems without having to own them ourselves. This is called **cloud computing**. You can rent these systems for a certain amount of time or capacity, and only pay for what you actually use.
+Using VS Code, Andrej connected to a remote computer via a protocol called SSH, which is integrated neatly into the code editor. Absolutely not relevant to us, don't worry about it, we only need this to understand that VS Code as we see it here can show us what is currently running on a different, remote computer.<br>
+The remote computer one may connect to may be a dedicated system for neural network training, housing potentially multiple GPUs to train models more quickly. Those systems can cost several millions, even billions of dollars. The remote connection allows us to use the power of these systems without having to own them ourselves. This is called **cloud computing**. You can rent these systems for a certain amount of time or capacity, and only pay for what you actually use.
 
 Cloud computing providers for neural network training include:
 - [Lambda Labs](https://lambdalabs.com/)
@@ -412,14 +420,14 @@ Cloud computing providers for neural network training include:
 - [Google Cloud Platform](https://cloud.google.com/)
 - [Microsoft Azure](https://azure.microsoft.com/)
 
-Going back to VS Code, we can see that a GPT-2 training job is running. The training job is shown in the terminal window. First, we see some text. That is because during training, from time to time, Andrej switches the model between getting trained and generating text at the respective training state. This way, one can get a sense of how the model improves its output through training. The second red arrow points to such a generated demo text.
+Coming back to VS Code itself, we can see that a GPT-2 training job is running. The training job is shown in the terminal window. First, we see some text. That is because during training, from time to time, Andrej switches the model between getting trained and generating text at the respective training state. This way, one can get a sense of how the model improves its output through training. **The second red arrow** points to such a generated demo text.
 
-The third red arrow points to the training steps themselves. After we saw the model generate text, more training is applied. Each step consists of one million context windows being retrieved from the dataset, getting tokenized, and then fed into the model one after another. For each context window, the model then produces a probability distribution over all tokens, and the loss, i.e. the difference between that distribution and the "one-hot" distribution given by the true, expected $y$ is calculated.<br>
-**This loss is then averaged across the 1 million examples as to not overfit changes to the LLM to any individual examples. This improves training stability.** The GPT-2 model actually gets updated only once per 1 million examples, on their attained average loss. This is then repeated for $32,000$ times (so a total of $32\text{K}*1\text{M}=32\text{B}$ individual context-based next token predictions) with intermediate runs of text generation to check on progress. There are more sophisticated tools, like intermediate benchmarking, that can be used to check on the model's progress, but this is a good start.
+**The third red arrow** points to the training steps themselves. After we saw the model generate text, more training is applied. Each step consists of one million context windows being retrieved from the dataset, getting tokenized, and then fed into the model one after another. For each context window, the model then produces a probability distribution over all tokens, and the loss, i.e. the difference between that distribution and the "one-hot" distribution given by the true, expected $y$ is calculated.<br>
+**This loss is then averaged across the 1 million examples as to not overfit changes to the LLM to any individual examples. This improves training stability.** The GPT-2 model actually gets updated only once per 1 million examples, on their attained average loss. This is then repeated for $32,000$ times (so a total of $32\text{K}*1\text{M}=32\text{B}$ individual context-based next token predictions) with intermediate runs of text generation to check on progress. There are more sophisticated tools, like intermediate benchmarking, that can be used to check on the model's progress, but *this is a good start*.
 
-><b>:question: Are these intermediate runs with the inferences really necessary?</b>
+><b>:question: Are these intermediate runs with the inferences really all that necessary?</b>
 >
->It's a good practice to check in on the model's progress in capability, especially while training, to adapt to problems quickly. It's a way to ensure that the model is learning the right things, the researcher might get a feel on how the model starts to grasp correlations from the text, concepts from those correlations etc. This also helps identify issues early on and therefore cheaply. <b>It's a good practice to ensure that the model is learning the right things, and to catch any potential issues early on. Showing inference results every few steps helps significantly in achieving this.</b><br><br>For example, look at the very first inference run:
+>It is good practice to check in on the model's progress in capability, especially while training, to adapt to problems quickly. It's a way to ensure that the model is learning the right things, the researcher might get a feel on how the model starts to grasp correlations from the text, concepts from those correlations etc. This also helps identify issues early on and therefore cheaply. <b>It's a good practice to ensure that the model is learning the right things, and to catch any potential issues early on. Showing inference results every few steps helps significantly in achieving this.</b><br><br>For example, look at the very first inference run:
 ><img src="./img/20_Inference_GPT-2.png" />
 Compare that to the result after $400$ steps:
 ><img src="./img/400_Inference_GPT-2.png" />
@@ -430,7 +438,7 @@ While still nowhere near perfect, we get to see intuitively that training is goi
 ### Base Models and LLaMAs in the wild
 
 We can't expect everybody to pull out their credit cards and afford from-scratch training runs for new LLMs on state-of-the-art infrastructure. 
-Fortunately, we can download so-called **base models** and run inference on them using our local machines with much less resource demands.
+Fortunately, we can download so-called **base models** and run inference on them using our local machines with *much less* resource demands.
 **Base models** are models that have been pretrained on large datasets, but nothing more.
 
 There are several institutions offering free *base models* for download:
@@ -450,12 +458,13 @@ These *base models* most often can be found on the [HuggingFace Model Hub](https
 - OpenAI GPT-2 XL (2019): $1.5\text{B}$ parameters, trained on $100\text{B}$ tokens
 - FAIR LLaMA 3.1 (2024): $405\text{B}$ parameters, trained on $15\text{T}$ tokens
 - DeepSeek-V3-0324 (2025): $671\text{B}$ parameters, trained on $14.8\text{T}$ tokens
+- Kimi K2.5 (2026): $1.1\text{T}$ parameters, trained on $\sim 15\text{T}$ tokens
 
-**What do we get from those Base models?**<br>Base models have been built architecturally and they have been exposed to the pretraining step we discussed earlier. The latter of these two is arguably the most expensive step for producing a capable LLM, but it is not the last. Think of it like this: Now that a model was exposed to the pretraining data, and we can attain it, the model may have projected concepts and insights from correlations in the token sequences into its weights, but nothing more. The model has no strategy for how to use insights in context or what style to respond in. It is still a blank slate in terms of how to apply the information it got exposed to.
+**What do we get from those Base models?**<br>Base models have been built and exposed to the pretraining step we discussed earlier. The latter of these two is arguably the most expensive step for producing a capable LLM, but it is not the final one. Think of it like this: Now that a model was exposed to the pretraining data, and we can attain it, the model may have projected concepts and insights from correlations in the token sequences into its weights, but nothing more. The model has no strategy for how to use insights in a context or what style to respond in. *It is still a blank slate* in terms of how to apply the information it got exposed to.
 
 We can find out what base models like LLaMA 3.1 405B behave like when accessing them through e.g. [Hyperbolic](https://app.hyperbolic.xyz/models/llama31-405b-base).<br>This costs money, though.
 
-Here's what it looks like when asking the LLaMA 3.1 405B base model to solve a simple math problem:<br>
+This is what it looks like when asking the LLaMA 3.1 405B base model to solve a simple math problem:<br>
 <center>
 	<img src="./img/llama31_2+2_2.png" />
 </center>
@@ -470,7 +479,7 @@ And once more:<br>
 	<img src="./img/llama31_2+2_3.png" />
 </center>
 
-We very clearly see the stochasticity in the next token selection at work here. The responses vary, but the model shows conceptual understanding of what we presented to it either way. But the style of answering is nonsensical. We can see the model blabbering, trying to continue the text, rather than providing a clean-cut response.
+We very clearly see the stochasticity in the next token selection at work here. The responses vary, but the model shows conceptual understanding of what we presented to it either way. The style of answering however is nonsensical. We can see the model blabbering, trying to continue the text, rather than providing a clean-cut response. But we didn't actually train it to respond to input text yet, did we?
 
 > [!NOTE]
 >**Intuitively, the pretrained base model has no idea what to do with the information it received during said pretraining yet.** It may show that it is indeed conceptually aware of the input, but it will show that its knowledge may indeed be vague and it will trail off into blabbering akin to a child that has no idea what to do with the information it received.
@@ -493,7 +502,7 @@ According to [The LLaMA 3 Herd of Models \[Grattafiori, et al. 2024\]](https://a
 	<img src="./img/llama31_Hallucination.png" />
 </center>
 
-This looks reasonably well constructed, but we know better. It is factually false, **hallucinated by the model based on what sounds good**, as the model just doesn't know any better from the older pretraining data.<br>
+This looks reasonably well constructed, *but we know better*. It is factually false, **hallucinated by the model based on what sounds good**, as the model just doesn't know any better from the older pretraining data.<br>
 This effect is also one of the reasons why one shouldn't use LLMs for fact-checking or knowledge retrieval. Note that this concerns LLMs with no connection to the internet. LLMs with such a research capability exist now, like [Perplexity.ai](https://perplexity.ai), and can indeed be used for search.
 
 > [!NOTE]
@@ -616,7 +625,7 @@ Another option to allow the LLM to handle out-of-scope examples is to have the L
 
 And very similar to Mitigation technique #1, we enable the model to determine when to search by crafting bespoke examples as part of the finetuning dataset. This way, the model both identifies when it doesn't know something and it learns to search for information on its own when it doesn't know the answer.
 
-This technique is actively employed by the likes of [Perplexity.ai](https://perplexity.ai), [ChatGPT](https://chat.openai.com/), and [DeepSeek](https://deepseek.ai). And we saw this exact behavior earlier with GPT-4o:
+This technique is actively employed by the likes of [ChatGPT](https://chat.openai.com/), [Perplexity.ai](https://perplexity.ai) and [DeepSeek](https://deepseek.ai). And we actually saw this exact behavior earlier with GPT-4o:
 
 <center>
 	<img src="./img/gpt-4o_No_Hallucination.png" style="width: auto; height: 175px"/>
@@ -654,7 +663,7 @@ Intuitively, the sequential nature with which the LLM generates output should fi
 	</div>
 </center>
 
-The first response candidate would require the model to churn out the entire calculation in one go at the beginning of the response. Only afterwards would it be explaining its 'reasoning', retroactively justifying so to say. One could even say that this reaction to a stated result is a waste of computation, the answer was provided already. **For a finetuning dataset, we should therefore prefer examples of the format of the second response candidate.**
+The first response candidate would require the model to **churn out the entire calculation in one go at the beginning of the response.** Only afterwards would it be explaining its 'reasoning', retroactively justifying so to say. One could even say that this reaction to a stated result is a waste of computation, the answer was provided already. **For a finetuning dataset, we should therefore prefer examples of the format of the second response candidate.**
 
 Actually, a very similar issue arises when tasking an LLM to count.
 
@@ -673,7 +682,7 @@ Again, all of the computational complexity is crunched down into the single digi
 > [!NOTE]
 >In its good intent of efficiently grouping together common text fragments for filling the context window more efficiently, the tokenizer may obstruct the model's reasoning capabilities for counting what we as users see as individual elements.
 
-Resolving this seems easy, but it's not simple. With state-of-the-art models like GPT-4o, we can fall back to tool-use: GPT-4o can generate and run code itself and inform itself from the results. Copy-Pasting the above token sequence of the dots into the code is well possible and less complex than counting. **GPT-4o generates the code, transfers the dot sequence into the code, runs the code and retrieves the deterministically derived answer:**
+Resolving this seems easy, but it's *not simple*. With state-of-the-art models like GPT-4o, we can fall back to tool-use: GPT-4o can generate and run code itself and inform itself from the results. Copy-Pasting the above token sequence of the dots into the code is feasible and less complex than counting. **GPT-4o generates the code, transfers the dot sequence into the code, runs the code and retrieves the deterministically derived answer:**
 
 <center>
 	<img src="./img/gpt-4o_code_tool_use.png" style="width: auto; height: 410px"/>
@@ -720,7 +729,7 @@ Roughly, a school textbook is optimized for the student to mentally grow, contex
 
 **How can we transfer this notion to LLMs?**
 
-Let's say we want our LLM to work on this new task:
+Suppose that we want our LLM to work on this new task:
 
 ```
 Emily buys 3 apples and 2 oranges. Each orange costs $2. The
@@ -728,42 +737,42 @@ total cost of all the fruit is $13. What is the cost of each
 apple?
 ```
 
-Let's say we have three answer candidates, all reaching the correct answer $3$:
+Further suppose that we have three answer candidates, all reaching the correct answer $3$:
 
 <center>
 	<img src="./img/cl100k_base_rl.png" style="width: auto; height: 600px"/>
 </center>
 
-Some of these answers are more concise, others more chronological and verbose, skipping quickly to the core result. 
+Some of these answers are more concise, others more chronological and verbose, skipping to the core result. 
 
 <center>
 	<img src="./img/prompt_response_structure.png" style="width: auto; height: 250px"/>
 </center>
 
-We see that while the primary purpose of all possible candidates is to result in the correct answer, the secondary purpose is to provide a clear, "nice", and easy-to-follow reasoning path to this answer. **But how is the human labeler supposed to know which correct answer is the 'best correct' one?**
+We see that while the primary purpose of all possible candidates is to result in the *correct* answer, the secondary purpose is to provide a *clear, "nice", and easy-to-follow reasoning path* to this answer. **But how is the human labeler supposed to know which correct answer is the 'best correct' one then?**
 
 > [!NOTE]
-> **What is easy or hard for a human differs from what is easy or hard for an LLM.** Its cognition is different. Therefore, different token sequences exude different levels of hardness to the LLM. This is very closely related to what we discussed in the [LLMs Need Tokens to Think](#llms-need-tokens-to-think) section.
+> **Tasks that are easy or hard for a human may not be accordingly easy or hard for an LLM.** The LLM's cognition is different. Therefore, different token sequences exude different levels of hardness/complexity to the LLM. This is very closely related to what we discussed in the [LLMs Need Tokens to Think](#llms-need-tokens-to-think) section.
 
-Our way of understanding differs from the LLM's way of understanding, very fundamentally. It sounds trivial, but this is a very pervasive issue to realize for both researchers and users alike. Therefore, we should be cautious and say that **a human labeler can't be expected to know which correct answer is the 'best correct' one from an LLM's perspective.**
+Our way of understanding differs from the LLM's way of understanding, *very fundamentally*. This sounds trivial, but it is a very pervasive issue to realize for both researchers and users alike. Therefore, we should be cautious and say that **a human labeler can't be expected to know which correct answer is the 'best correct' one especially from an LLM's perspective.**
 
-**How do we go about this then?**<br>We need to try many different kinds of solutions and we want to see which kinds of solutions work well or not.
+**How do we go about this then?**<br>We need to try many different kinds of solutions and see which kinds of solutions work well or not.
 
-Say, we take the prompt from above, and put it into an LLM that didn't yet undergo reinforcement learning. We repeat that for many times (hundreds or even thousands or millions of times per prompt) to get a feeling of the LLM's structural choice for answering. 
+Suppose we take the prompt from above and put it into an LLM that didn't yet undergo reinforcement learning. We repeat that for many times (hundreds or even thousands or millions of times per prompt) to get a feeling of the LLM's structural choice for answering. 
 
-While gathering the outputs to the specific prompt, some of the outputs may lead to incorrect final results, while some outputs may instead actually lead to the correct final result.<br>We want to discourage the model from building token sequences leading to the false solutions in the future. Inversely, token sequences with correct results should be encouraged to be generated more often.
+While gathering the outputs to the specific prompt, some of the outputs may lead to incorrect final results, while some other outputs may actually lead to the correct final result.<br>We want to discourage the model from building token sequences leading to the false solutions in the future. Also, token sequences with correct results should be encouraged to be generated more often.
 
 > [!NOTE]
 > The answer to our prompt being correct/incorrect helps us filter out those generated token sequences forming a solution that in the end mislead the LLM to a false answer. Therefore, **we can say that by virtue of producing the correct answer, the model itself determines what self-generated prompt responses it should be finetuned on further.**
 
-**We finetune our LLM with only those responses that lead to the correct answer(s).** Now, we could continue to finetune the model with this *set of correct responses*, or we could pick out a single **'gold standard / top'** solution response from the set and use that to finetune the model further and towards a most desirable token sequence generation style and behavior.
+**We finetune our LLM with only those responses that lead to the correct answer(s).** We could now continue to finetune the model with this *set of correct responses*, or we could pick out a single **'gold standard / top'** solution response from the set and use that to finetune the model further and towards a most desirable token sequence generation style and behavior.
 
 <center>
 	<img src="./img/response_reinforcement.png" style="width: auto; height: 400px"/>
 </center>
 
 > [!NOTE]
->The model in effect is aided to discover token sequences that work for it, from its own (instead of a human annotator's) perspective. This is the essence of Reinforcement Learning for LLMs.
+>The model in effect is aided to discover token sequences that work for it, from its own (instead of a human annotator's) perspective. This is the essence of what Reinforcement Learning can do for LLMs.
 
 ><b>:question: I learnt that Reinforcement Learning is about agents and policies and self-play etc. Where is that here? Is that even the same thing?</b>
 >
@@ -800,7 +809,7 @@ Moreover, we see that the model does something we theorized above on its own acc
 	<img src="./img/deepseek-r1_avg_response_len.png" style="width: auto; height: 375px"/>
 </center>
 
-Furthermore, the paper also lays out *why* this effect emerges on its own.<br>
+The paper also lays out *why* this effect emerges on its own.<br>
 The model has learnt that it is better for accuracy (i.e. reward) to try and apply different perspectives with the response, i.e. retrace, reframe, backtrack, compare. It is this behavior that emerges as the main cause for increased token usage in RL-finetuned DeepSeek-R1's responses:
 
 <center>
@@ -810,7 +819,7 @@ The model has learnt that it is better for accuracy (i.e. reward) to try and app
 > [!NOTE]
 > DeepSeek-R1 provides evidence that **RL enables the LLM, on its own accord and without hard-coding this objective, to discover token sequences that maximize its response accuracy.** These sequences then contribute to a more sophisticated response and are commonly referred to as **emergent reasoning patterns or 'cognitive strategies'.**
 
-You can actually see for yourself how DeepSeek-R1 performs and how it differs from e.g. GPT-4o. You can access DeepSeek-R1 through [DeepSeek's Website](https://chat.deepseek.ai/) (enable the 'Deep Think (R1)' mode by clicking the according button).
+You can actually see how DeepSeek-R1 performs and how it differs from e.g. GPT-4o by accessing DeepSeek-R1 through [DeepSeek's Website](https://chat.deepseek.ai/) (enable the 'Deep Think (R1)' mode by clicking the respective button).
 
 Think of GPT-4o as being an LLM at the supervised finetuning stage and think of DeepSeek-R1 as being a model that underwent not only supervised finetuning, but also extensive reinforcement learning. The difference in problem approach and response quality is quite staggering:
 
@@ -828,19 +837,19 @@ With DeepSeek-R1's showcase of such an 'inner monologue', we can clearly see the
 
 ---
 
-For a brief interlude, because it seems to be a thing, **please do not put even remotely sensitive information into any LLM that isn't running on your own machine.**
+For a brief interlude, because it seems to increasingly be a thing, **please do not put even remotely sensitive information into any LLM that isn't running on your own machine.**
 
 You can in fact download DeepSeek-R1 for free and use it safely, locally, as it is MIT licensed and open source. The website through which the DeepSeek-R1 is provided for chatting for free is not open source. One does not know where one's data goes. The same goes for ChatGPT by the way, although they claim strictly adhering to GDPR and other data protection laws.
 
 If you don't want to use DeepSeek-R1 through the official website, you can also give model providers like [together.ai](https://together.ai) a shot. They provide a pay-as-you-go, independent service offering DeepSeek-R1.
 
-If you have a powerful enough machine, you can download and run DeepSeek-R1 safely on your system, for free. Tools like Ollama can be setup to accommodate for a simple point of interaction with your local copy of DeepSeek-R1. Note however that your computer is the limit of the model's capabilities. For example, on an NVIDIA 3060, you can expect DeepSeek-R1 to be a lot slower, a lot less fancy because of the lack of text formatting, and you will have to resort to smaller versions of it, e.g. the 8B model, which would look like this:
+If you have a powerful enough computer, you can download and run DeepSeek-R1 safely on your system, for free. Tools like Ollama can be setup to accommodate for a simple point of interaction with your local copy of DeepSeek-R1. Note however that your computer is the limit of the model's capabilities. For example, on an NVIDIA 3060, you can expect DeepSeek-R1 to be *a lot* slower, *a lot* less fancy because of the lack of text formatting, and you will have to resort to smaller versions of it, e.g. the 8B model, which would look like this:
 
 <center>
 	<img src="./img/ollama_deepseek.png" style="width: auto; height: 550px"/>
 </center>
 
-Also, truth be told, GPT-4o is actually not the most recent model from OpenAI.<br>OpenAI released the o-series of models, with o3 being the most recent one. **These model naming conventions confuse everybody.** The o-series was trained with added Reinforcement Learning, like DeepSeek-R1, trained with similar techniques and with similar results.<br>Most of the o-series models are paywalled, though. Also, OpenAI doesn't provide a view into the model's solution reasoning, like DeepSeek-R1 does, for fear of revealing too much about the model's inner workings.<br>Google provided the hilariously named yet capable [Gemini 2.0 Flash Thinking Experimental 01-21](https://aistudio.google.com/prompts/new_chat), a free-to-use model that is also finetuned with Reinforcement Learning.
+Also, truth be told, GPT-4o is actually not the most recent model from OpenAI.<br>OpenAI released the o-series, with o3 being the most recent model. **These model naming conventions confuse everybody.** The o-series was trained with added Reinforcement Learning, like DeepSeek-R1, trained with similar techniques and with similar results.<br>Most of the o-series models are paywalled, though. Also, OpenAI doesn't provide a view into the model's solution reasoning, like DeepSeek-R1 does, for fear of revealing too much about the model's inner workings.<br>Google provided the hilariously named yet capable [Gemini 2.0 Flash Thinking Experimental 01-21](https://aistudio.google.com/prompts/new_chat), a free-to-use model that is also finetuned with Reinforcement Learning.
 
 ---
 
