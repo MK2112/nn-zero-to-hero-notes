@@ -29,16 +29,17 @@
 
 ---
 
-The [previous chapter](../G001%20-%20Deep%20Dive%20into%20LLMs/G001%20-%20Deep%20Dive%20into%20LLMs.md) provided a deep dive into large language models (LLMs) and their inner workings, the training and fine-tuning process, and different applications.<br>We will now go further and explore how LLMs can best be applied to specific, practical tasks.
+The [previous chapter](../G001%20-%20Deep%20Dive%20into%20LLMs/G001%20-%20Deep%20Dive%20into%20LLMs.md) provided a first dive into large language models (LLMs) and their inner workings, the training and fine-tuning process, and different applications.<br>We will now go further and explore how LLMs can best be applied to specific, practical tasks.
 
 ## The LLM Ecosystem
 
-First deployed in late 2022, OpenAI's [ChatGPT](https://chatgpt.com/) showed the broader public the profound potential of generative AI. The release marked one of the first times that an LLM got deployed in such a way that any user could interact with it, for free, at a massive scale, via a simple chat-based interface. What was meant to be a niche research preview turned into the most popular app of any kind, *ever* (until Meta released Threads).
+First deployed in late 2022, OpenAI's [ChatGPT](https://chatgpt.com/) showed the potential of generative AI to the broader public. The release marked one of the first times that an LLM got deployed in a way that allowed any user to interact with it, for free, at a massive scale, via a simple chat-based interface. What was meant to be a niche research preview turned into the most popular app of any kind, *ever* (until Meta released Threads).
 
 ChatGPT did not remain the sole player in the chat-based LLM space for too long. A whole ecosystem of LLM-providers has emerged, each offering LLMs with their own strengths and weaknesses. Some of the most popular LLM services, apart from ChatGPT, are:
 
-- [DeepSeek](https://chat.deepseek.ai/)
 - [Anthropic Claude](https://claude.ai/)
+- [Alibaba Qwen](https://qwen.ai/apiplatform)
+- [DeepSeek](https://chat.deepseek.ai/)
 - [Google Gemini](https://gemini.google.com/)
 - [Perplexity](https://perplexity.ai/)
 - [xAI Grok](https://grok.com/)
@@ -61,7 +62,7 @@ Generally, an interaction with an LLM inside ChatGPT consists of **providing som
     <img src="./img/ChatGPT_Haiku_Prompt.png" style="width: 550px; height: auto;" />
 </center>
 
-ChatGPT is tuned to write text that is as good as possible. You will get a first feel for what that means and what the capabilities of ChatGPT are by trying out different prompts for e.g. haikus, stories, or emails. The LLM inside ChatGPT will respond with a proposal text that is coherent, grammatically correct, and, on many occasions, even interesting.
+ChatGPT is tuned to write text that is as suitable to a prompt as possible. You will get an initial feel for what that means and what the capabilities of ChatGPT are by trying out different prompts for e.g. haikus, stories, or emails. The LLM inside ChatGPT will respond with a proposal text that is coherent, grammatically correct, and, on many occasions, even interesting.
 
 <center>
     <img src="./img/ChatGPT_Haiku_Response.png" style="width: 550px; height: auto;" />
@@ -69,30 +70,30 @@ ChatGPT is tuned to write text that is as good as possible. You will get a first
 
 You can see that OpenAI really leaned into the chat-based approach with ChatGPT. The model is designed to be conversational, to provide responses that are engaging and helpful, akin to responses from a human. This model behavior is a big part of why ChatGPT became so successful.
 
-As you can imagine, there's quite *a lot* going on under the hood when you interact with ChatGPT. The model has to process your input, generate a response, and then provide that response to you in a way that is fast, referencing your input correctly, while being accurate and engaging. This is a very complex process that involves a lot of different components, including the model itself, the inference engine, the response generation, and the response delivery. We talked about this in a little more detail already in the [last chapter](../G001%20-%20Deep%20Dive%20into%20LLMs/G001%20-%20Deep%20Dive%20into%20LLMs.md), where we also covered what's called the initial step that treats text to be input into such a model: **Tokenization**.
+There's quite *a lot* going on under the hood when you interact with ChatGPT. The model has to process your input, generate a response, and then provide that response to you in a way that is fast, referencing your input correctly, while being accurate and engaging. This is a very complex process that involves a lot of different components, including the model itself, the inference engine, the response generation, and the response delivery. We talked about this in a little more detail already in the [last chapter](../G001%20-%20Deep%20Dive%20into%20LLMs/G001%20-%20Deep%20Dive%20into%20LLMs.md), where we also covered what's called the initial step that treats text to be input into such a model: **Tokenization**.
 
-When you provide a prompt for ChatGPT to respond to, a **tokenizer** first maps the text prompt to a sequence of numeric tokens, each uniquely representing a particular chunk of your provided text. Your provided sequence of words/letters/sentences is transformed into a sequence of tokens, with each token having been assigned a unique integer ID. We can map to and (critically) from this token space to the textual space, back and forth. For now, we need the token sequence though.
+When you provide a prompt for ChatGPT to respond to, a **tokenizer** first maps the text prompt to a sequence of numeric tokens, each uniquely representing a particular chunk of your provided text. Your provided sequence of words/letters/sentences is transformed into a sequence of tokens, with each token having been assigned a unique integer ID, which itself maps to a distinct vector from an embedding matrix. We can now map to and (critically) from this token space to the textual space. For now, we need the concept of the token sequence at just the token ID level, though.
 
 <center>
     <img src="./img/Haiku_Prompt_Tokenization.png" style="width: 600px; height: auto;" />
 </center>
 
-It is only this sequence of tokens that is actually fed into the LLM. The LLM in turn proceeds to use that sequence as basis for mathematical operations, based on which it generates a response autoregressively, one token (probability distribution) at a time. This extension to the token input made by the model, i.e. its response, is then transformed back from the token space to the textual space and returned as human-readable text:
+Only the tokens actually get fed into the LLM. The LLM in turn proceeds to use that sequence as basis for mathematical operations, based on which it generates a response autoregressively, one token probability distribution at a time, from which a next token is sampled and appended. This extension to the token input made by the model, i.e. its response, is then transformed back from the token space to the textual space and returned as human-readable text:
 
 <center>
     <img src="./img/Haiku_Response_Tokenization.png" style="width: 600px; height: auto;" />
 </center>
 
 **Truth be told, this explanation is not at all capturing the full extent of what is actually going on.** ChatGPT is known to be able to refer back to previous parts of the conversation, to provide context-aware responses with that context not only being some few immediate sentences. This is where **role-distinguishing special tokens** come into play.<br>
-Above, we gave ChatGPT the initial task of writing a haiku, to which it responded accordingly. From the system's view though, we didn't just send the bare prompt. ChatGPT actually wrapped our prompt automatically in special, additional tokens, denoting the beginning and the end of our user input, and the expected beginning of the model's response. We actually sent the following textual structure off for tokenization:
+Above, we gave ChatGPT the initial task of writing a haiku, to which it then responded accordingly. From the system's view though, we didn't just send the bare prompt. *ChatGPT actually wrapped our prompt automatically in special, additional tokens,* denoting the beginning and the end of our user input, and the expected beginning of the model's response. In reality, we sent the following textual structure off for tokenization:
 
 ```
 <|im_start|>user<|im_sep|>Write a haiku about what it's like to be a Large Language Model.<|im_end|>
 <|im_start|>assistant<|im_sep|>
 ```
 
-When we now go on to provide a follow-up prompt, the prior interaction will *not at all be disregarded*. It will instead be prepended to our new prompt, forming the larger, actual new prompt with the former interaction as added context so to say.<br>
-In other words, for a second prompt to write a haiku about the future of AI, we would actually send this to ChatGPT:
+When we now go on to provide a follow-up prompt, the prior interaction will *not at all be disregarded*. Instead, it will be prepended to our new prompt, forming the larger new prompt. The former interaction builds up as an added context part of the next prompt, so to say.<br>
+For a second prompt to write a haiku about the future of AI, we would actually send this to ChatGPT:
 
 ```
 <|im_start|>user<|im_sep|>Write a haiku about what it's like to be a Large Language Model.<|im_end|>
@@ -104,14 +105,14 @@ ghost of thought, unseen.<|im_end|>
 ```
 
 > [!NOTE]
-> With Chatbot-like LLM interactions, both the user and the LLM contribute alternately to one common token sequence. With ChatGPT, currently, each participant's contribution is wrapped in the `<|im_start|>` and `<|im_end|>` phrases, which are mapped to particular, special tokens by the tokenizer, serving as guiding markers for the model for how to reference which aspects of the nuances of earlier conversation.
+> With chatbot-like LLM interactions, both the user and the LLM contribute alternately to one common token sequence. With ChatGPT, currently, each participant's contribution is wrapped in the `<|im_start|>` and `<|im_end|>` phrases, which are mapped to particular, special tokens by the tokenizer, serving as guiding markers for the model for how to reference which aspects of the nuances of earlier conversation.
 
 <center>
     <img src="./img/Special_Tokens_Haiku.png" style="width: 600px; height: auto;" />
 </center>
 
 Let's get further into what that note I put above actually tells us. Under the hood, interacting with ChatGPT builds a one-dimensional sequence of tokens, which is then fed into the model. This sequence grows with each back and forth interaction. This is the trick that enables the LLM to refer to earlier parts of the conversation by recognizing the special tokens that denote the beginning and end of each user and assistant (i.e. LLM) input.<br>
-**In that sense, when you elect to start a new chat with ChatGPT, you wipe the slate clean and start anew, clearing the preceding, thus prepended token sequence.**
+**In that sense, when you elect to start a new conversation with ChatGPT, you wipe the slate clean and start anew, clearing the preceding, thus prepended token sequence.**
 
 <center>
     <img src="./img/Excalidraw_Tokenization_Stacking.png" style="width: 600px; height: auto;" />
@@ -122,9 +123,9 @@ Let's get further into what that note I put above actually tells us. Under the h
 
 **Any time you are switching the topic, you should start a new chat session** to avoid confusion or potential distraction by left-over, prior, now irrelevant context. This could degrade the quality of the response, slow down the model's response time, and even lead to the model costing more to run.
 
-It's essential to keep the *context window limitation* in mind when interacting with LLMs like those behind ChatGPT. Think of the *context window* as the working memory of the LLM, which can ever only hold so much information at once and discards the oldest parts of the conversation when it reaches its limit.
+It is essential to keep the *context window limitation* in mind when interacting with LLMs like those behind ChatGPT. **Think of the context window as the working memory of the LLM,** which can ever only hold so much information at once and discards the oldest parts of the conversation when it reaches its limit.
 
-Another dimension to consider is the LLM itself. In the [last chapter](../G001%20-%20Deep%20Dive%20into%20LLMs/G001%20-%20Deep%20Dive%20into%20LLMs.md), we talked about the *pretraining* and the *post-training* stages in the LLM development cycle. The LLM first is exposed to a vast amount of text data during **pretraining**. This is where the model learns the structure of language and the relationships between words. To an extent, we distill the dataset info and characteristics into the LLM's parameters, turning the LLM into a sort of *lossy compression* of the dataset.
+Another dimension to consider is *the LLM itself*. In the [last chapter](../G001%20-%20Deep%20Dive%20into%20LLMs/G001%20-%20Deep%20Dive%20into%20LLMs.md), we talked about the *pretraining* and the *post-training* stages in the LLM development cycle. The LLM first is exposed to a vast amount of text data during **pretraining**. This is where the model learns the structure of language and the relationships between words. To an extent, we distill the dataset info and characteristics into the LLM's parameters, turning the LLM into a sort of *lossy compression* of the dataset.
 
 Once *pretraining* concluded, the LLM doesn't yet know anything about the specific task it is supposed to perform.<br>
 At this *post-pretraining* stage, the LLM would only ever be able to generate text as a *continuation of the input*, similar to the text it was trained on. Note also that the pretraining data largely governs the time horizon of the LLM. *The LLM can't know about events that happened after the training data was collected.* (This restriction can be lifted with what's called 'tool use', which we will cover later. For now, pre-training data is all our LLM knows about.)
@@ -136,7 +137,7 @@ In the second training stage, **post-training** has the LLM fine-tuned on a task
 
 ## Basic Interaction Examples
 
-Once again, an LLM with pre- and post-training applied is like a person with a vast amount of general, vaguely factual knowledge, and a specific skill set. But just how much factual knowledge can one expect from a basic LLM like ChatGPT?
+Once again, an LLM with applied pre- and post-training is like a person with a vast amount of general, vaguely factual knowledge, and a specific skill set. But just how much factual knowledge can one expect from LLMs like the ones offered through ChatGPT?
 
 **Think of it like this:** If you can safely assume that a piece of knowledge can be found across the web and that it hasn't changed too much over time or too recently, ChatGPT should be able to provide you with a rather factual answer on that piece of knowledge.
 
@@ -161,13 +162,17 @@ In that last note above, I used the term "vanilla LLM". ChatGPT started out with
 - GPT-4.1, GPT-4.1 mini and GPT-4.1 nano
 - GPT-OSS 120b and GPT-OSS 20b
 - GPT-5, GPT-5 mini and GPT-5 nano
+- GPT-5.1, GPT-5.1 mini, GPT-5.1 nano (mostly replaced by 5.3+)
+- GPT-5.2, GPT-5.2 Pro, GPT-5.2 Instant
+- GPT-5.3 Instant / Thinking / Codex
+- GPT-5.4 Thinking / Pro / Mini / Codex / Pro
 
 (This is the order in which the models were actually released. Horrendous naming scheme, I know. See for current deprecation information [here](https://platform.openai.com/docs/models) and [here](https://platform.openai.com/docs/deprecations).)
 
 Typically, bigger LLMs (as in the LLMs with more parameters) are more expensive to build and train, yet also considerably more capable.
 
 Different LLM providers price the access to their LLMs differently.<br>
-Anthropic, for example, offers free-tier access to their best and newest Claude LLM, but charges for more interactions:
+Anthropic, for example, offers free-tier access to their newest Claude LLM generation, but charges for more interactions:
 
 <center>
     <img src="./img/Anthropic_Claude_Travel_Advice.png" style="width: 520px; height: auto;" />
@@ -192,7 +197,7 @@ This is what a reasoning model's thinking process might look like:
 
 Source: [\[Guo, et al. 2025\]](https://arxiv.org/abs/2501.12948)
 
-Reasoning is valuable because it can't easily be attained, faked or pre-programmed. It rather emerges naturally through reinforcement learning based on the LLM's understanding of tasks and training data. This noticeably increases the LLM's performance especially on complex tasks:
+Reasoning is valuable as it can't easily be attained, faked or pre-programmed. It rather emerges naturally through reinforcement learning based on the LLM's understanding of tasks and training data. This noticeably increases the LLM's performance especially on complex tasks:
 
 <center>
     <img src="./img/Reasoning_models_and_4.5_ARC.jpeg" style="width: 600px; height: auto;" />
@@ -239,7 +244,7 @@ An LLM service that uses web search as a tool at scale is [Perplexity.ai](https:
 - [Anthropic's Claude 3.5](https://claude.ai/) does not offer Web Search, but that was added for 3.7 and 4
 
 > [!NOTE]
-> Different LLM providers provide different models through different tier levels, offering in turn different integrations of tools, if any. It's a good idea to experiment with different LLMs to see which one best fits your needs. **Whenever you can expect the information you need to be niche, recent but findable on the web, you should use a tool-integrated LLM.**
+> Different LLM providers provide different models through different tier levels, offering in turn different integrations of tools, if any. It's a good idea to experiment with different LLMs to see which one fits your needs. **Whenever you can expect the information you need to be niche, recent but findable on the web, you should use a tool-integrated LLM.**
 
 ### Deep Research
 
@@ -251,7 +256,7 @@ Multiple providers began offering similar capabilities quickly, like [Grok's Dee
 > [!NOTE]
 > Actually, [DeepSeek R1](https://chat.deepseek.ai/) allows you to activate both "Deep Think" and "Search" at once, but this is not the same as Deep Research. DeepSeek curates the search results before reasoning about them, while Deep Research is more of a continuous process.
 
-Even though we use WebSearch and Reasoning, after all, we still may encounter some hallucinations or errors in the LLM's responses or source interpretations. **It is imperative to treat even Deep Research responses as suggestions or first drafts only. They are ice-breakers into a field of interest.**
+Even though we use web search and reasoning, after all, we still may encounter some hallucinations or errors in the LLM's responses or source interpretations. **It is imperative to treat even Deep Research responses as suggestions or first drafts only. They are ice-breakers into a field of interest.**
 
 Here's an example of Deep Research messing up:
 <center>
@@ -403,10 +408,10 @@ ChatGPT's mobile app is a good example of this.
     <img src="./img/ChatGPT_Mobile_Audio.png" style="width: 350px; height: auto;" />
 </center>
 
-The microphone button allows for speech to text input.<br>
+The microphone button allows for speech-to-text input.<br>
 This only works in the app though. If you want to use audio input on the desktop, you can use third-party apps like [MacWhisper](https://goodsnooze.gumroad.com/l/macwhisper) or [SuperWhisper](https://superwhisper.com/) to bridge the gap.
 
-Download and install the app, talk into the app, have the app transcribe the text into ChatGPT's input field, and ChatGPT produces text you can have read out loud.
+Download and install the app, talk into the app, have the app transcribe the text into ChatGPT's input field, and ChatGPT produces text that you can have read out to you.
 
 > [!NOTE]
 > Use voice where you can. It is *much* faster.
@@ -437,7 +442,7 @@ We can also generate images with LLMs, although this is rather done through tool
 
 ## Video
 
-Video processing works with ChatGPT's Advanced Voice Mode on mobile. The app sends both camera feed and voice input to ChatGPT, which tokenizes the video input and enables an LLM to describe what can be seen in the video frames. This capability is particularly valuable for e.g. visually impaired users.
+Video processing works along with ChatGPT's Advanced Voice Mode on the smartphone. The app sends both camera feed and voice input to ChatGPT, which tokenizes the video input and enables an LLM to describe what can be seen in the video frames. This capability is particularly valuable for e.g. visually impaired users.
 
 <center>
     <img src="./img/ChatGPT_Audio_Video.png" style="width: 800px; height: auto;" />
