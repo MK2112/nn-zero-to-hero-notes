@@ -28,7 +28,7 @@
 
 ## How To: Train A GPT Assistant
 
-"GPT customization" is an emerging technology to adapt GPTs (Generative Pretrained Transformers) to a user's needs, usage patterns and behavior demands.<br>One current approach consists of a multi-stage process:
+"GPT customization" is an emerging technology to adapt GPTs (Generative Pretrained Transformer networks) to a user's needs and usage patterns.<br>A current approach for customization is based on this multi-stage process:
 
 - **Pretraining:**
 	- *Dataset:* Raw internet scraped text, trillions of words with low task-specificity, in high quantity
@@ -49,17 +49,22 @@
 
 ### Pretraining
 
+Pretraining is the stage where a GPT language model (LM) learns to predict the next token from massive amounts of internet-scale text.<br>
+This incentivizes the compressing of patterns of language, knowledge, reasoning, and world structure into the LM weights.<br>
+
+Most of the computational complexity involved in creating aligned LLMs occurs during pretraining.<br>
+It can require many 1,000s of GPUs, months of training and millions of dollars in expenses.<br>
+Importantly, pretraining on large amounts of data necessitates the availability of said data in suitable quality.
+
 #### Data Gathering
 
-- Most of the computational complexity involved in creating aligned LLMs is involved here
-- 1,000s of GPUs, months of training, millions of dollars in expenses
-- The *core competency* of this step is arguably to be found in the data attaining process, e.g. like listed below for LlaMA; We have to gather data and turn it into a unified format
+The core competency of the pretraining step arguably lies in data acquisition and curation, i.e. the gathering of large-scale datasets and their transformation into a clean, unified training format, like listed below for LLaMA LM family.
 
 <img src="./img/Pasted%20image%2020231123162506.png" width="300" height="auto"/><br>Source: [LLaMA: Open and Efficient Foundation Language Models](https://arxiv.org/abs/2302.13971)
 
 #### Tokenization
 
-<b>We've got the text, now what?</b><br>Given that GPTs are mathematical models, requiring numeric inputs, we need to find a way to encode our training data meaningfully into a numeric representation. Tools like the [OpenAI Tokenizer](https://platform.openai.com/tokenizer) help with that. Specifically, algorithms like the state-of-the-art [Byte Pair Encoding](http://www.pennelynn.com/Documents/CUJ/HTML/94HTML/19940045.HTM) are employed.
+<b>Suppose we've got the text. Now what?</b><br>Given that GPTs are mathematical models, requiring numeric inputs, we have to find a way to encode our training data meaningfully into a numeric representation. Tools like the [OpenAI Tokenizer](https://platform.openai.com/tokenizer) help with that. Specifically, algorithms like the state-of-the-art [Byte Pair Encoding](http://www.pennelynn.com/Documents/CUJ/HTML/94HTML/19940045.HTM) are employed.
 
 <img src="./img/Pasted%20image%2020231123163046.png" width="400" height="auto"/>
 
@@ -67,7 +72,7 @@
 
 <img src="./img/Pasted%20image%2020231123163629.png" width="400" height="auto"/><br>Source: [LLaMA: Open and Efficient Foundation Language Models](https://arxiv.org/abs/2302.13971)
 
-Interestingly, LLaMA achieves much higher performance than GPT-3 while being smaller in parameter count (at $175B$ parameters). This is due to longer training runs and factors such as improved data quality and model architecture. LLaMA cost $\$5 \text{million}$ to train, requiring $2,048$ NVIDIA A100 GPUs to be run for $21$ days [\[Touvron, et al. 2023\]](https://arxiv.org/abs/2302.13971). This process results in the base LLaMA model.
+Interestingly, LLaMA achieves much higher performance than GPT-3 while being smaller in parameter count (at $175B$ parameters). This is due to longer training runs and factors such as improved data quality and model architecture. LLaMA cost $\$5 \text{million}$ to train, requiring $2,048$ NVIDIA A100 GPUs to be run for $21$ days [\[Touvron, et al. 2023\]](https://arxiv.org/abs/2302.13971) for the base LLaMA model.
 
 #### Pretraining with Batches
 
