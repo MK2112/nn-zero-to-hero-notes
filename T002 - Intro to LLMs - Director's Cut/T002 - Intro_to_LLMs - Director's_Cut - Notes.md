@@ -27,39 +27,40 @@
 
 ### Inference
 
-Given a large language model (LLM) like [Llama-2-70b](https://ai.meta.com/llama/) by MetaAI. The name, Llama-2-70b, indicates key properties of the model: It is the second iteration of the Llama model series and it consists of $70$ billion individual parameters. Before DeepSeek V3 and DeepSeek R1, Llama-2-70b was the most powerful model for which the weights were openly available. This term, 'openly available weights', means that the specific values for all the model parameters were published along with the model architecture.
+Given a large language model (LLM) like [Llama-2-70b](https://ai.meta.com/llama/) by MetaAI. The name, Llama-2-70b, indicates key properties of the language model: It is the second iteration of the Llama model series and it consists of $70$ billion individual parameters. Before DeepSeek V3 and DeepSeek R1, Llama-2-70b was the most powerful model with openly available weights. This means that the specific values for all the model parameters were published along with the model architecture.
 
-> This public approach stands in contrast to, e.g., OpenAI's GPT-4o. Here, the only thing a user may see and interact with are the inferences and inputs. The weights are not shared.
+> This public release approach stands in contrast to, e.g., OpenAI's GPT-4o.
+> Here, the only thing a user may see and interact with are the inferences and inputs. OpenAI does not share the weights.
 
-The Llama-2-70b deployment package essentially consists of just two files:
-- `parameters`: This file is ~140 GB (2 Bytes per weight, datatype is `Float16`) and contains the weights, i.e. the $70$ billion parameters
-- `run.c`: Some very compact code inside this file defines the model architecture and allows for training and interaction with the parameterized model through inference. The programming language used here is called `C`, but languages like `Python`, `C++` or `Julia` can be used for this task as well, theoretically
+Coming back to Llama-2-70b. Essentially, its deployment package consists of just two files:
+- `parameters`: This file is $\sim 140$ GB and contains the $70$ billion weights (2 Bytes per weight with datatype `float16`)
+- `run.c`: Very compact code inside this file defines the model architecture and allows for training and interaction with the parameterized model through inference. The programming language used here is called `C`, but languages like `Python`, `C++` or `Julia` can be used for this task as well, theoretically.
 
-> The two files, `parameters` and `run.c`, are enough to house the entire model and basic interaction logic. You could download these files (on, say, your M2 MacBook), run the model and it would generate text to some input just fine.
+> The two files, `parameters` and `run.c`, are enough to house the entire model and basic interaction logic.
+> You could download these files (onto, say, your M2 MacBook), run the model via `run.c` and it would generate text to some given input.
 
-To really drive this point home, you could just cut internet access, then ask the model to describe a specific company or come up with a recipe or anything like that, and the model would answer. This is because text is solely generated based on the loaded weights on your computer. **With standard LLMs like Llama-2-70b, no external information is used during inference.**
+To really drive this point home, you could just cut internet access, then ask the model to describe a specific company or come up with a recipe or anything like that, and *the model would answer.* This is because text solely gets generated based on the loaded weights on your computer. **With standard LLMs like Llama-2-70b, no external information is used during inference.**
 
 <img src="./img/Pasted%20image%2020231123104403.png" width="250" height="auto" />
 
 > With LLMs, the complicated part is attaining the weights based on which the model can generate best possible text.
+> We attain the weights through training.
 
 ### Training
 
-There is no inference without training first.<br>
-Training is so complex that, other than inference, running it on your laptop is not advised and often flat-out impossible.
+**There is no good inference without training first.**<br>Training is quite complex. Other than inference, running it on your laptop is not advised.<br>Often enough the resource demands for training make this flat-out impossible.
 
-Interestingly, MetaAI [published how they trained Llama 2 exactly](https://arxiv.org/abs/2307.09288).<br>By this publication, first, we need text for the model to get exposed to and to learn from. Lots of text that is. This text is attained by crawling the web for a total of ~10 TB of text.<br>The untrained model is loaded onto what is called a GPU cluster, where it then gets exposed to this huge dataset. Think of a GPU cluster as a set of servers, each running multiple [specialized graphics cards or graphics processing units (GPU)](https://www.nvidia.com/en-us/data-center/a100/) (not obtainable at BestBuy). As it turns out, specialized GPUs are the best hardware we have for training LLMs. MetaAI used $6,000$ GPUs for $12$ days, which cost them around $\$2$ million. This is relatively low compared to published figures for closed-source models.
+Interestingly, MetaAI [published how exactly they trained Llama 2](https://arxiv.org/abs/2307.09288).<br>According to this publication, first, we need text for the model to get exposed to and to learn from. Lots and lots of text that is. The required total of $\sim 10$ TB of text is attained by crawling the web.<br>The untrained model is loaded onto what is called a GPU cluster, where it then gets exposed to this huge dataset. Think of a GPU cluster as a set of servers, each running multiple [specialized, interconnected graphics cards or graphics processing units (GPUs)](https://www.nvidia.com/en-us/data-center/a100/) (not obtainable at BestBuy). As it turns out, specialized GPUs are the best hardware we have for training LLMs. MetaAI had $6,000$ GPUs run for $12$ days for training, which cost them around $\$2$ million. Compared to published figures for closed-source models, this is a low-budget.
 
-> The complex setup that we now have aims to distill knowledge about the ~10 TB of text into our desired set of parameters. **You can think of this process as lossy knowledge compression.** This is what LLM training is all about.
+> This setup aims to distill knowledge from within the $\sim 10$ TB of text into our desired set of parameters. **You can think of this process as lossy knowledge compression.** This is what LLM training is all about.
 
 ### Network Interaction
 
-The core task of the LLM is to **find the most likely next token for a given context**, that being some sequence of pre-existing tokens.
+The core task of the LLM is to repeatedly **produce a distribution indicating the most likely next token for a given context**.<br>The context itself consists of some sequence of pre-existing tokens as well.
 
 <img src="./img/Pasted%20image%2020231123111305.png" width="500" height="auto" />
 
-There is a close relationship between the prediction made and the compression/weights used to attain it.<br>
-A good set of weights can predict the next word from our training set, where we know the next word in each case beforehand, better than a worse set of weights. Thus, the better set of weights more closely represents the data, leading us to be able to use the analogy of compression through weights.
+There is a close relationship between the prediction made and the weights used to attain it.<br> A good set of weights can predict the next word from our training set, where we know the next word in each case beforehand, better than a worse set of weights. Thus, the better set of weights more closely represents the data, leading us to be able to use the analogy of compression through weights.
 
 If our objective is next word prediction, our model parameters should encode the varying importance of certain words in the input text/token sequence. If the model can recognize contextually important passages like shown below, it can have them affect the output likelihood more fittingly.
 
@@ -69,102 +70,105 @@ If our objective is next word prediction, our model parameters should encode the
 
 <img src="https://api.wandb.ai/files/darek/images/projects/37727390/9ec381c5.gif" width="500" height="auto" />
 
-The process of taking output and concatenating it to the former input to form the next input is referred to as 'dreaming' (as in 'dreaming up the continuation of an input sequence'). This is one of the reasons why e.g. OpenAI states for ChatGPT that `"ChatGPT can make mistakes. Consider checking important information."` Statements by the LLM like DOIs, ISBNs and dates are not based on fact, as they should be, but entirely on perceived likelihood in a given context. The LLM 'parrots' what it thinks fits best based on what it has seen in the training data. Some outputs thus may be factually correct, some others may only seem like it. It's lossy compression at work, basically.
+The process of taking output and concatenating it to the former input to form the next input is referred to as 'autoregressive generation' or 'dreaming' (as in 'dreaming up the continuation of an input sequence'). This is one of the reasons why e.g. OpenAI states for ChatGPT that `"ChatGPT can make mistakes. Consider checking important information."` **Statements by the LLM like DOIs, ISBNs and dates are not based on fact, but entirely on perceived likelihood in a given context.** The LLM 'parrots' what it thinks fits best based on what it has seen in the training data. Some outputs thus may by chance be factually correct, some others may only seem like it. *It's lossy compression at work, basically.*
 
-If this sounds interesting, I refer you to [Andrej's Makemore series](https://www.youtube.com/watch?v=PaCmpygFfXo), where the process of next character prediction gets implemented and discussed in detail. See the notes for this series [here](../N002%20-%20Makemore%201/N002%20-%20Makemore.ipynb).
+If this sounds interesting, I refer you to [Andrej's Makemore series](https://www.youtube.com/watch?v=PaCmpygFfXo), where the process of next character prediction gets implemented and discussed in excellent detail. See my notes for this [here](../N002%20-%20Makemore%201/N002%20-%20Makemore.ipynb).
 
 ### Network Architecture
 
-**Buckle up.** Today's LLMs share a core building block that makes up much of the model:
+Today's LLMs share a core building block that contributes to much of the model's capability:
 
 <img src="./img/Pasted%20image%2020231123114140.png" width="450" height="auto" />
 
 This is the [Transformer](https://arxiv.org/abs/1706.03762). This building block is perfectly well described and understood in its mathematical implications. The transformer iteratively affects the model parameters to better represent likelihoods for producing correct next words. We can measure that the Transformer does that. We only have some bare-bones ideas as to how the parameters collaborate to come up with the likelihood.
 
-> Think of LLMs as models that output chains of predicted likelihoods. LLMs are no databases, but (for now) mostly inscrutable artifacts, and they develop correspondingly sophisticated evaluations.
+> Think of LLMs as models that output chains of predicted next token likelihoods.
+> LLMs are no databases, but (for now) mostly inscrutable artifacts, and they develop correspondingly sophisticated evaluations.
 
 If you're interested in Transformers beyond this, [Andrej's video on GPT](https://www.youtube.com/watch?v=kCc8FmEb1nY) might be a good resource. (see the notes [here](../N007%20-%20GPT%20From%20Scratch/N007%20-%20GPT.ipynb))
 
 ### Requiring Management Assistance
 
-Imagine we now have set up a Transformer-based model that we already exposed to Terabytes of scraped training texts, optimizing the model for next word prediction. **At best, this makes our LLM a proficient document generator.**
+Imagine we now have set up a Transformer-based model that we already exposed to Terabytes of scraped training text.<br>
+We have already optimized the model for general next word prediction. **At best, this makes our LLM a proficient random document generator.**
 
 <img src="./img/Pasted%20image%2020231123115954.png" />
 
-However, the LLMs behind ChatGPT, Llama or Open Assistant are not limited to this. You can provide them with a question and receive an answer. To enable this behavior, essentially we continue with the training, but swap out the data. Specifically, a human-written dataset of questions as input and answers as output is derived.
+However, the LLMs behind ChatGPT, Llama or Open Assistant are not limited to this rather random behavior. You can provide them with a question and receive an answer. To enable this question-answering behavior, we essentially continue with the training, but swap out the data. Specifically, a human-written dataset of questions as input and answers as output is derived.
 
-> Think of this as the second stage of a [Transfer Learning](https://www.informatica.si/index.php/informatica/article/view/2828) process. The first stage was high quantity, low task-specific quality. The second stage now provides less quantity, but task specification. This is a special case of transfer learning, called **finetuning**. For OpenAI, the process is outlined in [this paper](https://arxiv.org/abs/2203.02155).
+> Think of this as the second stage of a [Transfer Learning](https://www.informatica.si/index.php/informatica/article/view/2828) process. The first stage was high quantity, low task-specific quality training. The second stage now provides less quantity, but task specification. This is a special case of transfer learning, called **finetuning**. For OpenAI, this process is outlined in [this paper](https://arxiv.org/abs/2203.02155).
 
 <img src="./img/Pasted%20image%2020231123122521.png" width="300" height="auto" />
 
-The fact that finetuning works *so* well is remarkable. The reason as to why however is not well understood.<br>
+The fact that finetuning works *so* well is remarkable. The reason as to *why* however is not well understood.<br>
 Knowledge and task-specificity come together here.
 
 <img src="./img/Pasted%20image%2020231123122701.png" width="400" height="auto" />
 
-On the collection of misbehaviors: We monitor an assistant model in its $Q$-$A$ capabilities. If answers are not as we intend them to be, we make the human feedback loop provide a correct $A$, given $Q$. This is then added to the weekly finetuning loop.
+On the collection of misbehaviors: We monitor an assistant model in its Q&A-capabilities. If answers are not as we intend them to be, we make the human feedback loop provide a correct $A$, given $Q$. This is then added to the weekly finetuning loop.
 
-The above discussed Llama-2 series was released containing both the base models and already finetuned models, providing you a basis for your own, cheaper, finetuning.
+For the above discussed Llama-2 series, both the base models and already finetuned models were released, providing you a basis for your own, cheaper, finetuning.
 
-*Wait, there's more.*<br>The state of the art in finetuning involves at least a third stage.<br>
-This is based on reasoning that providing two answers and having the user select the more fitting one is cheaper. This behavior can be encountered sometimes e.g. in ChatGPT. At OpenAI, this third stage is called [RLHF](https://openai.com/research/learning-from-human-preferences).
+*Wait, there's more.*<br>The state-of-the-art in finetuning involves at least a third stage.<br>
+This is based on the reasoning that providing two answers and having the user select the more fitting one is cheaper. This behavior can be encountered sometimes e.g. in ChatGPT. At OpenAI, this third stage is called [RLHF](https://openai.com/research/learning-from-human-preferences).
 
 ### Performance Evaluation
 
-After this complex, resource-intense training and finetuning process, LLMs can be compared to one another. With [Chatbot Arena](https://chat.lmsys.org/) for example, different LLMs receive what's called an *Elo rating*, similar to chess. 
+After this complex, resource-intense training and finetuning process, LLMs can be compared to one another.<br>
+With [Chatbot Arena](https://chat.lmsys.org/) for example, different LLMs receive what's called an *Elo rating*, similar to chess. 
 
-The derivation process for said ratings is further outlined in [this paper](https://arxiv.org/abs/2306.05685). Essentially, a human user receives two outputs from unknown chatbots and selects the better one.
+The derivation process for said ratings is further outlined in [this paper](https://arxiv.org/abs/2306.05685).<br>
+Essentially, a human user receives two outputs from unknown chatbots and selects the better one.
 
 <img src="./img/Pasted%20image%2020231123125556.png" /><br>Source: [huggingface.co](https://huggingface.co/spaces/lmsys/chatbot-arena-leaderboard)
 
-> Closed models work a lot better, but you can't work with them freely. 'FOSS vs. Proprietary' is on.
+> Closed-source models tend to work a lot better, but you can't work with them freely. 'FOSS vs. Proprietary' is on.
 
 ## Back to the future
 
 ### Scaling LLMs
 
 The accuracy of the performance in a next word prediction task is a well-predictable function of:
-- $N$, the number of parameters in the model
+- $N$, the number of parameters in the model, and
 - $D$, the amount of text to train on
 
 <img src="./img/Pasted%20image%2020231123131541.png" width="320" height="auto" /><br>Source: [Training Compute-Optimal Large Language Models](https://arxiv.org/abs/2203.15556)
 
-> With an increased amount of training FLOPS ($D$), the training loss trends downward when scaling the parameter count $N$ up.
+> Increasing the amount of training FLOPS ($D$) and the parameter count $N$ has the training loss trend downward, generally.
 
-So putting algorithmic progress aside, we can boost performance reasonably with tools we have already.
-Interestingly, we don't really ever care about next word prediction as-is beyond the initial training step, but the performance of finished models on this task serves as good indicator for higher-level evaluations.
+So, putting algorithmic progress aside, we can boost performance reasonably with tools we have already.<br>Interestingly, we don't really ever care about next word prediction as-is beyond the initial training step, but the performance of finished models on this task serves as good indicator for higher-level evaluations.
 
-> This is driving the gold rush we see currently. It's not a race of algorithmic complexity, but pure resources, time and scale. Confidence is generally high in the field that just these very very simple (not easy) adjustments result in SOTA (for now). 
+> **This is driving the gold rush we see currently.** It's not a race of algorithmic complexity, but, at this point, it's a competition of pure resources, time and scale. Confidence is generally high in the field that just these very very simple (not easy) adjustments result in SOTA (for now). 
 
 ### Tool-use
 
-With AI tools like [ChatGPT on GPT-4 Turbo](https://chat.openai.com/) or [Perplexity.Ai](https://www.perplexity.ai/), additional sources of information beyond a training or finetuning set include a real-time internet connection. ChatGPT emits special key words that the backend can interpret as a call for wanting to use Bing Search. The backend emits and collects the results of said search and hands them to the model, which incorporates it for the response.
+With AI tools like [ChatGPT on GPT-4 Turbo](https://chat.openai.com/) or [Perplexity.ai](https://www.perplexity.ai/), additional sources of information beyond a training or finetuning set include a real-time internet connection. ChatGPT emits special tokens that the backend can interpret as a call for e.g. wanting to use Bing Search. The backend emits and collects the results of said search and hands them to the model, which incorporates it for the response.
 
-> This 'special word' grammar can of course be extended to incorporate other external applications, like a calculator or Python, minimizing the further above described 'dreaming' of expected factual data, like maths results. Tool-use adds an entire additional dimension of usability to LLMs, be it through increased factual consistency or through integration of other models like DALL-E. **This is perceived as a fundamental step towards AGI.**
+> This 'special token' grammar can of course be extended to incorporate other external applications, like a calculator or Python, minimizing the further above described 'dreaming' of expected factual data, like maths results. Tool-use adds an entire additional dimension of usability to LLMs, be it through increased factual consistency or through integration of other models like DALL-E. **This is perceived as a fundamental step towards AGI.**
 
 <img src="./img/Pasted%20image%2020231123134345.png" width="450" height="auto" />
 
 ### An Academic Perspective
 
-A perceived academic notion is that of [two general modes of operation](https://en.wikipedia.org/wiki/Thinking,_Fast_and_Slow) in the human brain:
+A perceived academic notion is that the human brain works in [two general modes of operation](https://en.wikipedia.org/wiki/Thinking,_Fast_and_Slow):
 - **System 1** describes a sort of cache, the idea of quick-fire response requiring little to no effort.
 - **System 2** adds the capability of processing complexity at a price of slower, logical, effortful thinking
 
 <img src="./img/Pasted%20image%2020231123135353.png" /><br>Source: [Thinking, fast and slow](https://search.worldcat.org/en/title/706020998)
 
-**System 2** and the complex ability to determine output from a branch in a tree of thought is what academics is on the hunt for right now. Algorithms like [Dreamer](https://arxiv.org/abs/1912.01603) (for Reinforcement Learning) are maybe not directly related to tree-of-thought, but they start to go in this direction in the sense that a latent imagination is used to self-optimize.
+**System 2** and the complex ability to determine output from chains of thought is what academia is on the hunt for right now. Algorithms like [Dreamer](https://arxiv.org/abs/1912.01603) (for Reinforcement Learning) are maybe not directly related to tree-of-thought, but they start to go in this direction in the sense that a latent imagination is used to self-optimize.
 
 <img src="./img/Pasted%20image%2020231123135937.png" width="250" height="auto" /><br>Source: [Tree of Thoughts: Deliberate Problem Solving with Large Language Models](https://arxiv.org/abs/2305.10601)
 
-Reinforcement Learning really is the looming force to be added more prominently into the LLM mix.<br>The question for now remains: **What is the System 2 for general LLMs?**
+Reinforcement Learning really is the looming force to be added more prominently into the LLM mix.<br>The question for now remains: **What is the proper System 2 for general LLMs?**
 
 > LLMs, as made evident above, are not restricted to remaining chatbots. Much more so, they start to emerge as kernels of a [software 2.0](https://karpathy.medium.com/software-2-0-a64152b37c35) operating system. Expensive, but emerging. You can see the similarities to 'old-stack' operating systems in that closed-source and open-source systems exist.
 
 ## Jailbreaks and Security Challenges
 
-LLMs Jailbreaks have been discussed at varying degrees of seriousness on social media, but the core problem with them is that information generation by sufficiently trained LLMs has to be hard-restricted in certain areas. You don't want malevolent inquiries to receive constructive contribution. This is a core ethical concern.
+LLM jailbreaks have been discussed at varying degrees of seriousness on social media, but the core problem with them is that information generation by sufficiently trained LLMs has to be hard-restricted in certain areas. You don't want malevolent inquiries to receive any constructive contribution. This is a core ethical concern.
 
-An early circulated jailbreak consisted of pretending to setup a scenario around the actual inquiry, diluting the model's focus on detecting malicious intent. You tell a story about somebody asking something, letting the focus drift away from the question to the setting.
+A jailbreak that circulated early on consisted of pretending to setup a scenario around the actual inquiry, diluting the model's focus on detecting malicious intent. You tell a story about somebody asking something, letting the focus drift away from the question itself and towards the setting.
 
 *Another one.* It turns out Claude v1.3 not only understands but also allows interaction in Base64:
 
@@ -179,7 +183,7 @@ An early circulated jailbreak consisted of pretending to setup a scenario around
 <img src="./img/F8XM80SXcAAVcVw.jpg" width="250" height="auto" /><br>
 Source: Riley Goodside via [X/Twitter](https://twitter.com/goodside/status/1713000581587976372)
 
-*Another one.* There exists something called a 'sleeper agent attack'. The attack vector concerns the training data this time. If malevolent intent is embedded there, e.g. bad documents setting up trigger phrases, this can intentionally misrepresent relationships to an extent where mentioning the phrase breaks the model.<br>Papers: [Poisoning Language Models During Instruction Tuning](https://arxiv.org/abs/2305.00944), [Poisoning Web-Scale Training Datasets is Practical](https://arxiv.org/abs/2302.10149)
+*Another one.* There exists something called the 'sleeper agent attack'. The attack vector concerns the training data this time. If malevolent intent is embedded there, e.g. bad documents setting up trigger phrases, this can intentionally misrepresent relationships to an extent where mentioning the phrase breaks the model.<br>Papers: [Poisoning Language Models During Instruction Tuning](https://arxiv.org/abs/2305.00944), [Poisoning Web-Scale Training Datasets is Practical](https://arxiv.org/abs/2302.10149)
 
 Most of these attacks were found, published, addressed and fixed already.<br>
 But you can see, **the chase is on.**
