@@ -36,59 +36,59 @@
 
 ---
 
-LLMs are Artificial Intelligence (AI) systems trained to process and generate human-like text by identifying linguistic patterns from training data.<br>
-Let's introduce what LLMs really are, from input to output, in an *understandable* fashion.
+LLMs are Artificial Intelligence (AI) systems trained to process and generate human-like text by identifying and then mimicing linguistic patterns from training data.<br>
+Let's see what LLMs really are, from input to output, in an *understandable* and *approachable* fashion.
 
-When talking about LLMs, you will inevitably encounter the term 'prompt'.<br>
-**A prompt is the input text, the formulated instructions or data that you as the user provide to an LLM.** A prompt can be a question, a statement (like an example of text, writing format, etc.), or any other text-based content. The LLM processes this prompt and generates an output, the so-called *response*.
+When talking about LLMs, you will inevitably encounter the term *'prompt'*.<br>
+**A prompt is the input text, the formulated instructions or data that you provide to an LLM.** A prompt can be a question, a statement (like an example of text, writing format, etc.), or any other text-based content. The LLM processes this prompt and generates an output, the so-called *'response'*.
 
-When providing a prompt and reading the response of an LLM, it becomes clear that there is some notion of experience embedded into it. The LLM may show that it can process and articulate:
+When reading the response of an LLM for a given prompt, it becomes clear that there is some notion of experience embedded into it. The LLM may show that it can process and articulate:
 
 - **Syntax** (spelling, sentence structure),
 - **Semantics** (meaning), and
-- **Pragmatics** (context and use of tonality in language).
+- **Pragmatics** (context and use of tonality expressed through language).
 
 **But how is that possible?**<br>
-Let's go through the general steps involved in LLM development and operation.<br>
-We will do this with the example of a chatbot LLM like [ChatGPT](https://chatgpt.com/).
+To understand this capability, we should go through the general steps involved in LLM development and operation.<br>
+We will do this with the example of a chatbot LLM system like [ChatGPT](https://chatgpt.com/).
 
 ---
 
 ## Pretraining
 
-When analyzing an LLM's response to a prompt, the output reflects not only its reference to the prompt itself, but also its ability to generalize from the prompt to a broader context somehow accessible to the LLM while it genereates the response. **An LLM is intended and built to generalize from an input to a broader understanding through what is called pretraining**.
+When analyzing an LLM's response to a prompt, the output reflects not only its reference to the prompt itself, but also its ability to generalize from the prompt to a broader context of knowledge somehow accessible to the LLM during the generation of the response. **An LLM is intended and built to generalize from an input to a broader understanding and back through what is called pretraining**.
 
 > [!NOTE]
-> **Pretraining** describes the process of exposing an LLM to vast amounts of text. Through particular methods of exposure, the LLM is enabled to learn the statistical patterns from said text. These patterns are ultimately retained in the LLM's parameters. They surprisingly sufficiently capture meaning and contextual interdependencies within text. Pretraining aims to adjust the LLM's parameters so that its output probability for a respective next token (a unit of information) is as often as possible as close as possible to the actual next token in the training data. In other words, pretraining maximizes the likelihood (or minimizes cross-entropy) of the LLM producing the observed next tokens under the LLM's learnt distribution.
+> **Pretraining** describes the process of exposing an LLM to vast amounts of textual data. Through particular methods of exposure, the LLM can learn the statistical patterns from said text. These patterns are ultimately retained within the LLM's parameters. They surprisingly sufficiently capture meaning and contextual interdependencies from the observed text. Pretraining aims to adjust the LLM's parameters so that its output probability for a respective next unit of information (a so-called token) is as often as possible as close as possible to the actual next unit of information found in the training data. In other words, pretraining maximizes the likelihood (and minimizes the cross-entropy) of the LLM producing the observed next units of information under the LLM's learnt distribution for such units.
 
-**All this may sound like a lot of jargon. Don't worry about it, we're only just beginning to go through what all this terminology really means.**
+**All this sounds like a lot of jargon at first. Don't worry about it, we're only just beginning to go through what all this terminology really means.**
 
-The key takeaway so far should be that **pretraining** is a core objective and not some mere preliminary step in LLM development. For *pretraining* to happen, we have to walk a specific sequence of steps.
+**The key takeaway so far** should be that **pretraining is a core objective** and not just some preliminary step in LLM development.<br>For *pretraining* to happen, we have to walk a specific sequence of steps.
 
 ### Step 1: Download and Preprocess the Internet
 
-**If we want to expose an LLM to vast amounts of text, we have to obtain vast amounts of text first.**
+**If we want to expose an LLM to truly vast amounts of text, we have to obtain said vast amounts of text first. This is a tricky engineering task in and of itself.**
 
-Nowadays, data at the scale of the entire internet is used as the basis for pretraining LLMs. Thankfully we don't have to scrape the internet ourselves. *FineWeb*, a curated, filtered copy of the internet's textual contents was made available by HuggingFace:
+Nowadays, data at the scale of the entire internet is used for pretraining LLMs. Thankfully we don't have to scrape the internet ourselves. For example, *FineWeb*, a curated, filtered copy of the internet's textual contents was made available by HuggingFace:
 
 - This is the *FineWeb* dataset: https://huggingface.co/datasets/HuggingFaceFW/fineweb
 - This blog post accompanies it: https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1
 
-><b>:question: Wait. Why would we need <i>this much</i> text in the first place? Isn't this <i>really</i> expensive?</b>
+><b>:question: Wait, why would we need <i>this much</i> text in the first place? Isn't this <i>really</i> expensive?</b>
 >
->Pretraining is widely regarded as the most expensive step for building a capable LLM. We don't actually go for volume as such, though. Text diversity and quality are the essential contributors for pretraining knowledgeable, versatile LLMs that are capable of understanding and generating text for a wide range of contexts. And that broad understanding is exactly what we expect from our chatbot LLM. Just based on source and size, we can assume that <i>FineWeb</i> contains a multitude of faceted, diverse and informative texts. Exposing an LLM to this text dataset will have it encounter a broad range of language from a broad range of topics.
+>Pretraining is widely regarded as the most expensive step for building a capable LLM. We don't actually go for volume as such, though. Text diversity and quality are the essential contributors for pretraining knowledgeable, versatile LLMs that are capable of understanding and generating text for a wide range of contexts. And this broad understanding is exactly what we expect from our chatbot LLM. Just based on source and size, we can assume that <i>FineWeb</i> contains a multitude of faceted, diverse and informative texts. Exposing an LLM to this text dataset will have it encounter a broad range of language from a broad range of topics.
 
-><b>:question: So, pretraining on more text improves the LLM?</b>
+><b>:question: This means pretraining on more text improves the LLM?</b>
 >
->Not exactly. Suppose we pretrain an LLM with a dataset that contains a lot of poorly worded or just bad or meaningless text overall (like product listings, repetitions of the same text over and over, no diversity in topics, etc.). The LLM, because of low quality data, will be poorly skilled. It will also generalize poorly. <b>An ideal dataset finds a balance between size, quality, diversity and cost for attaining it.</b> Public, curated datasets like <i>FineWeb</i> are a great help with all four of those aspects.
+>Not exactly. Suppose we pretrain an LLM with a dataset containing a lot of poorly worded or just bad or meaningless text overall (like product listings, repetitions of the same text over and over, no diversity in topics, etc.). The LLM, because of low quality data, will be poorly skilled. It will also generalize poorly. <b>An ideal dataset finds a balance between size, quality, diversity and cost for attaining it.</b> Public, curated datasets like <i>FineWeb</i> are a great help with all four of those aspects.
 
-HuggingFace put a lot of effort into ensuring *FineWeb* to be a *large* yet also *high-quality* dataset. Truth be told, HuggingFace didn't actually source for the text data on their own. Instead, they utilized a copy of [CommonCrawl](https://commoncrawl.org/latest-crawl) as basis. Since 2007, the organization behind *CommonCrawl* crawls the internet and takes snapshots of encountered webpages. This is raw, untreated data, and *loads* of it. HuggingFace takes this data and distills the higher quality *FineWeb* dataset from it.
+HuggingFace put a lot of effort into ensuring *FineWeb* to be a *large* yet also *high-quality* dataset. Truth be told, HuggingFace didn't actually source for the text data on their own. Instead, they utilized a copy of [CommonCrawl](https://commoncrawl.org/latest-crawl) as basis. Since 2007, the organization behind *CommonCrawl* crawls the internet and takes snapshots of webpages. This is raw, untreated data, and *loads* of it. HuggingFace takes this raw data and distills the higher quality *FineWeb* dataset from it.
 
-**How can HuggingFace ensure that the text data selected from *CommonCrawl* for *FineWeb* would be of high quality?**
+**How can HuggingFace ensure that the text data distilled from *CommonCrawl* for *FineWeb* would be of high quality?**
 
-To ensure that any retained data is clean, consistent and noise-free (as best as possible), HuggingFace performed a series of what is called **data preprocessing** steps.
+To ensure that any retained data is clean, useful, consistent and noise-free (as best as possible), HuggingFace performed a series of what is called **data preprocessing** steps.
 
-**HuggingFace applied the following data preprocessing steps to CommonCrawl to distill the clean data subset that is *FineWeb*, from potentially low-quality raw text data:**
+**HuggingFace applied the following set of data preprocessing steps to CommonCrawl to distill the clean data subset that is *FineWeb* from potentially low-quality raw text data:**
 
 <center>
 	<img src="./img/fineweb_pipeline.png" style="width: auto; height: 210px;" />
@@ -96,11 +96,11 @@ To ensure that any retained data is clean, consistent and noise-free (as best as
 </center><br /><br />
 
 1. **URL Filtering**:
-	URL Filtering removes sources that are deemed low-quality or irrelevant *ahead of the text gathering process itself*. Sources such as spam, adult content, or non-informative pages are discarded, ensuring that only reputable and potentially useful content is retained. HuggingFace specifically uses [this blocklist](https://dsi.ut-capitole.fr/blacklists/) for this step.
+	URL Filtering removes sources (websites) that are deemed low-quality or irrelevant *ahead of the text gathering process itself*. Sources such as spam, adult content, or non-informative pages are discarded, ensuring that only reputable, potentially useful content remains. HuggingFace specifically uses [this blocklist](https://dsi.ut-capitole.fr/blacklists/) for this step.
 2. **Text Extraction**:
-    With the URL filtering done, the raw, crawled webpage content (containing text but also, e.g., the underlying HTML code used to display the webpage as such, links, etc.) is processed to discard unnecessary parts and extract clean, readable text. This involves the rule-based removal of HTML tags, scripts, and other non-textual elements, while preserving the main content itself.
+    With the URL filtering done, the raw, crawled webpage content (containing text but also, e.g., the underlying HTML code used to display the webpage as such, links, etc.) is processed to discard unnecessary parts and extract clean, readable text. This involves the rule-based removal of HTML tags, scripts, and other non-textual elements, while preserving the text content itself.
 3. **Language Filtering**:
-    The extracted text now gets subjected to language filtering to ensure the corpus is linguistically consistent. Non-target languages are filtered out, retaining only text in the desired language(s). For *FineWeb*, HuggingFace applies the [FastText Language Classifier](https://fasttext.cc/docs/en/language-identification.html) to retain only English text. This classifier provides not only a decision on the language, but also its degree of certainty in this classification. If the confidence scoring is $\geq 0.65$ for English, Huggingface keeps the text for further processing.
+    The extracted text now gets subjected to language filtering to ensure the corpus is linguistically consistent. Non-target languages are filtered out, retaining only text in the desired language(s). For *FineWeb*, HuggingFace applies the [FastText Language Classifier](https://fasttext.cc/docs/en/language-identification.html) to retain only English text. This classifier provides not only a decision on the language, but also its degree of certainty in this classification. If the confidence scoring is $\geq 0.65$ for English, Huggingface keeps the text in the dataset for further processing.
 4. **Gopher Filtering**:
     Gopher filtering, first performed for [Google DeepMind's Gopher](https://deepsense.ai/wp-content/uploads/2023/03/2112.11446.pdf) model, is applied to remove low-quality or boilerplate text. This step uses pre-defined rules or even machine learning models to identify and eliminate repetitive, non-informative, or template-like content (e.g., navigation menus, disclaimers, product lists), ensuring the remaining dataset contains meaningful and diverse text.
 5. **MinHash Deduplication**:
