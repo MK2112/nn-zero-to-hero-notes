@@ -147,4 +147,4 @@ Thank you Andrej Karpathy for creating and sharing the "Neural Networks: Zero to
 
 ## License
 
-MIT.<br>Please attribute the original content to Andrej Karpathy and provide links to the tutorial series, the videos and this repository. This repository is not affiliated with Andrej Karpathy or any of his official channels.
+MIT.<br><br>Please attribute the original content to Andrej Karpathy and provide links to the tutorial series, the videos and this repository.<br>This repository is not affiliated with Andrej Karpathy or any of his official channels.
