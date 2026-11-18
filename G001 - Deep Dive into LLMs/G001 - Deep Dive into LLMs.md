@@ -36,7 +36,7 @@
 
 ---
 
-LLMs are Artificial Intelligence (AI) systems trained to process and generate human-like text by identifying and then mimicing linguistic patterns from training data.<br>
+LLMs are Artificial Intelligence (AI) systems trained to process and generate human-like text by identifying and then mimicking linguistic patterns from training data.<br>
 Let's see what LLMs really are, from input to output, in an *understandable* and *approachable* fashion.
 
 When talking about LLMs, you will inevitably encounter the term *'prompt'*.<br>
@@ -148,7 +148,7 @@ The claim raised by *Step 1* is that if we expose an LLM to the gigantic corpus 
 
 *However*, "exposing the LLM to text data" is not as easy as it sounds.
 
-**A standard LLM is a mathematical model. It expects input to be a one-dimensional sequence of some limited set of processable symbols.** You can argue that text, a string of characters, already is such a one-dimensional sequence. But we can't really do maths with characters. **We need some sort of useful numeric representation of text.** Also, should text be a interpreted as a sequence of characters, of words, or of syllables? **What level of abstraction is best here?** This is exactly where **tokenization** comes into play.
+**A standard LLM is a mathematical model. It expects input to be a one-dimensional sequence of some limited set of processable symbols.** You can argue that text, a string of characters, already is such a one-dimensional sequence. But we can't really do maths with characters. **We need some sort of useful numeric representation of text.** Also, should text be interpreted as a sequence of characters, of words, or of syllables? **What level of abstraction is best here?** This is exactly where **tokenization** comes into play.
 
 **Tokenization transforms text into numerical tokens,** enabling language models to process and understand through numerical processing. **A token is a representation of a distinct unit of meaning in the text.** This could be words, phrases, syllables and/or characters. **Remember, the standard LLM is a mathematical model. LLMs therefore don't ever operate on raw text.** Instead, they analyze token sequences to learn statistical relationships between said tokens. This training process allows LLMs to predict the likelihood of subsequent tokens, fundamentally facilitating downstream tasks like text generation and comprehension.
 
@@ -161,12 +161,12 @@ The above holds several key insights. **LLMs do not process a user-given prompt 
 	<img src="../N008%20-%20GPT%20Tokenizer/img/Tokenizer_Schema.png" style="width: auto; height: 250px;" />
 </center>
 
-**But how can we now meaningfully do that now? How can we usefully tokenize text?**
+**But how can we meaningfully do that now? How can we usefully tokenize text?**
 
 Like everything else shown and processed by a computer, **at its lowest abstraction, text is just binary code.** We could translate a text into its binary representation and that would be a *one-dimensional, numeric, unique* representation. But it would be *awfully long/extensive* and inefficient. We would need a lot of bits to represent just a single character (e.g., with unicode encoding, a single character may require up to $32$ bits). This would naturally limit the amount of text we could process at once with the fixed amount of memory our computer provides. In other words, **unicode encoding would limit context window size, i.e. the amount of text we could refer to for generation.** We would reduce the LLM's ability to remember and refer to past prompts and outputs. **Our LLM would suffer unnecessarily if we were to apply binary representation as our level of abstraction.**
 
 We are about to go into a specific technique applied for *tokenization*. Before going there, I want to explain what a **token** actually is.<br>
-So far we know that **a token is a representation of a single unit of meaning.** This doesn't say much on its own, but it's important. A *token* can be a single character, a word, syllables or even some subword, i.e., some chunk of text. **The tokenization process is not only about transferring text to its tokenized numeric representation, but also about finding the right balance between the size of the individual tokens, meaning the amount of information each of them carry, and the number of tokens that are ultimately produced in total for a given text.** The more narrow the information is that a token represents, the easier it becomes to process, but the more tokens may become necessary to represent the entire text. This in turn would be limiting the processable context size considerably (like we saw with the pure-binary representation).
+So far we know that **a token is a representation of a single unit of meaning.** This doesn't say much on its own, but it's important. A *token* can be a single character, a word, syllables or even some subword, i.e., some chunk of text. **The tokenization process is not only about transferring text to its tokenized numeric representation, but also about finding the right balance between the size of the individual tokens, meaning the amount of information each of them carries, and the number of tokens that are ultimately produced in total for a given text.** The more narrow the information is that a token represents, the easier it becomes to process, but the more tokens may become necessary to represent the entire text. This in turn would be limiting the processable context size considerably (like we saw with the pure-binary representation).
 
 #### Byte-Level Tokenization
 
@@ -238,7 +238,7 @@ Given our pretraining dataset, we take some random window of sequential tokens. 
 
 ><b>:question: Isn't this really bad that we have to do this, capping the context window size like that?</b>
 >
->It's more nuanced than that. Yes, effectively this caps the bandwidth of information the LLM can process at once. But with this architecture of LLMs that we're in fact about to discuss, unlimited context would require infinite memory. Although theoretical context could be arbitrarily large, in practice the context length needed for useful performance is finite and often much smaller than some maximum nominal window. It was observed (e.g. by [\[An, et al. 2025\]](https://proceedings.iclr.cc/paper_files/paper/2025/file/884baf65392170763b27c914087bde01-Paper-Conference.pdf)) that actually the performance gains saturate and then degrade beyond a certain context range. But, strictly speaking, not being able to process arbitarily long, potentially infinite context is a limitation of current LLMs.
+>It's more nuanced than that. Yes, effectively this caps the bandwidth of information the LLM can process at once. But with this architecture of LLMs that we're in fact about to discuss, unlimited context would require infinite memory. Although theoretical context could be arbitrarily large, in practice the context length needed for useful performance is finite and often much smaller than some maximum nominal window. It was observed (e.g. by [\[An, et al. 2025\]](https://proceedings.iclr.cc/paper_files/paper/2025/file/884baf65392170763b27c914087bde01-Paper-Conference.pdf)) that actually the performance gains saturate and then degrade beyond a certain context range. But, strictly speaking, not being able to process arbitrarily long, potentially infinite context is a limitation of current LLMs.
 
 Given a context window containing tokens that we feed into our LLM, our objective is to get the LLM to predict the single next token that follows the window's tokens as per the pretraining dataset. This is called **autoregressive training:**
 
@@ -248,7 +248,7 @@ Given a context window containing tokens that we feed into our LLM, our objectiv
 
 To reiterate, **the input is text represented by a sequence of tokens, variable in length up to a maximum which is the context window size.** Then, **the output is a single token, which is expected to be the one that follows the input sequence in our pretraining dataset.** The LLM is trained to predict this single next token.
 
-It isn't quite as straight forward as the image would have us believe, though. **LLMs actually do not produce a single token as output.** Instead, **LLMs actually produce a probability distribution over all possible tokens in the vocabulary.** 
+It isn't quite as straightforward as the image would have us believe, though. **LLMs actually do not produce a single token as output.** Instead, **LLMs actually produce a probability distribution over all possible tokens in the vocabulary.** 
 
 The LLM is not trained to predict the next token with distinct certainty, but to predict the next token with a certain probability. **The LLM is trained not to predict tokens as such, but to predict the likelihood of tokens to occur next.** This is what we mean when we say that the LLM models the statistical relationships between tokens.
 
@@ -260,7 +260,7 @@ For example, we said that GPT-4 uses a vocabulary of $100,277$ distinct tokens. 
 
 We can see that the LLM does not yet produce the correct token certainty. We know the next token to be `3962` from our tokenized dataset. But, the LLM assigned a higher probability to the token `19438` ('Direction') than to the correct token `3962` ('Post').
 
-This is where pretraining comes into play again. **Pretraining an LLM means shifting the LLM's parameters so that it produces probability distributions that most suitably capture what actually follows as the next token in the pretaining dataset.** In our case, the result of pretraining would assign higher probabilities to the actual follow-up token, which could look like this:
+This is where pretraining comes into play again. **Pretraining an LLM means shifting the LLM's parameters so that it produces probability distributions that most suitably capture what actually follows as the next token in the pretraining dataset.** In our case, the result of pretraining would assign higher probabilities to the actual follow-up token, which could look like this:
 
 <center>
 	<img src="./img/next_token_probabilities.png" style="width: auto; height: 300px;" />
@@ -423,7 +423,7 @@ Cloud computing providers for neural network training include:
 Coming back to VS Code itself, we can see that a GPT-2 training job is running. The training job is shown in the terminal window. First, we see some text. That is because during training, from time to time, Andrej switches the model between getting trained and generating text at the respective training state. This way, one can get a sense of how the model improves its output through training. **The second red arrow** points to such a generated demo text.
 
 **The third red arrow** points to the training steps themselves. After we saw the model generate text, more training is applied. Each step consists of one million context windows being retrieved from the dataset, getting tokenized, and then fed into the model one after another. For each context window, the model then produces a probability distribution over all tokens, and the loss, i.e. the difference between that distribution and the "one-hot" distribution given by the true, expected $y$ is calculated.<br>
-**This loss is then averaged across the 1 million examples as to not overfit changes to the LLM to any individual examples. This improves training stability.** The GPT-2 model actually gets updated only once per 1 million examples, on their attained average loss. This is then repeated for $32,000$ times (so a total of $32\text{K}*1\text{M}=32\text{B}$ individual context-based next token predictions) with intermediate runs of text generation to check on progress. There are more sophisticated tools, like intermediate benchmarking, that can be used to check on the model's progress, but *this is a good start*.
+**This loss is then averaged across the 1 million examples so as not to overfit changes to the LLM to any individual examples. This improves training stability.** The GPT-2 model actually gets updated only once per 1 million examples, on their attained average loss. This is then repeated for $32,000$ times (so a total of $32\text{K}*1\text{M}=32\text{B}$ individual context-based next token predictions) with intermediate runs of text generation to check on progress. There are more sophisticated tools, like intermediate benchmarking, that can be used to check on the model's progress, but *this is a good start*.
 
 ><b>:question: Are these intermediate runs with the inferences really all that necessary?</b>
 >
@@ -496,7 +496,7 @@ Let's say we prompt LLaMA 3.1 405B Base with the opening sentence to the Wikiped
 
 The model continues the text with a coherent, contextually appropriate response. Moreover, **it reproduces a near-exact copy of the Wikipedia article on zebras.** This is because the model has seen this text during pretraining. Moreover, the texts from Wikipedia are generally considered high-quality, so they are used multiple times in pretraining datasets to instill conceptual quality. This causes a seemingly close familiarity of the model with the text.
 
-According to [The LLaMA 3 Herd of Models \[Grattafiori, et al. 2024\]](https://arxiv.org/pdf/2407.21783#page=4.70), the data used for pretrained was gathered until the end of 2023. So, what if we'd prompt it with a sentence about the 2024 US presidential elections and see how LLaMA 3.1 405B Base reacts:
+According to [The LLaMA 3 Herd of Models \[Grattafiori, et al. 2024\]](https://arxiv.org/pdf/2407.21783#page=4.70), the data used for pretraining was gathered until the end of 2023. So, what if we'd prompt it with a sentence about the 2024 US presidential elections and see how LLaMA 3.1 405B Base reacts:
 
 <center>
 	<img src="./img/llama31_Hallucination.png" />
@@ -538,7 +538,7 @@ Before this, we thought of LLMs pretty much as 'sophisticated next token predict
 **How can we 'program' our pretrained LLM to behave like this?**<br>We can use a technique called **Supervised Finetuning.**
 
 > [!NOTE]
-> **Supervised Finetuning** is the process of taking a pretrained model and training it on a dataset that may contain only few, but very task-specific examples of how we would like the model to generate text. The model's parameters are adjusted to better predict the task-specific data, while still retaining the knowledge it gained during pretraining.
+> **Supervised Finetuning** is the process of taking a pretrained model and training it on a dataset that may contain only a few, but very task-specific examples of how we would like the model to generate text. The model's parameters are adjusted to better predict the task-specific data, while still retaining the knowledge it gained during pretraining.
 
 Training on such a dataset is done with relatively **low learning rate**. We don't want to replace the model's pretraining-gained knowledge, but rather shape it a bit to adjust the LLM's behavior with said knowledge to our task-specific needs. 
 
@@ -546,7 +546,7 @@ Training will be short and fast, but with *supervised finetuning* **the complexi
 
 **How can we represent conversational patterns in a dataset?**<br>The image above makes it look easy: Just lay out a two-sided chat-like conversation to the model. It's not that straightforward. For example, how could we best turn conversations between distinct parties into token sequences for the model? How exactly should such structures get encoded and decoded?
 
-Akin to what the [TCP/IP stack](https://cdn.kastatic.org/ka-perseus-images/337190cba133e19ee9d8b5878453f915971a59cd.svg) is for networking, we can use a new, extra created tokens to build a **token protocol** for encoding conversational patterns for the model.
+Akin to what the [TCP/IP stack](https://cdn.kastatic.org/ka-perseus-images/337190cba133e19ee9d8b5878453f915971a59cd.svg) is for networking, we can use newly created, extra tokens to build a **token protocol** for encoding conversational patterns for the model.
 
 This concept is best explained by looking at how GPT-4o does this:
 
