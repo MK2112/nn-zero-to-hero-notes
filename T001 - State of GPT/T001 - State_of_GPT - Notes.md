@@ -15,7 +15,7 @@
 	- [Reward Modeling](#reward-modeling)
 	- [Reinforcement Learning](#reinforcement-learning)
 
-- [How To: Use A GPT Assistant](#how-to-use-gpt-assistance)
+- [How To: Use A GPT Assistant](#how-to-use-a-gpt-assistant)
 	- [Self-Consistency](#self-consistency)
 	- [Present Notion of Past Mistakes](#present-notion-of-past-mistakes)
 	- [Going Experimental](#going-experimental)
@@ -72,7 +72,7 @@ The core competency of the pretraining step arguably lies in data acquisition an
 
 <img src="./img/Pasted%20image%2020231123163629.png" width="400" height="auto"/><br>Source: [LLaMA: Open and Efficient Foundation Language Models](https://arxiv.org/abs/2302.13971)
 
-Interestingly, LLaMA achieves much higher performance than GPT-3 while being smaller in parameter count (at $175B$ parameters). This is due to longer training runs and factors such as improved data quality and model architecture. LLaMA cost $\$5 \text{million}$ to train, requiring $2,048$ NVIDIA A100 GPUs to be run for $21$ days [\[Touvron, et al. 2023\]](https://arxiv.org/abs/2302.13971) for the base LLaMA model.
+Interestingly, LLaMA achieves much higher performance than GPT-3 (at $175B$ parameters) while being smaller in parameter count. This is due to longer training runs and factors such as improved data quality and model architecture. LLaMA cost $\$5 \text{million}$ to train, requiring $2,048$ NVIDIA A100 GPUs to be run for $21$ days [\[Touvron, et al. 2023\]](https://arxiv.org/abs/2302.13971) for the base LLaMA model.
 
 #### Pretraining with Batches
 
@@ -97,7 +97,7 @@ Given both a token and its provided predecessors within the context, what's the 
 
 <img src="./img/Pasted%20image%2020231123170040.png" />
 
-The Transformer-based GPT now gets exposed to contextual, supervised learning. This makes GPT generate a continuous probability distribution over the entire vocabulary for each position in the sequence. The information on what token actually came next, compared to the prediction, causes an iterative optimization. If this is done sensibly and the model actually can take away how to adapt its internal distribution representations, you (hopefully) get see something like this:
+The Transformer-based GPT now gets exposed to contextual, supervised learning. This makes GPT generate a continuous probability distribution over the entire vocabulary for each position in the sequence. The information on what token actually came next, compared to the prediction, causes an iterative optimization. If this is done sensibly and the model actually can take away how to adapt its internal distribution representations, you (hopefully) get to see something like this:
 
 <img src="./img/Pasted%20image%2020231123172258.png" width="300" height="auto"/>
 
@@ -105,7 +105,7 @@ The (gradually) lower the training loss, the (gradually) better the model.
 
 ### Supervised Finetuning
 
-With all that money and time spent on the large-scale exposure of data to the model, we have ... not attained any task-specificity in the model's behavior yet.<br><b>The model got trained to predict the next token. If it can do that, great, we got it to do what we wanted, but 'predicting the next token from a large dataset' essentially means that now the model 'parrots' the textual structures from said training set as best as possible.</b><br>And because 'parroting well' was the sole objective for pretraining, the model learnt to model the textual information from the training data, but it can't yet answer to given questions or solve tasks like an AI assistant. However, we know that ChatGPT, LlaMA, Open Assistant etc. can indeed respond to questions and actually solve tasks. **What are we missing?**
+With all that money and time spent on the large-scale exposure of data to the model, we have ... not attained any task-specificity in the model's behavior yet.<br><b>The model got trained to predict the next token. If it can do that, great, we got it to do what we wanted, but 'predicting the next token from a large dataset' essentially means that now the model 'parrots' the textual structures from said training set as best as possible.</b><br>And because 'parroting well' was the sole objective for pretraining, the model learnt to model the textual information from the training data, but it can't yet answer to given questions or solve tasks like an AI assistant. However, we know that ChatGPT, LLaMA, Open Assistant etc. can indeed respond to questions and actually solve tasks. **What are we missing?**
 
 To provide our model with an assistant-like behavior, we derive an additional Question-Answer-style dataset through human contractors.<br>Think of this as a high quality, low quantity dataset.<br>The model learned general language patterns, token correlations and meaning in a broad, general fashion from pretraining. Now we want to put this broad experience to use through a specific model behavior (answering to questions, not blabbering on). For that, we pretty much continue using the setup we had for pretraining, but now with the new Question-Answer dataset, providing a question as input, and expecting the answer to be generated by the model. This is now called **finetuning**.
 
@@ -146,7 +146,7 @@ Interestingly, RLHF-trained models gain in perceived quality of response and con
 
 Human-written sentences are interesting. They reach deep into both the author's and the reader's perception, experience and skillsets. 
 
-$$California's\ population\ is\ 53\ times\ that\ of\ Alaska.$$
+$$\text{California's population is 53 times that of Alaska.}$$
 This sentence is the crescendo of a not so trivial thought process:
 
 <img src="./img/Pasted%20image%2020231123185618.png" width="450" height="auto" />
@@ -180,7 +180,7 @@ To get back to the notion of 'How To', we have to be aware that **an LLM by itse
 
 Interestingly, recent advancements worked towards addressing this.<br>**The token vocabulary of ChatGPT contains special, additional tokens.** Given a prompt, an interpreter will read these special tokens, and based on them, trigger the call of external APIs, fetch the results, and concatenate them with the original prompt. **This allows for lifting the restriction of a knowledge cut-off date in the training data. Data now can just be fetched and added from the web.** This approach also works in favor of reducing (not eliminating) factual inconsistencies, e.g. through integration of a calculator API.
 
-> LLMs that incorporate the use of tools are commonly referred to as Retrieval-augmented language models (RAG LMs).
+LLMs that retrieve external documents at inference time are commonly referred to as Retrieval-Augmented Generation (RAG) models.
 
 <img src="./img/Pasted%20image%2020231123212252.png" width="300" height="auto" /><br>Source: [Toolformer: Language Models Can Teach Themselves to Use Tools](https://arxiv.org/abs/2302.04761)
 
@@ -211,7 +211,7 @@ Another emerging application is *constrained prompting*, meaning requesting very
 
 ### Finetuning
 
-Finetuning a model means changing its weights through exposure to a comparatively small dataset with the aim of inducing task-specificity in a more broadly trained base model. However, the larger models, the more complex it becomes to finetune them.
+Finetuning a model means changing its weights through exposure to a comparatively small dataset with the aim of inducing task-specificity in a more broadly trained base model. However, the larger the models, the more complex it becomes to finetune them.
 
 However:
 - Parameter-Efficient Finetuning (PEFT) emerges, e.g. with [LoRA](https://arxiv.org/abs/2106.09685) making sure to *only partially expose the model and clamp the rest* as needed. This approach works very well and also makes finetuning a lot cheaper.
