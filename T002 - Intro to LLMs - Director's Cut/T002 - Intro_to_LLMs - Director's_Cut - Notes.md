@@ -134,7 +134,7 @@ The accuracy of the performance in a next word prediction task is a well-predict
 
 <img src="./img/Pasted%20image%2020231123131541.png" width="320" height="auto" /><br>Source: [Training Compute-Optimal Large Language Models](https://arxiv.org/abs/2203.15556)
 
-> Increasing the amount of training FLOPS ($D$) and the parameter count $N$ has the training loss trend downward, generally.
+> Increasing the amount of training data/tokens ($D$) and the parameter count $N$ has the training loss trend downward, generally.
 
 So, putting algorithmic progress aside, we can boost performance reasonably with tools we have already.<br>Interestingly, we don't really ever care about next word prediction as-is beyond the initial training step, but the performance of finished models on this task serves as good indicator for higher-level evaluations.
 
@@ -168,7 +168,7 @@ Reinforcement Learning really is the looming force to be added more prominently 
 
 LLM jailbreaks have been discussed at varying degrees of seriousness on social media, but the core problem with them is that information generation by sufficiently trained LLMs has to be hard-restricted in certain areas. You don't want malevolent inquiries to receive any constructive contribution. This is a core ethical concern.
 
-A jailbreak that circulated early on consisted of pretending to setup a scenario around the actual inquiry, diluting the model's focus on detecting malicious intent. You tell a story about somebody asking something, letting the focus drift away from the question itself and towards the setting.
+A jailbreak that circulated early on consisted of pretending to set up a scenario around the actual inquiry, diluting the model's focus on detecting malicious intent. You tell a story about somebody asking something, letting the focus drift away from the question itself and towards the setting.
 
 *Another one.* It turns out Claude v1.3 not only understands but also allows interaction in Base64:
 
