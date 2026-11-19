@@ -165,7 +165,7 @@ In that last note above, I used the term "vanilla LLM". ChatGPT started out with
 - GPT-5.1, GPT-5.1 mini, GPT-5.1 nano (mostly replaced by 5.3+)
 - GPT-5.2, GPT-5.2 Pro, GPT-5.2 Instant
 - GPT-5.3 Instant / Thinking / Codex
-- GPT-5.4 Thinking / Pro / Mini / Codex / Pro
+- GPT-5.4 Thinking / Pro / Mini / Codex
 
 (This is the order in which the models were actually released. Horrendous naming scheme, I know. See for current deprecation information [here](https://platform.openai.com/docs/models) and [here](https://platform.openai.com/docs/deprecations).)
 
